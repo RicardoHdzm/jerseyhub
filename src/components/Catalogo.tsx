@@ -27,10 +27,7 @@ function TarjetaProducto({
     >
       <div className="relative aspect-square overflow-hidden bg-arena">
         <div className="h-full w-full transition-transform duration-300 group-hover:scale-105">
-          <ProductoImagen
-            producto={producto}
-            sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 90vw"
-          />
+          <ProductoImagen producto={producto} sizes="(min-width: 1024px) 280px, 45vw" />
         </div>
         {producto.destacado && (
           <span className="absolute left-3 top-3 rounded-full bg-dorado px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-tinta">
@@ -123,7 +120,7 @@ export function Catalogo() {
         <p className="mt-4 max-w-2xl text-sm text-tenue">{descripcionFiltro}</p>
       )}
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {visibles.map((producto) => (
           <TarjetaProducto key={producto.slug} producto={producto} onAbrir={setAbierto} />
         ))}

@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 import type { PaqueteItem } from "@/lib/types";
 
@@ -17,6 +17,7 @@ import {
   IconoPelota,
 } from "@/components/iconos";
 import { getProducto, nombreModelo, paquetes } from "@/data/catalog";
+import { minimoUniformes } from "@/lib/config";
 import { descuentoPara, precioMXN, precioPaquete, productoDeItem } from "@/lib/quote";
 
 const encabezados = {
@@ -80,8 +81,70 @@ function Paso({
   );
 }
 
+/**
+ * El contador de jugadores del paso 1.
+ *
+ * Mientras se escribe, el campo guarda su propio texto en `borrador` y no pasa
+ * por el recorte del mínimo y el máximo. Si recortara en cada tecla sería
+ * imposible teclear un número: al borrar el 12 el valor rebota al mínimo, el
+ * dígito nuevo se pega detrás y el 12X resultante se recorta a 60. El recorte
+ * se aplica al salir del campo, que es cuando ya hay un número completo.
+ */
+function ContadorJugadores() {
+  const { jugadores, setJugadores } = useCotizacion();
+  const [borrador, setBorrador] = useState<string | null>(null);
+
+  // Con `borrador` en null el campo muestra el valor de la cotización; en
+  // cuanto se escribe, muestra lo tecleado. Así no hace falta un efecto que
+  // sincronice los dos.
+  const confirmar = () => {
+    if (borrador !== null) setJugadores(Number(borrador));
+    setBorrador(null);
+  };
+
+  const ajustar = (delta: number) => {
+    setBorrador(null);
+    setJugadores(jugadores + delta);
+  };
+
+  return (
+    <div className="flex w-fit items-center rounded-lg border border-white/20 bg-white/5 text-white">
+      <button
+        type="button"
+        onClick={() => ajustar(-1)}
+        aria-label="Un jugador menos"
+        className="h-9 w-9 text-lg text-white/60 transition-colors hover:text-dorado"
+      >
+        <IconoMenos className="h-3 w-3" />
+      </button>
+      <input
+        type="number"
+        inputMode="numeric"
+        min={minimoUniformes}
+        max={60}
+        value={borrador ?? jugadores}
+        onChange={(e) => setBorrador(e.target.value)}
+        onBlur={confirmar}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") e.currentTarget.blur();
+        }}
+        aria-label="Número de jugadores"
+        className="w-14 bg-transparent text-center font-semibold outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
+      />
+      <button
+        type="button"
+        onClick={() => ajustar(1)}
+        aria-label="Un jugador más"
+        className="h-9 w-9 text-lg text-white/60 transition-colors hover:text-dorado"
+      >
+        <IconoMas className="h-3 w-3" />
+      </button>
+    </div>
+  );
+}
+
 export function Paquetes() {
-  const { jugadores, setJugadores, agregarPaquete, modelo, gorra } = useCotizacion();
+  const { jugadores, agregarPaquete, modelo, gorra } = useCotizacion();
   const modeloElegido = nombreModelo(modelo);
   const gorraElegida = gorra ? getProducto(gorra)?.nombre : undefined;
   const seleccion = { modelo, gorra };
@@ -89,33 +152,7 @@ export function Paquetes() {
   return (
     <>
       <Paso numero={1} titulo="¿Cuántos jugadores son?">
-        <div className="flex w-fit items-center rounded-lg border border-white/20 bg-white/5 text-white">
-          <button
-            type="button"
-            onClick={() => setJugadores(jugadores - 1)}
-            aria-label="Un jugador menos"
-            className="h-9 w-9 text-lg text-white/60 transition-colors hover:text-dorado"
-          >
-            <IconoMenos className="h-3 w-3" />
-          </button>
-          <input
-            type="number"
-            min={1}
-            max={60}
-            value={jugadores}
-            onChange={(e) => setJugadores(Number(e.target.value))}
-            aria-label="Número de jugadores"
-            className="w-14 bg-transparent text-center font-semibold outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
-          />
-          <button
-            type="button"
-            onClick={() => setJugadores(jugadores + 1)}
-            aria-label="Un jugador más"
-            className="h-9 w-9 text-lg text-white/60 transition-colors hover:text-dorado"
-          >
-            <IconoMas className="h-3 w-3" />
-          </button>
-        </div>
+        <ContadorJugadores />
       </Paso>
 
       <Paso
