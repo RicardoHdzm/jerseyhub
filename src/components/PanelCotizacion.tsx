@@ -6,7 +6,7 @@ import { useCotizacion } from "@/components/CotizacionProvider";
 import { ProductoImagen } from "@/components/ProductoImagen";
 import { IconoCerrar, IconoMas, IconoMenos, IconoWhatsApp } from "@/components/iconos";
 import { ListaJugadores } from "@/components/ListaJugadores";
-import { nombreModelo } from "@/data/catalog";
+import { nombreModelo, tituloTecnica } from "@/data/catalog";
 import { negocio } from "@/lib/config";
 import { linkWhatsApp, mensajeWhatsApp, precioMXN } from "@/lib/quote";
 
@@ -53,6 +53,7 @@ export function PanelCotizacion() {
     nota,
     setNota,
     modelo,
+    tecnica,
     roster,
     cambiarCantidad,
     quitar,
@@ -79,10 +80,12 @@ export function PanelCotizacion() {
 
   const vacio = resumen.lineas.length === 0;
   const modeloElegido = nombreModelo(modelo);
+  const tecnicaElegida = tecnica ? tituloTecnica(tecnica) : null;
   const mensaje = mensajeWhatsApp(resumen, {
     equipo,
     jugadores,
     modelo: modeloElegido,
+    tecnica: tecnicaElegida,
     roster,
     nota,
   });

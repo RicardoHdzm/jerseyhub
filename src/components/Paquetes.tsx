@@ -7,6 +7,7 @@ import type { PaqueteItem } from "@/lib/types";
 import { useCotizacion } from "@/components/CotizacionProvider";
 import { SelectorGorra } from "@/components/SelectorGorra";
 import { SelectorModelo } from "@/components/SelectorModelo";
+import { SelectorTecnica } from "@/components/SelectorTecnica";
 import {
   IconoCerrar,
   IconoCheck,
@@ -16,7 +17,7 @@ import {
   IconoMenos,
   IconoPelota,
 } from "@/components/iconos";
-import { getProducto, nombreModelo, paquetes } from "@/data/catalog";
+import { getProducto, nombreModelo, paquetes, tituloTecnica } from "@/data/catalog";
 import { minimoUniformes } from "@/lib/config";
 import { descuentoPara, precioMXN, precioPaquete, productoDeItem } from "@/lib/quote";
 
@@ -144,10 +145,11 @@ function ContadorJugadores() {
 }
 
 export function Paquetes() {
-  const { jugadores, agregarPaquete, modelo, gorra } = useCotizacion();
+  const { jugadores, agregarPaquete, modelo, tecnica, gorra } = useCotizacion();
   const modeloElegido = nombreModelo(modelo);
+  const tecnicaElegida = tecnica ? tituloTecnica(tecnica) : undefined;
   const gorraElegida = gorra ? getProducto(gorra)?.nombre : undefined;
-  const seleccion = { modelo, gorra };
+  const seleccion = { modelo, tecnica, gorra };
 
   return (
     <>
@@ -157,9 +159,11 @@ export function Paquetes() {
 
       <Paso
         numero={2}
-        titulo="Elige el modelo de uniforme"
+        titulo="Elige el modelo de referencia"
         detalle={
-          modeloElegido ? `Elegiste: ${modeloElegido}` : "Opcional, lo puedes definir por WhatsApp"
+          modeloElegido
+            ? `Elegiste: ${modeloElegido}`
+            : "Cualquiera se puede producir con cualquier acabado"
         }
       >
         <SelectorModelo />
@@ -167,6 +171,14 @@ export function Paquetes() {
 
       <Paso
         numero={3}
+        titulo="Elige el acabado de la casaca"
+        detalle={tecnicaElegida ? `Elegiste: ${tecnicaElegida}` : "Bordado, mixto o DTF textil"}
+      >
+        <SelectorTecnica />
+      </Paso>
+
+      <Paso
+        numero={4}
         titulo="Elige el tipo de gorra"
         detalle={gorraElegida ? `Elegiste: ${gorraElegida}` : "Algodón o dry-fit"}
       >
@@ -174,7 +186,7 @@ export function Paquetes() {
       </Paso>
 
       <Paso
-        numero={4}
+        numero={5}
         titulo="Escoge tu paquete"
         detalle={`Precios calculados para ${jugadores} ${jugadores === 1 ? "jugador" : "jugadores"}`}
       >

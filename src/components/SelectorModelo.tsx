@@ -6,7 +6,7 @@ import { useMemo, useRef, useState } from "react";
 import { useCotizacion } from "@/components/CotizacionProvider";
 import { ModeloArte } from "@/components/ModeloArte";
 import { IconoCheck, IconoFlecha, IconoFlechaIzquierda } from "@/components/iconos";
-import { getModelo, modelos, tipoDeModelo } from "@/data/catalog";
+import { getModelo, modelos } from "@/data/catalog";
 import type { GeneroModelo } from "@/lib/types";
 
 const generos: { id: GeneroModelo; label: string }[] = [
@@ -102,9 +102,6 @@ export function SelectorModelo() {
                 activo ? "border-dorado" : "hover:border-dorado"
               }`}
             >
-              <span className="absolute left-2 top-2 z-10 rounded-full bg-tinta/85 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
-                {tipoDeModelo(item)}
-              </span>
               <div className="relative aspect-square bg-white">
                 {item.foto ? (
                   <Image
