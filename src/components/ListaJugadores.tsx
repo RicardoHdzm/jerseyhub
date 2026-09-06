@@ -42,8 +42,8 @@ export function ListaJugadores() {
       {roster.length === 0 ? (
         <div className="mt-2 rounded-lg border border-dashed border-linea px-3 py-3">
           <p className="text-xs leading-relaxed text-tenue">
-            Captura aquí nombres, números y tallas y viajan dentro del mismo mensaje de WhatsApp. Si
-            prefieres, los pasamos por chat.
+            Captura aquí nombres, números y tallas y viajan dentro del mismo mensaje. Si prefieres,
+            los pasamos por chat.
           </p>
           <button
             type="button"

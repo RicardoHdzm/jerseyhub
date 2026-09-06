@@ -34,7 +34,7 @@ export const categorias: Categoria[] = [
 const corte: Opcion = {
   id: "corte",
   label: "Corte",
-  ayuda: "Las tallas exactas de cada jugador las tomamos por WhatsApp.",
+  ayuda: "Las tallas exactas de cada jugador las tomamos al confirmar el pedido.",
   valores: [
     { id: "adulto", label: "Adulto" },
     { id: "juvenil", label: "Juvenil" },
@@ -147,9 +147,8 @@ export const productos: Producto[] = [
     precio: 550,
     color: "#1a1a1a",
     colorSecundario: "#c9a227",
-    descripcion:
-      "Todo bordado: el logo del frente, el nombre y el número. El acabado más duradero y el que mejor se ve de cerca.",
-    incluye: ["Logo bordado al frente", "Nombre y número bordados", "El acabado más duradero"],
+    descripcion: "El acabado más duradero y el que mejor se ve de cerca.",
+    incluye: ["Logo bordado al frente", "Nombre y número bordados"],
     opciones: [],
   },
   {
@@ -160,9 +159,8 @@ export const productos: Producto[] = [
     precio: 450,
     color: "#1a1a1a",
     colorSecundario: "#c9a227",
-    descripcion:
-      "Frente bordado, con el nombre y el número del jugador en DTF textil. El punto medio entre presencia y costo.",
-    incluye: ["Frente bordado", "Nombre y número en DTF textil", "Equilibrio entre los dos"],
+    descripcion: "El punto medio entre presencia y costo.",
+    incluye: ["Logo bordado al frente", "Nombre y número en DTF textil"],
     opciones: [],
   },
   {
@@ -173,9 +171,8 @@ export const productos: Producto[] = [
     precio: 350,
     color: "#1a1a1a",
     colorSecundario: "#c9a227",
-    descripcion:
-      "Logo, nombre y número en DTF textil. La opción más ligera y la de entrada para ligas y torneos.",
-    incluye: ["Logo, nombre y número en DTF", "Acabado ligero", "Precio de entrada"],
+    descripcion: "La opción más ligera y la de entrada para ligas y torneos.",
+    incluye: ["Logo al frente en DTF textil", "Nombre y número en DTF textil"],
     opciones: [],
   },
   {
@@ -204,7 +201,7 @@ export const productos: Producto[] = [
       {
         id: "corte",
         label: "Corte",
-        ayuda: "Las tallas exactas de cada jugador las tomamos por WhatsApp.",
+        ayuda: "Las tallas exactas de cada jugador las tomamos al confirmar el pedido.",
         valores: [
           { id: "adulto", label: "Adulto" },
           { id: "juvenil", label: "Juvenil" },
@@ -542,10 +539,22 @@ export function getModelo(slug: string): ModeloUniforme | undefined {
  * que aparece en las líneas de la cotización, donde tiene que leerse como
  * prenda y no como acabado suelto.
  */
-export const tecnicas = [
-  { slug: "casaca-bordado-completo", titulo: "Bordado completo" },
-  { slug: "casaca-mixta", titulo: "Mixto" },
-  { slug: "casaca-dtf", titulo: "DTF textil completo" },
+export const tecnicas: {
+  slug: string;
+  titulo: string;
+  icono: "corona" | "mitades" | "pluma";
+  color: "tinta" | "dorado";
+  badge?: string;
+}[] = [
+  { slug: "casaca-bordado-completo", titulo: "Bordado completo", icono: "corona", color: "tinta" },
+  {
+    slug: "casaca-mixta",
+    titulo: "Mixto",
+    icono: "mitades",
+    color: "dorado",
+    badge: "El más pedido",
+  },
+  { slug: "casaca-dtf", titulo: "DTF textil completo", icono: "pluma", color: "tinta" },
 ];
 
 /** Etiqueta corta de una técnica, o null si el slug ya no existe. */

@@ -19,6 +19,10 @@ export const negocio = {
   instagram: "https://www.instagram.com/jerseyhub.cln/",
   instagramHandle: "@jerseyhub.cln",
   facebook: "https://www.facebook.com/Casacasjerseyhubcln",
+  /* OJO: el usuario de TikTok lo deduje del de Instagram, porque "Jersey
+     hub.cln" trae un espacio y TikTok no los permite. Verifica que el link
+     abra el perfil correcto. */
+  tiktok: "https://www.tiktok.com/@jerseyhub.cln",
   facebookHandle: "Casacas Jersey Hub",
   /**
    * Link a la tienda oficial en Mercado Libre. Si se deja vacío, el sitio

@@ -279,11 +279,11 @@ export function PanelCotizacion() {
                 className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-dorado px-4 py-3.5 text-[15px] font-semibold text-tinta transition-colors hover:bg-dorado-hover"
               >
                 <IconoWhatsApp />
-                Me interesa — mandar por WhatsApp
+                Me interesa — mandar mi cotización
               </a>
               <p className="mt-2 text-center text-[11px] leading-relaxed text-tenue">
-                Precio estimado, sin envío. Se confirma por WhatsApp junto con el diseño. Producción
-                de {negocio.tiempoEntrega}.
+                Precio estimado, sin envío. Lo confirmamos junto con el diseño. Producción de{" "}
+                {negocio.tiempoEntrega}.
               </p>
             </div>
           </>

@@ -1,6 +1,6 @@
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebookF, faInstagram, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { faFacebookF, faInstagram, faTiktok, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import {
   faArrowLeft,
   faArrowRight,
@@ -8,6 +8,9 @@ import {
   faBaseball,
   faCheck,
   faChevronDown,
+  faCircleHalfStroke,
+  faCrown,
+  faFeather,
   faGem,
   faGripVertical,
   faQuoteLeft,
@@ -35,6 +38,10 @@ type Props = { className?: string };
 
 export function IconoWhatsApp({ className = "h-5 w-5" }: Props) {
   return <FontAwesomeIcon icon={faWhatsapp} className={className} />;
+}
+
+export function IconoTikTok({ className = "h-5 w-5" }: Props) {
+  return <FontAwesomeIcon icon={faTiktok} className={className} />;
 }
 
 export function IconoInstagram({ className = "h-5 w-5" }: Props) {
@@ -75,6 +82,20 @@ export function IconoPelota({ className = "h-6 w-6" }: Props) {
 
 export function IconoEstrella({ className = "h-6 w-6" }: Props) {
   return <FontAwesomeIcon icon={faStar} className={className} />;
+}
+
+/* Los tres acabados de la casaca: la corona para el más completo, el círculo
+   partido para el mixto y la pluma para el más ligero. */
+export function IconoCorona({ className = "h-6 w-6" }: Props) {
+  return <FontAwesomeIcon icon={faCrown} className={className} />;
+}
+
+export function IconoMitades({ className = "h-6 w-6" }: Props) {
+  return <FontAwesomeIcon icon={faCircleHalfStroke} className={className} />;
+}
+
+export function IconoPluma({ className = "h-6 w-6" }: Props) {
+  return <FontAwesomeIcon icon={faFeather} className={className} />;
 }
 
 export function IconoDiamante({ className = "h-6 w-6" }: Props) {

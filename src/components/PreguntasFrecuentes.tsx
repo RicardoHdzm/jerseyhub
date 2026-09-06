@@ -11,11 +11,11 @@ const preguntas = [
   },
   {
     q: "¿Los precios de la página son finales?",
-    a: "Son precios estimados para que te des una idea del costo del uniforme completo. El precio final lo confirmamos por WhatsApp cuando definimos diseño, telas y cantidades exactas. No incluye envío.",
+    a: "Son precios estimados para que te des una idea del costo del uniforme completo. El precio final lo confirmamos cuando nos escribes y definimos diseño, telas y cantidades exactas. No incluye envío.",
   },
   {
     q: "¿Hay pedido mínimo?",
-    a: `Para uniformes de equipo el mínimo es de ${minimoUniformes}. Las prendas sueltas del catálogo no tienen mínimo: puedes pedir una sola casaca o una gorra, escríbenos por WhatsApp y te cotizamos.`,
+    a: `Para uniformes de equipo el mínimo es de ${minimoUniformes}. Las prendas sueltas del catálogo no tienen mínimo: puedes pedir una sola casaca o una gorra, escríbenos y te cotizamos.`,
   },
   {
     q: "¿Hacen descuento por cantidad?",
@@ -35,7 +35,7 @@ const preguntas = [
   },
   {
     q: "¿Cómo toman las tallas?",
-    a: "Por WhatsApp te compartimos la tabla de medidas y una lista para que anotes nombre, número y talla de cada jugador. También podemos mandarte muestras de talla si estás en Culiacán.",
+    a: "Te compartimos la tabla de medidas y una lista para que anotes nombre, número y talla de cada jugador. También podemos mandarte muestras de talla si estás en Culiacán.",
   },
   {
     q: "¿Puedo comprar solo una pieza?",

@@ -5,6 +5,7 @@ import {
   IconoFacebook,
   IconoInstagram,
   IconoTienda,
+  IconoTikTok,
   IconoWhatsApp,
 } from "@/components/iconos";
 import { categorias } from "@/data/catalog";
@@ -56,6 +57,17 @@ export function PieDePagina() {
                 Facebook
               </a>
             )}
+            {negocio.tiktok && (
+              <a
+                href={negocio.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 rounded-lg border border-white/25 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-dorado-claro"
+              >
+                <IconoTikTok className="h-4 w-4" />
+                TikTok
+              </a>
+            )}
             {negocio.mercadoLibre && (
               <a
                 href={negocio.mercadoLibre}
@@ -105,7 +117,7 @@ export function PieDePagina() {
         <div className="mx-auto max-w-6xl space-y-2 px-5 py-6 text-center text-xs text-white/50">
           <p>
             Los precios del sitio son estimados y no constituyen una venta en línea. Cada pedido se
-            confirma por WhatsApp.
+            confirma con nosotros.
           </p>
           <p>
             © {new Date().getFullYear()} {negocio.nombre}. Todos los derechos reservados.{" "}

@@ -147,7 +147,7 @@ export function ModalProducto({
                 <span className="mt-1.5 block text-xs text-tenue">
                   {modeloActivo
                     ? "También queda elegido en el paso 1 del armador."
-                    : "Opcional: si no eliges, definimos el diseño por WhatsApp."}
+                    : "Opcional: si no eliges, definimos el diseño cuando nos escribas."}
                 </span>
               </label>
             )}
@@ -191,7 +191,7 @@ export function ModalProducto({
 
         {/*
           El catálogo no alimenta la cotización: es una vitrina. De aquí se
-          pregunta directo por WhatsApp con la prenda y sus opciones ya escritas.
+          pregunta directo con la prenda y sus opciones ya escritas.
           El paquete del equipo se arma en la sección de paquetes.
         */}
         <div className="bg-tinta p-5 text-white">

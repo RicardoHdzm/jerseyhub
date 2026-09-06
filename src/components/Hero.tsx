@@ -49,7 +49,7 @@ export function Hero() {
             <strong className="font-semibold text-tinta">
               lo personalizamos por completo con el nombre y los colores del tuyo
             </strong>
-            . Arma tu paquete, mira el precio estimado y mándanoslo por WhatsApp.
+            . Arma tu paquete, mira el precio estimado y mándanoslo en un mensaje.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
