@@ -1,26 +1,209 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+  Paleta neutra en tono claro, tomada del logo: tinta negra sobre papel.
+  - hueso  → fondo de la página
+  - papel  → tarjetas y superficies elevadas
+  - arena  → superficies hundidas (campos de texto, pies de tarjeta)
+  - tinta  → texto principal y botones de acción
+  - tenue  → texto secundario
+  El único acento es el dorado.
+*/
+@theme {
+  --color-hueso: #f5f5f5;
+  --color-papel: #ffffff;
+  --color-arena: #ebe8e1;
+  --color-linea: #ddd9d0;
+  --color-tinta: #1a1a1a;
+  --color-tenue: #6f6b63;
+
+  /*
+    El dorado aparece SOLO en su forma brillante: rellenos y bandas negras.
+    Nunca como texto sobre fondo claro.
+
+    La razón es que el oro es un color claro. Para que sirviera de texto sobre
+    blanco había que bajarlo a un #8a6a12 que ya no es oro, es mostaza — y ahí
+    pierde justo lo que lo hace premium. En esos lugares ahora va `tinta`.
+
+    - `dorado` es el de marca, para rellenos. Encima va texto oscuro, nunca
+      blanco: el blanco da 2.4:1 y no se lee; con `tinta` da 7.2:1.
+    - `dorado-hover` es el relleno un punto más profundo, para el hover.
+    - `dorado-claro` es para las bandas negras (10.5:1 sobre `tinta`).
+  */
+  --color-dorado: #c9a227;
+  --color-dorado-hover: #b8911f;
+  --color-dorado-claro: #e3c766;
+
+  --font-display: var(--fuente-display), "Arial Narrow", sans-serif;
+  --font-sans: var(--fuente-cuerpo), system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  /* La barra encogida mide 56 px; 64 deja un respiro sin abrir un hueco. */
+  scroll-padding-top: 4rem;
+  color-scheme: light;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-hueso);
+  color: var(--color-tinta);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+  Estilos base de los iconos de Font Awesome.
+  Van aquí y no desde `@fortawesome/.../styles.css` a propósito: esa hoja
+  declara `.svg-inline--fa { height: 1em }` fuera de las capas de cascada, y en
+  Tailwind 4 las utilidades sí viven en una capa — resultado, `h-9` perdía y
+  todos los iconos salían de 16 px. Dentro de `base`, cualquier h-* o w-* gana.
+*/
+@layer base {
+  .svg-inline--fa {
+    display: inline-block;
+    height: 1em;
+    overflow: visible;
+    vertical-align: -0.125em;
+  }
+}
+
+@layer components {
+  .titulo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+
+  .etiqueta {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .tarjeta {
+    background-color: var(--color-papel);
+    /* El color va aquí y no heredado: la tarjeta es blanca aunque la sección
+       que la contiene sea negra, así que no puede heredar el blanco de esa
+       sección o el contenido se borra. */
+    color: var(--color-tinta);
+    border: 1px solid var(--color-linea);
+    border-radius: 1rem;
+  }
+}
+
+/*
+  El logo es negro sobre blanco. `mix-blend-multiply` deja que el fondo blanco
+  del archivo desaparezca sobre cualquier superficie clara del sitio.
+*/
+.logo {
+  mix-blend-mode: multiply;
+}
+
+/*
+  Misma imagen sobre las bandas negras: `invert` la vuelve trazo blanco sobre
+  fondo negro y `screen` hace que ese negro desaparezca contra la banda.
+*/
+.logo-invertido {
+  filter: invert(1);
+  mix-blend-mode: screen;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Pista del slider de modelos: se desplaza pero sin barra visible */
+.sin-barra {
+  scrollbar-width: none;
+}
+
+.sin-barra::-webkit-scrollbar {
+  display: none;
+}
+
+/*
+  Indicador de scroll del hero: el hero ocupa toda la pantalla en escritorio,
+  así que hay que avisar que abajo sigue habiendo página. El bloque de
+  `prefers-reduced-motion` de arriba lo deja quieto para quien lo pida.
+*/
+@keyframes desliza {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(0.375rem);
+  }
+}
+
+.animar-desliza {
+  animation: desliza 1.8s ease-in-out infinite;
+}
+
+/*
+  Resplandor del hero: un halo dorado muy tenue detrás del titular, pegado al
+  borde izquierdo.
+
+  Se mantiene lejos de la foto a propósito. El archivo del hero trae fondo
+  blanco puro, así que en cuanto un degradado lo alcanza se ve el corte entre
+  la foto y el fondo de la página — eso ya nos dejó una costura visible una vez
+  con `.textura-diamante`.
+*/
+.resplandor-hero {
+  background: radial-gradient(
+    circle at center,
+    rgba(201, 162, 39, 0.22),
+    rgba(201, 162, 39, 0.07) 45%,
+    transparent 70%
+  );
+}
+
+/*
+  Panel oscuro del hero: el fondo contra el que se recorta el jugador.
+  El degradado es un reflector dorado detrás del torso; sin él el panel es un
+  rectángulo negro plano y el recorte no despega.
+*/
+.panel-hero {
+  background-color: var(--color-tinta);
+  background-image:
+    radial-gradient(
+      108% 68% at 50% 30%,
+      rgba(201, 162, 39, 0.5),
+      rgba(201, 162, 39, 0.14) 55%,
+      transparent 76%
+    ),
+    /* El uniforme del render es negro: sin este piso aclarado, las piernas y
+       los tacos se fundían con la parte baja del panel. */
+    linear-gradient(to bottom, transparent 42%, rgba(255, 255, 255, 0.12));
+  border-radius: 1.5rem;
+}
+
+/*
+  Tramado del hero: la retícula de puntos de un impreso.
+
+  Va en el fondo de la sección, por debajo del resplandor y de la figura, así
+  que el halo dorado la difumina donde pasa encima en lugar de taparla de golpe.
+
+  Punto de 1.2 px cada 12: suficiente para leerse como textura, y con el paso lo
+  bastante ancho para no hacer moiré en pantallas con escala fraccionaria — que
+  es lo que hundió al rayado vertical que probamos antes en las secciones.
+*/
+.trama-hero {
+  background-color: var(--color-papel);
+  background-image: radial-gradient(rgba(26, 26, 26, 0.08) 1.2px, transparent 1.2px);
+  background-size: 12px 12px;
 }

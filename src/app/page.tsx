@@ -1,69 +1,149 @@
-import Image from "next/image";
+import { Catalogo } from "@/components/Catalogo";
+import { Hero } from "@/components/Hero";
+import { Paquetes } from "@/components/Paquetes";
+import { PreguntasFrecuentes } from "@/components/PreguntasFrecuentes";
+import { Testimonios } from "@/components/Testimonios";
+import { IconoEstrella, IconoWhatsApp } from "@/components/iconos";
+import { negocio } from "@/lib/config";
+import { linkWhatsApp } from "@/lib/quote";
 
-export default function Home() {
+/**
+ * Las secciones alternan entre el blanco del hero y el negro de la marca. El
+ * gris de antes se cambió por negro para que el dorado tenga dónde brillar:
+ * sobre fondo claro el oro se apaga, sobre negro es donde funciona.
+ */
+const fondos = {
+  papel: {
+    seccion: "bg-papel",
+    etiqueta: "text-tinta",
+    titulo: "text-dorado",
+    intro: "text-tenue",
+  },
+  tinta: {
+    seccion: "bg-tinta text-white",
+    etiqueta: "text-dorado-claro",
+    /* Sobre negro el título se queda en blanco: ahí el dorado ya lo lleva el
+       eyebrow, y dos elementos dorados encimados se pelean. */
+    titulo: "",
+    intro: "text-white/70",
+  },
+};
+
+function Seccion({
+  id,
+  etiqueta,
+  titulo,
+  intro,
+  fondo,
+  separador = true,
+  children,
+}: {
+  id: string;
+  etiqueta: string;
+  titulo: string;
+  intro?: string;
+  fondo: keyof typeof fondos;
+  /**
+   * La estrella que marca el corte con la sección de arriba. Se apaga en la
+   * primera, donde la flecha del hero ya hace ese trabajo.
+   */
+  separador?: boolean;
+  children: React.ReactNode;
+}) {
+  const tono = fondos[fondo];
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
+    <section id={id} className={`relative ${tono.seccion}`}>
+      {/*
+        Va montada sobre el filo, mitad en cada sección. Como la dibuja la
+        sección de abajo, se pinta encima de la de arriba sin necesidad de
+        z-index.
+      */}
+      {separador && (
+        <span
+          aria-hidden="true"
+          className="absolute left-1/2 top-0 grid h-11 w-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-dorado text-tinta"
+        >
+          <IconoEstrella className="h-5 w-5" />
+        </span>
+      )}
+      <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
+        <p className={`etiqueta text-base sm:text-lg ${tono.etiqueta}`}>{etiqueta}</p>
+        <h2 className={`titulo mt-2 text-4xl sm:text-5xl ${tono.titulo}`}>{titulo}</h2>
+        {intro && <p className={`mt-3 max-w-2xl ${tono.intro}`}>{intro}</p>}
+        <div className="mt-8">{children}</div>
+      </div>
+    </section>
+  );
+}
+
+export default function Inicio() {
+  return (
+    <>
+      <Hero />
+
+      <Seccion
+        id="paquetes"
+        fondo="tinta"
+        separador={false}
+        etiqueta="Paquetes de equipo"
+        titulo="Arma el uniforme completo"
+        intro="Combinaciones listas con precio por jugador. Agrega una y después ajústala pieza por pieza como quieras."
+      >
+        <Paquetes />
+      </Seccion>
+
+      <Seccion id="catalogo" fondo="papel" etiqueta="Catálogo" titulo="Prenda por prenda">
+        <Catalogo />
+      </Seccion>
+
+      <Seccion
+        id="testimonios"
+        fondo="tinta"
+        etiqueta="Lo que dicen los equipos"
+        titulo="Ya juegan con lo nuestro"
+        intro="Reseñas de equipos que armaron su uniforme con nosotros."
+      >
+        <Testimonios />
+      </Seccion>
+
+      <Seccion
+        id="preguntas"
+        fondo="papel"
+        etiqueta="Preguntas frecuentes"
+        titulo="Resolvemos tus dudas"
+      >
+        <PreguntasFrecuentes />
+      </Seccion>
+
+      {/*
+        El cierre va a ancho completo y pegado al pie de página: antes era una
+        tarjeta negra flotando sobre blanco justo encima del footer negro, y esa
+        franja blanca de en medio se leía como un error de maquetado. Ahora el
+        negro corre de aquí hasta el final.
+      */}
+      <section className="bg-tinta text-white">
+        <div className="mx-auto flex max-w-6xl flex-col items-start gap-6 px-5 py-16 lg:flex-row lg:items-center lg:justify-between lg:py-20">
+          <div>
+            <h2 className="titulo text-4xl sm:text-5xl">¿Ya sabes qué quieres?</h2>
+            <p className="mt-3 max-w-xl text-white/70">
+              Mándanos tu idea, el logo del equipo o una foto de referencia y te regresamos una
+              propuesta de diseño sin costo.
+            </p>
+          </div>
           <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href={linkWhatsApp(
+              `¡Hola ${negocio.nombre}! Quiero una propuesta de diseño para mi equipo.`,
+            )}
             target="_blank"
             rel="noopener noreferrer"
+            className="flex shrink-0 items-center gap-2 rounded-xl bg-dorado px-7 py-4 font-semibold text-tinta transition-colors hover:bg-dorado-hover"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
+            <IconoWhatsApp />
+            Escribir por WhatsApp
           </a>
         </div>
-      </main>
-    </div>
+      </section>
+    </>
   );
 }
