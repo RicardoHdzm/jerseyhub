@@ -30,6 +30,8 @@ type Contexto = EstadoCotizacion & {
   setJugadores: (n: number) => void;
   /** Vuelve a pasar el mismo slug para deseleccionar. */
   setModelo: (slug: string) => void;
+  /** Vuelve a pasar el mismo slug para deseleccionar. */
+  setTecnica: (slug: string) => void;
   setGorra: (slug: string) => void;
   setEquipo: (v: string) => void;
   setNota: (v: string) => void;
@@ -134,6 +136,11 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
     [actualizar],
   );
 
+  const setTecnica = useCallback(
+    (slug: string) => actualizar((a) => ({ ...a, tecnica: a.tecnica === slug ? "" : slug })),
+    [actualizar],
+  );
+
   const setGorra = useCallback(
     (slug: string) => actualizar((a) => ({ ...a, gorra: slug })),
     [actualizar],
@@ -160,6 +167,7 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
       cerrarPanel,
       setJugadores,
       setModelo,
+      setTecnica,
       setGorra,
       setEquipo,
       setNota,
@@ -177,6 +185,7 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
       cerrarPanel,
       setJugadores,
       setModelo,
+      setTecnica,
       setGorra,
       setEquipo,
       setNota,

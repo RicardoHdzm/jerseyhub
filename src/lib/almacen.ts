@@ -12,6 +12,8 @@ export type EstadoCotizacion = {
   jugadores: number;
   /** Slug del modelo de uniforme elegido, o "" si todavía no elige. */
   modelo: string;
+  /** Slug de la técnica de la casaca elegida, o "" si todavía no elige. */
+  tecnica: string;
   /** Slug del producto de gorra elegido, o "" si todavía no elige. */
   gorra: string;
   /** Nombres, números y tallas. Opcional: se puede cotizar sin llenarla. */
@@ -24,6 +26,7 @@ export type EstadoCotizacion = {
 export const COTIZACION_VACIA: EstadoCotizacion = {
   jugadores: jugadoresPorDefecto,
   modelo: "",
+  tecnica: "",
   gorra: "",
   roster: [],
   equipo: "",
@@ -53,6 +56,7 @@ function interpretar(texto: string | null): EstadoCotizacion {
     return {
       jugadores: guardado.jugadores ?? COTIZACION_VACIA.jugadores,
       modelo: guardado.modelo ?? "",
+      tecnica: guardado.tecnica ?? "",
       gorra: guardado.gorra ?? "",
       roster: Array.isArray(guardado.roster) ? guardado.roster : [],
       equipo: guardado.equipo ?? "",

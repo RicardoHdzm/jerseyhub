@@ -1,4 +1,4 @@
-import { getModelo, getProducto, paquetes } from "@/data/catalog";
+import { getProducto, paquetes } from "@/data/catalog";
 import { descuentosPorVolumen, negocio } from "@/lib/config";
 import type { JugadorRoster, LineaCotizacion, Paquete, PaqueteItem, Producto } from "@/lib/types";
 
@@ -118,9 +118,11 @@ export function calcularResumen(lineas: LineaCotizacion[]): Resumen {
 
 /** Lo que el cliente lleva elegido en el armador y que afecta a los paquetes. */
 export type SeleccionArmador = {
-  /** Slug del modelo del paso 1. */
+  /** Slug del modelo de referencia del paso 2. Es diseño, no precio. */
   modelo?: string;
-  /** Slug del producto de gorra del paso 2. */
+  /** Slug de la técnica de la casaca del paso 3. De aquí sale su precio. */
+  tecnica?: string;
+  /** Slug del producto de gorra del paso 4. */
   gorra?: string;
 };
 
@@ -133,9 +135,9 @@ export function productoDeItem(
   item: PaqueteItem,
   seleccion: SeleccionArmador = {},
 ): Producto | undefined {
-  if (item.segun === "modelo" && seleccion.modelo) {
-    const casaca = getModelo(seleccion.modelo)?.casacaSlug;
-    if (casaca) return getProducto(casaca);
+  if (item.segun === "tecnica" && seleccion.tecnica) {
+    const casaca = getProducto(seleccion.tecnica);
+    if (casaca) return casaca;
   }
   if (item.segun === "gorra" && seleccion.gorra) {
     const gorra = getProducto(seleccion.gorra);
@@ -184,8 +186,10 @@ export function getPaquete(slug: string): Paquete | undefined {
 export type DatosContacto = {
   equipo?: string;
   jugadores?: number;
-  /** Nombre legible del modelo de uniforme, no el slug. */
+  /** Nombre legible del modelo de referencia, no el slug. */
   modelo?: string | null;
+  /** Nombre legible de la técnica de la casaca, no el slug. */
+  tecnica?: string | null;
   /** Lista de jugadores; las filas sin nombre ni número se ignoran. */
   roster?: JugadorRoster[];
   nota?: string;
@@ -200,8 +204,9 @@ export function mensajeWhatsApp(resumen: Resumen, datos: DatosContacto = {}): st
 
   if (datos.equipo?.trim()) lineas.push(`*Equipo:* ${datos.equipo.trim()}`);
   if (datos.jugadores) lineas.push(`*Jugadores:* ${datos.jugadores}`);
-  if (datos.modelo) lineas.push(`*Modelo de uniforme:* ${datos.modelo}`);
-  if (datos.equipo?.trim() || datos.jugadores || datos.modelo) lineas.push("");
+  if (datos.modelo) lineas.push(`*Modelo de referencia:* ${datos.modelo}`);
+  if (datos.tecnica) lineas.push(`*Acabado de la casaca:* ${datos.tecnica}`);
+  if (datos.equipo?.trim() || datos.jugadores || datos.modelo || datos.tecnica) lineas.push("");
 
   for (const l of resumen.lineas) {
     lineas.push(`• ${l.linea.cantidad}x ${l.producto.nombre}`);

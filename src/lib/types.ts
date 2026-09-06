@@ -67,8 +67,9 @@ export type ModeloUniforme = {
   descripcion: string;
   genero: GeneroModelo;
   /**
-   * Con qué casaca del catálogo se produce este modelo. De aquí sale el precio
-   * que usan los paquetes cuando el cliente elige el modelo en el paso 1.
+   * Con qué casaca del catálogo se agrupa este modelo en "Prenda por prenda".
+   * Ya NO decide el precio del paquete: eso lo define la técnica del paso 3,
+   * porque cualquier modelo se puede producir con cualquier acabado.
    */
   casacaSlug: string;
   /** Foto del modelo. Si existe, se usa en vez de la ilustración. */
@@ -83,11 +84,11 @@ export type PaqueteItem = {
   /** Producto con el que se cotiza si el cliente no eligió modelo. */
   productoSlug: string;
   /**
-   * Qué decisión del armador manda sobre esta pieza. En los paquetes la técnica
-   * no la elige el paquete: la casaca sale del modelo del paso 1 y la gorra del
-   * tipo que se elige en el paso 2. El resto de las piezas son fijas.
+   * Qué decisión del armador manda sobre esta pieza: la casaca toma su precio
+   * de la técnica del paso 3 y la gorra del tipo del paso 4. El resto de las
+   * piezas son fijas.
    */
-  segun?: "modelo" | "gorra";
+  segun?: "tecnica" | "gorra";
   /** Piezas de este producto por jugador. */
   porJugador: number;
   /** Opciones preseleccionadas: { opcionId: valorId } */

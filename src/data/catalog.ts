@@ -127,6 +127,57 @@ export const productos: Producto[] = [
       },
     ],
   },
+  /*
+    Las tres técnicas con las que se decora la casaca del paquete. Son productos
+    y no una lista aparte porque toda la cotización —líneas, totales, mensaje de
+    WhatsApp— se resuelve buscando por `productoSlug`: si la técnica no fuera un
+    producto, al recalcular el resumen no habría de dónde sacar su precio.
+
+    Van con `soloEnArmador` porque en "Prenda por prenda" ya están las casacas
+    sueltas; estas existen nada más para ponerle precio al paquete de equipo.
+
+    El precio no se muestra en el paso 3 a propósito: el cliente elige acabado,
+    no precio, y el costo aparece ya sumado en la tarjeta del paquete.
+  */
+  {
+    slug: "casaca-bordado-completo",
+    soloEnArmador: true,
+    nombre: "Casaca bordado completo",
+    categoria: "casacas",
+    precio: 550,
+    color: "#1a1a1a",
+    colorSecundario: "#c9a227",
+    descripcion:
+      "Todo bordado: el logo del frente, el nombre y el número. El acabado más duradero y el que mejor se ve de cerca.",
+    incluye: ["Logo bordado al frente", "Nombre y número bordados", "El acabado más duradero"],
+    opciones: [],
+  },
+  {
+    slug: "casaca-mixta",
+    soloEnArmador: true,
+    nombre: "Casaca mixta",
+    categoria: "casacas",
+    precio: 450,
+    color: "#1a1a1a",
+    colorSecundario: "#c9a227",
+    descripcion:
+      "Frente bordado, con el nombre y el número del jugador en DTF textil. El punto medio entre presencia y costo.",
+    incluye: ["Frente bordado", "Nombre y número en DTF textil", "Equilibrio entre los dos"],
+    opciones: [],
+  },
+  {
+    slug: "casaca-dtf",
+    soloEnArmador: true,
+    nombre: "Casaca DTF textil",
+    categoria: "casacas",
+    precio: 350,
+    color: "#1a1a1a",
+    colorSecundario: "#c9a227",
+    descripcion:
+      "Logo, nombre y número en DTF textil. La opción más ligera y la de entrada para ligas y torneos.",
+    incluye: ["Logo, nombre y número en DTF", "Acabado ligero", "Precio de entrada"],
+    opciones: [],
+  },
   {
     slug: "pantalon-clasico",
     nombre: "Pantalón clásico liso",
@@ -484,6 +535,24 @@ export function getModelo(slug: string): ModeloUniforme | undefined {
  * badge del paso 1. Sale del nombre del producto, así que si renombras una
  * casaca la etiqueta se actualiza sola.
  */
+/**
+ * Las tres técnicas del paso 3, en el orden en que se ofrecen: de la más
+ * completa a la de entrada. El `titulo` es la etiqueta corta que se muestra en
+ * el armador; el nombre largo del producto ("Casaca bordado completo") es el
+ * que aparece en las líneas de la cotización, donde tiene que leerse como
+ * prenda y no como acabado suelto.
+ */
+export const tecnicas = [
+  { slug: "casaca-bordado-completo", titulo: "Bordado completo" },
+  { slug: "casaca-mixta", titulo: "Mixto" },
+  { slug: "casaca-dtf", titulo: "DTF textil completo" },
+];
+
+/** Etiqueta corta de una técnica, o null si el slug ya no existe. */
+export function tituloTecnica(slug: string): string | null {
+  return tecnicas.find((t) => t.slug === slug)?.titulo ?? null;
+}
+
 export function tipoDeModelo(modelo: ModeloUniforme): string {
   const nombre = getProducto(modelo.casacaSlug)?.nombre ?? "";
   const sinPrefijo = nombre.replace(/^Casaca\s+/i, "");
@@ -507,7 +576,7 @@ export const paquetes: Paquete[] = [
     color: "tinta",
     descripcion: "Lo mínimo para salir al diamante con imagen de equipo: casaca y gorra a juego.",
     items: [
-      { productoSlug: "casaca-sublimada", porJugador: 1, segun: "modelo" },
+      { productoSlug: "casaca-mixta", porJugador: 1, segun: "tecnica" },
       { productoSlug: "gorra-bordada-6-paneles", porJugador: 1, segun: "gorra" },
     ],
   },
@@ -520,7 +589,7 @@ export const paquetes: Paquete[] = [
     badge: "El más pedido",
     destacado: true,
     items: [
-      { productoSlug: "casaca-sublimada", porJugador: 1, segun: "modelo" },
+      { productoSlug: "casaca-mixta", porJugador: 1, segun: "tecnica" },
       { productoSlug: "pantalon-clasico", porJugador: 1 },
       { productoSlug: "gorra-bordada-6-paneles", porJugador: 1, segun: "gorra" },
     ],
@@ -533,7 +602,7 @@ export const paquetes: Paquete[] = [
     descripcion:
       "El uniforme completo más los accesorios que amarran el look: calcetas y cinturón a juego.",
     items: [
-      { productoSlug: "casaca-sublimada", porJugador: 1, segun: "modelo" },
+      { productoSlug: "casaca-mixta", porJugador: 1, segun: "tecnica" },
       { productoSlug: "pantalon-clasico", porJugador: 1 },
       { productoSlug: "gorra-bordada-6-paneles", porJugador: 1, segun: "gorra" },
       { productoSlug: "calcetas-sublimadas", porJugador: 1 },
