@@ -41,9 +41,8 @@ export function Hero() {
         <div className="lg:col-start-1 lg:row-start-1">
           <p className="etiqueta text-base text-tinta sm:text-lg">Bienvenido a {negocio.nombre}</p>
           <h1 className="titulo mt-4 text-5xl sm:text-6xl lg:text-7xl">
-            Viste como profesional
-            <br />
-            <span className="text-dorado">¡diséñalo a tu manera!</span>
+            Es el momento de
+            <span className="text-dorado"> llevar tu estilo al campo</span>
           </h1>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-tenue">
             Hacemos el jersey de tu equipo favorito en su diseño original, o{" "}
