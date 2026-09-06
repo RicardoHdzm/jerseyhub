@@ -4,9 +4,9 @@ import { minimoUniformes, negocio } from "@/lib/config";
 import { linkWhatsApp } from "@/lib/quote";
 
 const datos = [
-  { valor: `Desde ${minimoUniformes}`, texto: "uniformes por equipo" },
-  { valor: negocio.tiempoEntrega.replace(" hábiles", ""), texto: "días de producción" },
-  { valor: "100%", texto: "personalizable" },
+  { valor: `Minimo de ${minimoUniformes}`, texto: "uniformes por equipo" },
+  { valor: negocio.tiempoEntrega.replace(" hábiles", ""), texto: " habiles para entrega" },
+  { valor: "Diseño 100%", texto: "personalizable" },
 ];
 
 export function Hero() {

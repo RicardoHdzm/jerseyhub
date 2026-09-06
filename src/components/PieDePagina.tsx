@@ -8,7 +8,6 @@ import {
   IconoTikTok,
   IconoWhatsApp,
 } from "@/components/iconos";
-import { categorias } from "@/data/catalog";
 import { negocio } from "@/lib/config";
 import { linkWhatsApp } from "@/lib/quote";
 
@@ -20,9 +19,9 @@ export function PieDePagina() {
       de por medio.
     */
     <footer className="border-t border-white/10 bg-tinta text-white">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 text-center sm:grid-cols-2 sm:text-left lg:grid-cols-4">
-        <div className="sm:col-span-2">
-          <Logo className="mx-auto h-16 w-auto sm:mx-0" invertido />
+      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 text-center sm:grid-cols-2 sm:text-left">
+        <div>
+          <Logo className="mx-auto h-24 w-auto sm:mx-0" invertido />
           <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-white/70 sm:mx-0">
             {negocio.tagline} en {negocio.ciudad}. Sublimado full color, bordado y diseño incluido
             para equipos de liga, escuela y torneo.
@@ -81,19 +80,6 @@ export function PieDePagina() {
               </a>
             )}
           </div>
-        </div>
-
-        <div>
-          <p className="etiqueta text-dorado-claro">Catálogo</p>
-          <ul className="mt-4 space-y-2 text-sm">
-            {categorias.map((categoria) => (
-              <li key={categoria.id}>
-                <a href="#catalogo" className="text-white/70 transition-colors hover:text-white">
-                  {categoria.nombre}
-                </a>
-              </li>
-            ))}
-          </ul>
         </div>
 
         <div>
