@@ -38,7 +38,7 @@ export function SelectorModelo() {
 
   return (
     <>
-      <div className="mb-4 flex flex-wrap items-center gap-3">
+      <div className="mb-4 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
         <div className="inline-flex rounded-full border border-white/20 bg-white/5 p-1">
           {generos.map((opcion) => (
             <button

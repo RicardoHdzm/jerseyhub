@@ -68,9 +68,16 @@ function Seccion({
         </span>
       )}
       <div className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
-        <p className={`etiqueta text-base sm:text-lg ${tono.etiqueta}`}>{etiqueta}</p>
-        <h2 className={`titulo mt-2 text-4xl sm:text-5xl ${tono.titulo}`}>{titulo}</h2>
-        {intro && <p className={`mt-3 max-w-2xl ${tono.intro}`}>{intro}</p>}
+        {/*
+          En móvil el encabezado va centrado y en escritorio alineado a la
+          izquierda. El contenido de abajo no se toca: centrar listas y tarjetas
+          las vuelve difíciles de recorrer con la vista.
+        */}
+        <div className="text-center lg:text-left">
+          <p className={`etiqueta text-base sm:text-lg ${tono.etiqueta}`}>{etiqueta}</p>
+          <h2 className={`titulo mt-2 text-4xl sm:text-5xl ${tono.titulo}`}>{titulo}</h2>
+          {intro && <p className={`mx-auto mt-3 max-w-2xl lg:mx-0 ${tono.intro}`}>{intro}</p>}
+        </div>
         <div className="mt-8">{children}</div>
       </div>
     </section>
@@ -123,10 +130,10 @@ export default function Inicio() {
         negro corre de aquí hasta el final.
       */}
       <section className="bg-tinta text-white">
-        <div className="mx-auto flex max-w-6xl flex-col items-start gap-6 px-5 py-16 lg:flex-row lg:items-center lg:justify-between lg:py-20">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-5 py-16 text-center lg:flex-row lg:items-center lg:justify-between lg:py-20 lg:text-left">
           <div>
             <h2 className="titulo text-4xl sm:text-5xl">¿Ya sabes qué quieres?</h2>
-            <p className="mt-3 max-w-xl text-white/70">
+            <p className="mx-auto mt-3 max-w-xl text-white/70 lg:mx-0">
               Mándanos tu idea, el logo del equipo o una foto de referencia y te regresamos una
               propuesta de diseño sin costo.
             </p>

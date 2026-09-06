@@ -16,11 +16,11 @@ export type Testimonio = {
  */
 export const testimonios: Testimonio[] = [
   {
-    nombre: "Ricardo M.",
-    equipo: "Liga Municipal, categoría libre",
+    nombre: "Ricardo H.",
+    equipo: "Caimanes de Villas, Liga Valle Alto",
     texto:
-      "Pedimos 16 uniformes completos y llegaron antes de lo que nos dijeron. La tela aguanta bien las barridas y los colores no se han despintado en toda la temporada.",
-    pedido: "16 casacas, pantalones y gorras",
+      "Buscábamos actualizar nuestro uniforme despues de casi 3 años y el resultado nos encantó. La personalización total del diseño y la calidad de los materiales superaron nuestras expectativas.",
+    pedido: "Paquete Básico para 20 jugadores",
   },
   {
     nombre: "Ana Sofía R.",

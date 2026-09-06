@@ -19,26 +19,23 @@ import type {
 export const categorias: Categoria[] = [
   {
     id: "caballero",
-    nombre: "Casaca Caballero",
+    nombre: "Caballero",
   },
   {
     id: "dama",
-    nombre: "Casaca Dama",
+    nombre: "Dama",
   },
   {
     id: "pantalones",
     nombre: "Pantalones",
-    descripcion: "Corte adulto, dama o juvenil, recto o knicker, en tela con recuperación.",
   },
   {
     id: "gorras",
     nombre: "Gorras",
-    descripcion: "De algodón o en tela dry-fit, con el logo de tu equipo al frente.",
   },
   {
     id: "accesorios",
     nombre: "Accesorios",
-    descripcion: "Calcetas y cinturones a juego, lo que termina de amarrar el uniforme.",
   },
 ];
 

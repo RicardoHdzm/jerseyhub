@@ -38,13 +38,13 @@ export function Hero() {
         columnas y la foto ocupa toda la derecha.
       */}
       <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-10 px-5 pb-16 pt-14 lg:grid lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-x-12 lg:gap-y-8 lg:pb-24 lg:pt-16">
-        <div className="lg:col-start-1 lg:row-start-1">
+        <div className="text-center lg:col-start-1 lg:row-start-1 lg:text-left">
           <p className="etiqueta text-base text-tinta sm:text-lg">Bienvenido a {negocio.nombre}</p>
           <h1 className="titulo mt-4 text-5xl sm:text-6xl lg:text-7xl">
             Es el momento de
             <span className="text-dorado"> llevar tu estilo al campo</span>
           </h1>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-tenue">
+          <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-tenue lg:mx-0">
             Hacemos el jersey de tu equipo favorito en su diseño original, o{" "}
             <strong className="font-semibold text-tinta">
               lo personalizamos por completo con el nombre y los colores del tuyo
@@ -52,12 +52,12 @@ export function Hero() {
             . Arma tu paquete, mira el precio estimado y mándanoslo en un mensaje.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mx-auto mt-8 grid w-fit grid-cols-1 gap-3 sm:grid-cols-2 lg:mx-0">
             <a
               href="#paquetes"
-              className="rounded-xl bg-tinta px-6 py-3.5 font-semibold text-white transition-colors hover:bg-black"
+              className="rounded-xl bg-tinta px-6 py-3.5 text-center font-semibold text-white transition-colors hover:bg-black"
             >
-              Armar el paquete de mi equipo
+              Armemos un paquete
             </a>
             <a
               href={linkWhatsApp(
@@ -65,7 +65,7 @@ export function Hero() {
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-xl bg-dorado px-6 py-3.5 font-semibold text-tinta transition-colors hover:bg-dorado-hover"
+              className="flex items-center justify-center gap-2 rounded-xl bg-dorado px-6 py-3.5 font-semibold text-tinta transition-colors hover:bg-dorado-hover"
             >
               <IconoWhatsApp />
               Escríbenos
@@ -75,8 +75,8 @@ export function Hero() {
 
         <HeroFigura />
 
-        <div className="lg:col-start-1 lg:row-start-2">
-          <dl className="grid max-w-lg grid-cols-3 gap-4 border-t border-linea pt-6">
+        <div className="text-center lg:col-start-1 lg:row-start-2 lg:text-left">
+          <dl className="mx-auto grid max-w-lg grid-cols-3 gap-4 border-t border-linea pt-6 lg:mx-0">
             {datos.map((dato) => (
               <div key={dato.texto}>
                 <dt className="titulo text-2xl">{dato.valor}</dt>

@@ -57,7 +57,7 @@ export function Catalogo() {
 
   return (
     <>
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center justify-center gap-2 lg:justify-start">
         {(
           [{ id: "todo", nombre: "Todo" }, ...filtrosVisibles] as {
             id: Filtro;
@@ -82,7 +82,7 @@ export function Catalogo() {
         <button
           type="button"
           onClick={() => setVerTodo(true)}
-          className="ml-auto flex items-center gap-2 rounded-full bg-dorado px-4 py-2 text-sm font-semibold text-tinta transition-colors hover:bg-dorado-hover"
+          className="flex items-center gap-2 rounded-full bg-dorado px-4 py-2 text-sm font-semibold text-tinta transition-colors hover:bg-dorado-hover lg:ml-auto"
         >
           <IconoCuadricula className="h-3.5 w-3.5" />
           Ver catálogo completo
@@ -90,7 +90,9 @@ export function Catalogo() {
       </div>
 
       {descripcionFiltro && (
-        <p className="mt-4 max-w-2xl text-sm text-tenue">{descripcionFiltro}</p>
+        <p className="mx-auto mt-4 max-w-2xl text-center text-sm text-tenue lg:mx-0 lg:text-left">
+          {descripcionFiltro}
+        </p>
       )}
 
       <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">

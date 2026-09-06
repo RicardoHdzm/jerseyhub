@@ -28,7 +28,7 @@ export function SelectorColor({
   const elegido = valores.some((v) => v.id === colores[pieza]) ? colores[pieza] : valores[0].id;
 
   return (
-    <div className="flex flex-wrap items-center gap-3">
+    <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
       {valores.map((valor) => {
         const activo = valor.id === elegido;
         const muestra = muestrasDeColor[valor.id] ?? "#9ca3af";

@@ -20,19 +20,19 @@ export function PieDePagina() {
       de por medio.
     */
     <footer className="border-t border-white/10 bg-tinta text-white">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 text-center sm:grid-cols-2 sm:text-left lg:grid-cols-4">
         <div className="sm:col-span-2">
-          <Logo className="h-16 w-auto" invertido />
-          <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/70">
+          <Logo className="mx-auto h-16 w-auto sm:mx-0" invertido />
+          <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-white/70 sm:mx-0">
             {negocio.tagline} en {negocio.ciudad}. Sublimado full color, bordado y diseño incluido
             para equipos de liga, escuela y torneo.
           </p>
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mx-auto mt-5 grid w-fit grid-cols-2 gap-2 sm:mx-0 sm:grid-cols-4">
             <a
               href={linkWhatsApp(`¡Hola ${negocio.nombre}! Quiero cotizar uniformes.`)}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-lg bg-dorado px-4 py-2.5 text-sm font-semibold text-tinta transition-colors hover:bg-dorado-hover"
+              className="flex items-center justify-center gap-2 rounded-lg bg-dorado px-4 py-2.5 text-sm font-semibold text-tinta transition-colors hover:bg-dorado-hover"
             >
               <IconoWhatsApp className="h-4 w-4" />
               WhatsApp
@@ -41,7 +41,7 @@ export function PieDePagina() {
               href={negocio.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-lg border border-white/25 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-dorado-claro"
+              className="flex items-center justify-center gap-2 rounded-lg border border-white/25 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-dorado-claro"
             >
               <IconoInstagram className="h-4 w-4" />
               Instagram
@@ -51,7 +51,7 @@ export function PieDePagina() {
                 href={negocio.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-lg border border-white/25 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-dorado-claro"
+                className="flex items-center justify-center gap-2 rounded-lg border border-white/25 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-dorado-claro"
               >
                 <IconoFacebook className="h-4 w-4" />
                 Facebook
@@ -62,7 +62,7 @@ export function PieDePagina() {
                 href={negocio.tiktok}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-lg border border-white/25 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-dorado-claro"
+                className="flex items-center justify-center gap-2 rounded-lg border border-white/25 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-dorado-claro"
               >
                 <IconoTikTok className="h-4 w-4" />
                 TikTok
@@ -73,7 +73,7 @@ export function PieDePagina() {
                 href={negocio.mercadoLibre}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-lg border border-white/25 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-dorado-claro"
+                className="flex items-center justify-center gap-2 rounded-lg border border-white/25 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-dorado-claro"
               >
                 <IconoTienda className="h-4 w-4" />
                 Mercado Libre

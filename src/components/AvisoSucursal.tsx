@@ -17,7 +17,7 @@ export function AvisoSucursal() {
       <span className="text-sm leading-tight">
         <span className="font-semibold">Disponible en sucursal</span>
         <br />
-        <span className="text-xs text-tenue">Pásala a ver a nuestro local en {negocio.ciudad}</span>
+        <span className="text-xs text-tenue">Visita nuestro local en {negocio.ciudad}</span>
       </span>
     </div>
   );

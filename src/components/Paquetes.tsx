@@ -73,7 +73,7 @@ function Paso({
 }) {
   return (
     <section className="mt-8 first:mt-0">
-      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+      <div className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1 text-center lg:justify-start lg:text-left">
         <span className="titulo text-2xl text-dorado-claro">{numero}.</span>
         <h3 className="titulo text-2xl">{titulo}</h3>
         {detalle && <span className="text-sm text-white/60">{detalle}</span>}
@@ -110,7 +110,7 @@ function ContadorJugadores() {
   };
 
   return (
-    <div className="flex w-fit items-center rounded-lg border border-white/20 bg-white/5 text-white">
+    <div className="mx-auto flex w-fit items-center rounded-lg border border-white/20 bg-white/5 text-white lg:mx-0">
       <button
         type="button"
         onClick={() => ajustar(-1)}
@@ -290,12 +290,17 @@ export function Paquetes() {
                       const item = incluidas.get(clave);
                       const producto = productoDeItem(item ?? referencia, seleccion);
                       if (!producto) return null;
-                      // Las piezas que dependen del armador se nombran en
-                      // genérico: el paquete no elige la técnica, la elige el
-                      // cliente en los pasos 1 y 2.
+                      /*
+                        La casaca se nombra por el acabado elegido en el paso 3.
+                        Mientras no se elige uno, va en genérico: el paquete
+                        cotiza con el mixto por omisión, pero decir "Casaca
+                        mixta" haría parecer que ya se decidió.
+                      */
                       const etiqueta =
-                        clave === "modelo"
-                          ? "Casaca"
+                        clave === "tecnica"
+                          ? tecnica
+                            ? producto.nombre
+                            : "Casaca"
                           : clave === "gorra"
                             ? "Gorra"
                             : producto.nombre;
