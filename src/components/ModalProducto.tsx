@@ -2,11 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import { useCotizacion } from "@/components/CotizacionProvider";
 import { ProductoImagen } from "@/components/ProductoImagen";
 import { AvisoMercadoLibre } from "@/components/AvisoMercadoLibre";
 import { IconoCerrar, IconoCheck, IconoWhatsApp } from "@/components/iconos";
-import { getModelo, modelos } from "@/data/catalog";
 import { negocio } from "@/lib/config";
 import {
   etiquetasOpciones,
@@ -15,25 +13,24 @@ import {
   precioMXN,
   precioUnitario,
 } from "@/lib/quote";
-import type { Producto } from "@/lib/types";
+import type { ModeloUniforme, Producto } from "@/lib/types";
 
 export function ModalProducto({
   producto,
+  modelo,
   onCerrar,
 }: {
   producto: Producto;
+  /**
+   * El diseño concreto, cuando se abrió desde una tarjeta de casaca. Manda
+   * sobre el nombre y la foto: el cliente hizo clic en "Clásico alterno", no
+   * en "Casaca bordada".
+   */
+  modelo?: ModeloUniforme;
   onCerrar: () => void;
 }) {
-  const { modelo, setModelo } = useCotizacion();
   const [opciones, setOpciones] = useState(() => opcionesPorDefecto(producto));
-
-  // Los modelos que se producen con esta casaca. En el resto de los productos
-  // queda vacío y el selector ni siquiera aparece.
-  const modelosDisponibles = useMemo(
-    () => modelos.filter((m) => m.casacaSlug === producto.slug),
-    [producto.slug],
-  );
-  const modeloActivo = modelosDisponibles.some((m) => m.slug === modelo) ? modelo : "";
+  const titulo = modelo?.nombre ?? producto.nombre;
 
   useEffect(() => {
     const alPresionar = (e: KeyboardEvent) => {
@@ -53,29 +50,27 @@ export function ModalProducto({
   // Si alguna opción elegida trae foto propia (los colores, por ejemplo), esa
   // manda sobre la foto general del producto.
   const fotoVariante = useMemo(() => {
-    // El modelo elegido manda sobre todo: es la foto de lo que se va a producir.
-    const fotoModelo = modeloActivo ? getModelo(modeloActivo)?.foto : undefined;
-    if (fotoModelo) return fotoModelo;
+    // La foto del modelo manda: es la de lo que se va a producir.
+    if (modelo?.foto) return modelo.foto;
     for (const opcion of producto.opciones) {
       const valor = opcion.valores.find((v) => v.id === opciones[opcion.id]);
       if (valor?.foto) return valor.foto;
     }
     return undefined;
-  }, [producto, opciones, modeloActivo]);
+  }, [producto, opciones, modelo]);
 
   // El mensaje llega al chat con la prenda y lo que el cliente ya configuró,
   // para que no tenga que volver a explicarlo.
   const mensaje = useMemo(() => {
     const partes = [
-      `¡Hola ${negocio.nombre}! Me interesa: *${producto.nombre}* (${precioMXN(unitario)} por pieza).`,
+      `¡Hola ${negocio.nombre}! Me interesa: *${titulo}* (${precioMXN(unitario)} por pieza).`,
     ];
-    const nombreDelModelo = modeloActivo ? getModelo(modeloActivo)?.nombre : undefined;
-    if (nombreDelModelo) partes.push(`Modelo: ${nombreDelModelo}`);
+    if (modelo) partes.push(`Se produce como: ${producto.nombre}`);
     const detalle = etiquetasOpciones(producto, opciones);
     if (detalle.length > 0) partes.push(detalle.join(" · "));
     partes.push("¿Me pasan más información?");
     return partes.join("\n");
-  }, [producto, opciones, unitario, modeloActivo]);
+  }, [producto, opciones, unitario, modelo, titulo]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
@@ -84,7 +79,7 @@ export function ModalProducto({
       <div
         role="dialog"
         aria-modal="true"
-        aria-label={producto.nombre}
+        aria-label={titulo}
         className="relative flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-2xl border border-linea bg-papel sm:rounded-2xl"
       >
         <button
@@ -108,8 +103,15 @@ export function ModalProducto({
           <div className="flex flex-col gap-5 p-5 sm:p-6">
             <div>
               <p className="etiqueta text-tinta">Desde {precioMXN(producto.precio)} por pieza</p>
-              <h2 className="titulo mt-1 text-3xl">{producto.nombre}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-tenue">{producto.descripcion}</p>
+              <h2 className="titulo mt-1 text-3xl">{titulo}</h2>
+              {modelo && (
+                <p className="mt-1 text-sm font-semibold text-tenue">
+                  Se produce como {producto.nombre}
+                </p>
+              )}
+              <p className="mt-2 text-sm leading-relaxed text-tenue">
+                {modelo?.descripcion ?? producto.descripcion}
+              </p>
             </div>
 
             <ul className="flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-tenue">
@@ -122,35 +124,6 @@ export function ModalProducto({
             </ul>
 
             {producto.mercadoLibre && <AvisoMercadoLibre href={producto.mercadoLibre} />}
-
-            {modelosDisponibles.length > 0 && (
-              <label className="block">
-                <span className="mb-2 block text-xs font-semibold uppercase tracking-wider text-tenue">
-                  Modelo del equipo
-                </span>
-                {/*
-                  Elegir aquí es lo mismo que elegir en el paso 1 del armador:
-                  el modelo del uniforme es uno solo para toda la cotización.
-                */}
-                <select
-                  value={modeloActivo}
-                  onChange={(e) => setModelo(e.target.value)}
-                  className="w-full rounded-lg border border-linea bg-arena px-3 py-2.5 text-sm outline-none focus:border-tinta"
-                >
-                  <option value="">Sin modelo definido</option>
-                  {modelosDisponibles.map((item) => (
-                    <option key={item.slug} value={item.slug}>
-                      {item.nombre}
-                    </option>
-                  ))}
-                </select>
-                <span className="mt-1.5 block text-xs text-tenue">
-                  {modeloActivo
-                    ? "También queda elegido en el paso 1 del armador."
-                    : "Opcional: si no eliges, definimos el diseño cuando nos escribas."}
-                </span>
-              </label>
-            )}
 
             {producto.opciones.map((opcion) => (
               <fieldset key={opcion.id}>

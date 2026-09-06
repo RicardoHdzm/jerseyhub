@@ -20,7 +20,7 @@ import {
   type EstadoCotizacion,
 } from "@/lib/almacen";
 import { calcularResumen, paqueteALineas, type Resumen, type SeleccionArmador } from "@/lib/quote";
-import type { JugadorRoster, Paquete } from "@/lib/types";
+import type { JugadorRoster, Paquete, PiezaConColor } from "@/lib/types";
 
 type Contexto = EstadoCotizacion & {
   resumen: Resumen;
@@ -33,6 +33,7 @@ type Contexto = EstadoCotizacion & {
   /** Vuelve a pasar el mismo slug para deseleccionar. */
   setTecnica: (slug: string) => void;
   setGorra: (slug: string) => void;
+  setColor: (pieza: PiezaConColor, valor: string) => void;
   setEquipo: (v: string) => void;
   setNota: (v: string) => void;
   setRoster: (filas: JugadorRoster[]) => void;
@@ -146,6 +147,12 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
     [actualizar],
   );
 
+  const setColor = useCallback(
+    (pieza: PiezaConColor, valor: string) =>
+      actualizar((a) => ({ ...a, colores: { ...a.colores, [pieza]: valor } })),
+    [actualizar],
+  );
+
   const setEquipo = useCallback(
     (v: string) => actualizar((a) => ({ ...a, equipo: v })),
     [actualizar],
@@ -169,6 +176,7 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
       setModelo,
       setTecnica,
       setGorra,
+      setColor,
       setEquipo,
       setNota,
       setRoster,
@@ -187,6 +195,7 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
       setModelo,
       setTecnica,
       setGorra,
+      setColor,
       setEquipo,
       setNota,
       setRoster,

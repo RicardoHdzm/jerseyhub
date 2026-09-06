@@ -4,79 +4,52 @@ import { useMemo, useState } from "react";
 
 import { ModalCatalogo } from "@/components/ModalCatalogo";
 import { ModalProducto } from "@/components/ModalProducto";
-import { ProductoImagen } from "@/components/ProductoImagen";
-import { categorias, productos } from "@/data/catalog";
-import { IconoCuadricula, IconoTienda } from "@/components/iconos";
-import { precioMXN } from "@/lib/quote";
-import type { CategoriaId, Producto } from "@/lib/types";
+import { TarjetaCatalogo } from "@/components/TarjetaCatalogo";
+import { IconoCuadricula } from "@/components/iconos";
+import {
+  categorias,
+  entradasDelCatalogo,
+  muestraDelCatalogo,
+  type EntradaCatalogo,
+} from "@/data/catalog";
+import type { FiltroCatalogo } from "@/lib/types";
 
-type Filtro = CategoriaId | "todo";
+type Filtro = FiltroCatalogo | "todo";
 
-function TarjetaProducto({
-  producto,
-  onAbrir,
-}: {
-  producto: Producto;
-  onAbrir: (p: Producto) => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={() => onAbrir(producto)}
-      className="group tarjeta flex flex-col overflow-hidden text-left transition-colors hover:border-dorado"
-    >
-      <div className="relative aspect-square overflow-hidden bg-arena">
-        <div className="h-full w-full transition-transform duration-300 group-hover:scale-105">
-          <ProductoImagen producto={producto} sizes="(min-width: 1024px) 280px, 45vw" />
-        </div>
-        {producto.destacado && (
-          <span className="absolute left-3 top-3 rounded-full bg-dorado px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-tinta">
-            Popular
-          </span>
-        )}
-        {producto.mercadoLibre && (
-          <span
-            title="También se vende por pieza en Mercado Libre"
-            className="absolute right-3 top-3 grid h-7 w-7 place-items-center rounded-full border border-linea bg-papel text-tenue"
-          >
-            <IconoTienda className="h-3 w-3" />
-          </span>
-        )}
-      </div>
-
-      {/*
-        La tarjeta solo muestra foto, nombre y precio: el detalle del producto
-        vive dentro, al abrirlo. Así la cuadrícula se lee de un vistazo y todas
-        las tarjetas quedan de la misma altura.
-      */}
-      <div className="flex flex-1 flex-col p-4">
-        <h3 className="titulo text-xl leading-tight">{producto.nombre}</h3>
-        <div className="mt-4 pt-2">
-          <p className="text-[11px] uppercase tracking-wide text-tenue">Desde</p>
-          <p className="titulo text-2xl leading-none">{precioMXN(producto.precio)}</p>
-        </div>
-      </div>
-    </button>
-  );
-}
+/** Cuántas tarjetas se ven sin abrir el catálogo completo. */
+const TOPE = 12;
 
 export function Catalogo() {
   const [filtro, setFiltro] = useState<Filtro>("todo");
-  const [abierto, setAbierto] = useState<Producto | null>(null);
+  const [abierta, setAbierta] = useState<EntradaCatalogo | null>(null);
   const [verTodo, setVerTodo] = useState(false);
 
-  // Las gorras no se listan aquí: se eligen en el paso 2 del armador.
-  const delCatalogo = useMemo(() => productos.filter((p) => !p.soloEnArmador), []);
+  const entradas = useMemo(() => entradasDelCatalogo(), []);
 
+  /*
+    En "Todo" se muestra una muestra pareja de cada filtro, no las primeras 12:
+    con 17 casacas, cortar en seco dejaría fuera pantalones, gorras y
+    accesorios. Con un filtro activo caben todas sin llegar al tope.
+  */
   const visibles = useMemo(
-    () => (filtro === "todo" ? delCatalogo : delCatalogo.filter((p) => p.categoria === filtro)),
-    [filtro, delCatalogo],
+    () =>
+      filtro === "todo"
+        ? muestraDelCatalogo(entradas, TOPE)
+        : entradas.filter((e) => e.filtro === filtro).slice(0, TOPE),
+    [filtro, entradas],
+  );
+
+  const ocultas = useMemo(
+    () =>
+      (filtro === "todo" ? entradas : entradas.filter((e) => e.filtro === filtro)).length -
+      visibles.length,
+    [filtro, entradas, visibles],
   );
 
   // Solo mostramos los filtros que tienen algo detrás.
-  const categoriasVisibles = useMemo(
-    () => categorias.filter((c) => delCatalogo.some((p) => p.categoria === c.id)),
-    [delCatalogo],
+  const filtrosVisibles = useMemo(
+    () => categorias.filter((c) => entradas.some((e) => e.filtro === c.id)),
+    [entradas],
   );
 
   const descripcionFiltro =
@@ -86,7 +59,7 @@ export function Catalogo() {
     <>
       <div className="flex flex-wrap items-center gap-2">
         {(
-          [{ id: "todo", nombre: "Todo" }, ...categoriasVisibles] as {
+          [{ id: "todo", nombre: "Todo" }, ...filtrosVisibles] as {
             id: Filtro;
             nombre: string;
           }[]
@@ -121,17 +94,33 @@ export function Catalogo() {
       )}
 
       <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-        {visibles.map((producto) => (
-          <TarjetaProducto key={producto.slug} producto={producto} onAbrir={setAbierto} />
+        {visibles.map((entrada) => (
+          <TarjetaCatalogo key={entrada.id} entrada={entrada} onAbrir={setAbierta} />
         ))}
       </div>
 
-      {abierto && <ModalProducto producto={abierto} onCerrar={() => setAbierto(null)} />}
+      {ocultas > 0 && (
+        <button
+          type="button"
+          onClick={() => setVerTodo(true)}
+          className="mt-6 w-full rounded-xl border border-linea py-3 text-sm font-semibold text-tenue transition-colors hover:border-dorado hover:text-tinta"
+        >
+          Hay {ocultas} {ocultas === 1 ? "prenda más" : "prendas más"} — ver catálogo completo
+        </button>
+      )}
+
+      {abierta && (
+        <ModalProducto
+          producto={abierta.producto}
+          modelo={abierta.modelo}
+          onCerrar={() => setAbierta(null)}
+        />
+      )}
       {verTodo && (
         <ModalCatalogo
-          onElegir={(producto) => {
+          onElegir={(entrada) => {
             setVerTodo(false);
-            setAbierto(producto);
+            setAbierta(entrada);
           }}
           onCerrar={() => setVerTodo(false)}
         />

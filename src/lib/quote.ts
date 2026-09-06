@@ -1,6 +1,13 @@
-import { getProducto, paquetes } from "@/data/catalog";
+import { getModelo, getProducto, paquetes, piezaConColor } from "@/data/catalog";
 import { descuentosPorVolumen, negocio } from "@/lib/config";
-import type { JugadorRoster, LineaCotizacion, Paquete, PaqueteItem, Producto } from "@/lib/types";
+import type {
+  JugadorRoster,
+  LineaCotizacion,
+  Paquete,
+  PaqueteItem,
+  PiezaConColor,
+  Producto,
+} from "@/lib/types";
 
 /** Formato de moneda determinista (evita diferencias entre servidor y navegador). */
 export function precioMXN(valor: number): string {
@@ -124,7 +131,33 @@ export type SeleccionArmador = {
   tecnica?: string;
   /** Slug del producto de gorra del paso 4. */
   gorra?: string;
+  /** Color elegido para cada pieza, por id de valor del producto. */
+  colores?: Partial<Record<PiezaConColor, string>>;
 };
+
+/**
+ * Las opciones con las que se cotiza una pieza: las del propio producto, luego
+ * las que fija el paquete y encima el color que eligió el cliente.
+ *
+ * El color se valida contra el producto antes de aplicarlo. Sin eso, un color
+ * que existe en una pieza pero no en la que quedó seleccionada —gris de
+ * caballero cuando el corte pasó a dama— entraría como un valor inexistente y
+ * el precio y la etiqueta saldrían mal.
+ */
+function opcionesDeItem(
+  producto: Producto,
+  item: PaqueteItem,
+  seleccion: SeleccionArmador,
+): Record<string, string> {
+  const opciones = { ...opcionesPorDefecto(producto), ...(item.opciones ?? {}) };
+  const pieza = piezaConColor(producto.slug);
+  const elegido = pieza ? seleccion.colores?.[pieza] : undefined;
+  const existe = producto.opciones.some(
+    (o) => o.id === "color" && o.valores.some((v) => v.id === elegido),
+  );
+  if (elegido && existe) opciones.color = elegido;
+  return opciones;
+}
 
 /**
  * Qué producto cotiza cada pieza del paquete. Las piezas marcadas con `segun`
@@ -139,6 +172,11 @@ export function productoDeItem(
     const casaca = getProducto(seleccion.tecnica);
     if (casaca) return casaca;
   }
+  if (item.segun === "pantalon") {
+    const dama = seleccion.modelo && getModelo(seleccion.modelo)?.genero === "dama";
+    const pantalon = getProducto(dama ? "pantalon-dama" : "pantalon-clasico");
+    if (pantalon) return pantalon;
+  }
   if (item.segun === "gorra" && seleccion.gorra) {
     const gorra = getProducto(seleccion.gorra);
     if (gorra) return gorra;
@@ -151,8 +189,9 @@ export function precioPaquete(paquete: Paquete, seleccion: SeleccionArmador = {}
   return paquete.items.reduce((suma, item) => {
     const producto = productoDeItem(item, seleccion);
     if (!producto) return suma;
-    const opciones = { ...opcionesPorDefecto(producto), ...(item.opciones ?? {}) };
-    return suma + precioUnitario(producto, opciones) * item.porJugador;
+    return (
+      suma + precioUnitario(producto, opcionesDeItem(producto, item, seleccion)) * item.porJugador
+    );
   }, 0);
 }
 
@@ -165,9 +204,7 @@ export function paqueteALineas(
   return paquete.items.map((item) => {
     const producto = productoDeItem(item, seleccion);
     const slug = producto?.slug ?? item.productoSlug;
-    const opciones = producto
-      ? { ...opcionesPorDefecto(producto), ...(item.opciones ?? {}) }
-      : (item.opciones ?? {});
+    const opciones = producto ? opcionesDeItem(producto, item, seleccion) : (item.opciones ?? {});
     return {
       id: idLinea(slug, opciones),
       productoSlug: slug,

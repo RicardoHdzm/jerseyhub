@@ -5,6 +5,7 @@ import { useState, type ReactNode } from "react";
 import type { PaqueteItem } from "@/lib/types";
 
 import { useCotizacion } from "@/components/CotizacionProvider";
+import { SelectorColor } from "@/components/SelectorColor";
 import { SelectorGorra } from "@/components/SelectorGorra";
 import { SelectorModelo } from "@/components/SelectorModelo";
 import { SelectorTecnica } from "@/components/SelectorTecnica";
@@ -17,7 +18,7 @@ import {
   IconoMenos,
   IconoPelota,
 } from "@/components/iconos";
-import { getProducto, nombreModelo, paquetes, tituloTecnica } from "@/data/catalog";
+import { getModelo, getProducto, nombreModelo, paquetes, tituloTecnica } from "@/data/catalog";
 import { minimoUniformes } from "@/lib/config";
 import { descuentoPara, precioMXN, precioPaquete, productoDeItem } from "@/lib/quote";
 
@@ -145,11 +146,22 @@ function ContadorJugadores() {
 }
 
 export function Paquetes() {
-  const { jugadores, agregarPaquete, modelo, tecnica, gorra } = useCotizacion();
+  const { jugadores, agregarPaquete, modelo, tecnica, gorra, colores } = useCotizacion();
   const modeloElegido = nombreModelo(modelo);
   const tecnicaElegida = tecnica ? tituloTecnica(tecnica) : undefined;
   const gorraElegida = gorra ? getProducto(gorra)?.nombre : undefined;
-  const seleccion = { modelo, tecnica, gorra };
+  const seleccion = { modelo, tecnica, gorra, colores };
+
+  /*
+    De qué producto salen los colores de cada paso. La gorra y el pantalón
+    cambian con lo que se eligió antes —el tipo de gorra y el corte del modelo
+    de referencia—, así que los círculos tienen que preguntarle al producto que
+    quedó seleccionado, no a uno fijo.
+  */
+  const gorraSlug = gorra || "gorra-bordada-6-paneles";
+  const damaElegida = modelo ? getModelo(modelo)?.genero === "dama" : false;
+  const pantalonSlug = damaElegida ? "pantalon-dama" : "pantalon-clasico";
+  const pantalonNombre = getProducto(pantalonSlug)?.nombre ?? "";
 
   return (
     <>
@@ -179,14 +191,49 @@ export function Paquetes() {
 
       <Paso
         numero={4}
-        titulo="Elige el tipo de gorra"
+        titulo="Elige la gorra"
         detalle={gorraElegida ? `Elegiste: ${gorraElegida}` : "Algodón o dry-fit"}
       >
         <SelectorGorra />
+        <div className="mt-5">
+          <p className="etiqueta text-[11px] text-white/60">Color de la gorra</p>
+          <div className="mt-3">
+            <SelectorColor pieza="gorra" productoSlug={gorraSlug} />
+          </div>
+        </div>
+      </Paso>
+
+      {/*
+        Del 5 al 7 son piezas que no traen todos los paquetes. Se muestran
+        siempre porque el paquete se escoge hasta el final: aquí todavía no se
+        sabe cuáles van a aplicar, y esconderlas obligaría a devolverse.
+      */}
+      <Paso
+        numero={5}
+        titulo="Elige el color del pantalón"
+        detalle={`${pantalonNombre} · solo aplica si tu paquete lo incluye`}
+      >
+        <SelectorColor pieza="pantalon" productoSlug={pantalonSlug} />
       </Paso>
 
       <Paso
-        numero={5}
+        numero={6}
+        titulo="Elige el color de las calcetas"
+        detalle="Solo aplica si tu paquete las incluye"
+      >
+        <SelectorColor pieza="calcetas" productoSlug="calcetas-sublimadas" />
+      </Paso>
+
+      <Paso
+        numero={7}
+        titulo="Elige el color del cinturón"
+        detalle="Solo aplica si tu paquete lo incluye"
+      >
+        <SelectorColor pieza="cinturon" productoSlug="cinturon-beisbol" />
+      </Paso>
+
+      <Paso
+        numero={8}
         titulo="Escoge tu paquete"
         detalle={`Precios calculados para ${jugadores} ${jugadores === 1 ? "jugador" : "jugadores"}`}
       >

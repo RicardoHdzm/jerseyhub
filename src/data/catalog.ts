@@ -1,4 +1,13 @@
-import type { Categoria, ModeloUniforme, Opcion, Paquete, Producto } from "@/lib/types";
+import type {
+  Categoria,
+  ModeloUniforme,
+  FiltroCatalogo,
+  Opcion,
+  OpcionValor,
+  Paquete,
+  PiezaConColor,
+  Producto,
+} from "@/lib/types";
 
 /**
  * CATÁLOGO DE EJEMPLO — reemplaza nombres, precios y textos por los reales.
@@ -9,8 +18,12 @@ import type { Categoria, ModeloUniforme, Opcion, Paquete, Producto } from "@/lib
 
 export const categorias: Categoria[] = [
   {
-    id: "casacas",
-    nombre: "Casacas",
+    id: "caballero",
+    nombre: "Corte caballero",
+  },
+  {
+    id: "dama",
+    nombre: "Corte dama",
   },
   {
     id: "pantalones",
@@ -260,6 +273,16 @@ export const productos: Producto[] = [
     incluye: ["Tela transpirable", "Paneles perforados", "Logo bordado al frente"],
     opciones: [
       {
+        id: "color",
+        label: "Color",
+        valores: [
+          { id: "negro", label: "Negro" },
+          { id: "blanco", label: "Blanco" },
+          { id: "azul", label: "Azul" },
+          { id: "rojo", label: "Rojo" },
+        ],
+      },
+      {
         id: "visera",
         label: "Visera",
         valores: [
@@ -290,6 +313,16 @@ export const productos: Producto[] = [
       "Algodón estructurado con logo bordado en alta densidad. El acabado más duradero para uso diario.",
     incluye: ["Logo bordado al frente", "Estructura rígida"],
     opciones: [
+      {
+        id: "color",
+        label: "Color",
+        valores: [
+          { id: "negro", label: "Negro" },
+          { id: "blanco", label: "Blanco" },
+          { id: "azul", label: "Azul" },
+          { id: "rojo", label: "Rojo" },
+        ],
+      },
       {
         id: "bordado",
         label: "Bordados",
@@ -325,10 +358,9 @@ export const productos: Producto[] = [
         label: "Color",
         valores: [
           { id: "negras", label: "Negro", foto: "/productos/calcetas/negras.jpg" },
-          { id: "azules", label: "Azul", foto: "/productos/calcetas/azules.jpg" },
           { id: "blancas", label: "Blanco", foto: "/productos/calcetas/blancas.jpg" },
           { id: "rojas", label: "Rojo", foto: "/productos/calcetas/rojas.jpg" },
-          { id: "verdes", label: "Verde", foto: "/productos/calcetas/verdes.jpg" },
+          { id: "azules", label: "Azul", foto: "/productos/calcetas/azules.jpg" },
         ],
       },
       {
@@ -357,6 +389,7 @@ export const productos: Producto[] = [
         label: "Color",
         valores: [
           { id: "negro", label: "Negro", foto: "/productos/cinturon/negro.jpg" },
+          { id: "blanco", label: "Blanco" },
           { id: "rojo", label: "Rojo", foto: "/productos/cinturon/rojo.jpg" },
           { id: "azul", label: "Azul", foto: "/productos/cinturon/azul.jpg" },
         ],
@@ -562,10 +595,118 @@ export function tituloTecnica(slug: string): string | null {
   return tecnicas.find((t) => t.slug === slug)?.titulo ?? null;
 }
 
-export function tipoDeModelo(modelo: ModeloUniforme): string {
-  const nombre = getProducto(modelo.casacaSlug)?.nombre ?? "";
-  const sinPrefijo = nombre.replace(/^Casaca\s+/i, "");
-  return sinPrefijo.charAt(0).toUpperCase() + sinPrefijo.slice(1);
+/**
+ * El color con el que se pinta cada círculo del armador, por id de valor. Las
+ * calcetas usan el plural ("negras") y el resto el singular ("negro"), así que
+ * el mapa cubre las dos formas.
+ */
+export const muestrasDeColor: Record<string, string> = {
+  negro: "#1a1a1a",
+  negras: "#1a1a1a",
+  blanco: "#ffffff",
+  blancas: "#ffffff",
+  gris: "#9ca3af",
+  azul: "#1e3a8a",
+  azules: "#1e3a8a",
+  rojo: "#c8102e",
+  rojas: "#c8102e",
+  verde: "#15803d",
+  verdes: "#15803d",
+};
+
+/**
+ * A qué pieza del armador pertenece cada producto. El color se guarda por pieza
+ * y no por producto: así, si el cliente cambia de gorra de algodón a dry-fit o
+ * el pantalón pasa a corte dama, el color elegido se conserva.
+ */
+const piezaPorProducto: Record<string, PiezaConColor> = {
+  "gorra-bordada-6-paneles": "gorra",
+  "gorra-drifit": "gorra",
+  "pantalon-clasico": "pantalon",
+  "pantalon-dama": "pantalon",
+  "calcetas-sublimadas": "calcetas",
+  "cinturon-beisbol": "cinturon",
+};
+
+export function piezaConColor(slug: string): PiezaConColor | undefined {
+  return piezaPorProducto[slug];
+}
+
+/** Los colores que ofrece un producto, o vacío si no tiene opción de color. */
+export function coloresDe(slug: string): OpcionValor[] {
+  return getProducto(slug)?.opciones.find((o) => o.id === "color")?.valores ?? [];
+}
+
+/**
+ * Una tarjeta de "Prenda por prenda". Puede ser un producto suelto —pantalón,
+ * gorra, calcetas, cinturón— o un modelo de casaca. En el segundo caso la
+ * tarjeta muestra el diseño (foto y nombre del modelo) pero cotiza y abre el
+ * producto de casaca con el que se produce.
+ */
+export type EntradaCatalogo = {
+  id: string;
+  filtro: FiltroCatalogo;
+  nombre: string;
+  foto?: string;
+  producto: Producto;
+  modelo?: ModeloUniforme;
+};
+
+/**
+ * Las tarjetas del catálogo, en el orden en que se muestran.
+ *
+ * Los productos de casaca no entran por su cuenta: en su lugar van los modelos,
+ * que es lo que el cliente reconoce. Los tres acabados del armador tampoco,
+ * porque son solo para ponerle precio al paquete.
+ */
+export function entradasDelCatalogo(): EntradaCatalogo[] {
+  const deModelos: EntradaCatalogo[] = [];
+  for (const modelo of modelos) {
+    const producto = getProducto(modelo.casacaSlug);
+    if (!producto) continue;
+    deModelos.push({
+      id: modelo.slug,
+      filtro: modelo.genero,
+      nombre: modelo.nombre,
+      foto: modelo.foto,
+      producto,
+      modelo,
+    });
+  }
+
+  const deProductos: EntradaCatalogo[] = productos
+    .filter((prod) => !prod.soloEnArmador && prod.categoria !== "casacas")
+    .map((producto) => ({
+      id: producto.slug,
+      filtro: producto.categoria as FiltroCatalogo,
+      nombre: producto.nombre,
+      foto: producto.foto,
+      producto,
+    }));
+
+  return [...deModelos, ...deProductos];
+}
+
+/**
+ * La muestra que se ve sin abrir el catálogo completo.
+ *
+ * Va tomando una entrada de cada filtro por turnos hasta llenar el tope. Si
+ * simplemente se cortaran las primeras 12, las 17 casacas se comerían la
+ * cuadrícula y parecería que no se venden pantalones ni gorras.
+ */
+export function muestraDelCatalogo(entradas: EntradaCatalogo[], tope: number): EntradaCatalogo[] {
+  const porFiltro = categorias.map((c) => entradas.filter((e) => e.filtro === c.id));
+  const elegidas = new Set<EntradaCatalogo>();
+
+  for (let vuelta = 0; elegidas.size < tope; vuelta++) {
+    if (!porFiltro.some((grupo) => grupo[vuelta])) break;
+    for (const grupo of porFiltro) {
+      if (grupo[vuelta] && elegidas.size < tope) elegidas.add(grupo[vuelta]);
+    }
+  }
+
+  // Se devuelven en el orden original para que la cuadrícula quede agrupada.
+  return entradas.filter((e) => elegidas.has(e));
 }
 
 /** Nombre legible del modelo, listo para el mensaje de WhatsApp. */
@@ -599,7 +740,7 @@ export const paquetes: Paquete[] = [
     destacado: true,
     items: [
       { productoSlug: "casaca-mixta", porJugador: 1, segun: "tecnica" },
-      { productoSlug: "pantalon-clasico", porJugador: 1 },
+      { productoSlug: "pantalon-clasico", porJugador: 1, segun: "pantalon" },
       { productoSlug: "gorra-bordada-6-paneles", porJugador: 1, segun: "gorra" },
     ],
   },
@@ -612,7 +753,7 @@ export const paquetes: Paquete[] = [
       "El uniforme completo más los accesorios que amarran el look: calcetas y cinturón a juego.",
     items: [
       { productoSlug: "casaca-mixta", porJugador: 1, segun: "tecnica" },
-      { productoSlug: "pantalon-clasico", porJugador: 1 },
+      { productoSlug: "pantalon-clasico", porJugador: 1, segun: "pantalon" },
       { productoSlug: "gorra-bordada-6-paneles", porJugador: 1, segun: "gorra" },
       { productoSlug: "calcetas-sublimadas", porJugador: 1 },
       { productoSlug: "cinturon-beisbol", porJugador: 1 },

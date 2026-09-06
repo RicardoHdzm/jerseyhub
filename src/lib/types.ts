@@ -1,7 +1,22 @@
+/**
+ * Las piezas del paquete a las que se les elige color en el armador. El color
+ * se guarda por pieza, no por producto: así sobrevive a cambiar de gorra o de
+ * corte de pantalón.
+ */
+export type PiezaConColor = "gorra" | "pantalon" | "calcetas" | "cinturon";
+
 export type CategoriaId = "casacas" | "gorras" | "pantalones" | "accesorios";
 
+/**
+ * Los filtros de "Prenda por prenda". No son las categorías de producto: las
+ * casacas no se listan por técnica (sublimada, bordada, dry-fit) sino por
+ * corte, porque cualquier modelo se puede producir con cualquier acabado. Lo
+ * que se muestra en esas dos pestañas son los modelos, no los productos.
+ */
+export type FiltroCatalogo = "caballero" | "dama" | "pantalones" | "gorras" | "accesorios";
+
 export type Categoria = {
-  id: CategoriaId;
+  id: FiltroCatalogo;
   nombre: string;
   /** Renglón de apoyo bajo el filtro. Opcional: si falta, no se dibuja nada. */
   descripcion?: string;
@@ -85,10 +100,10 @@ export type PaqueteItem = {
   productoSlug: string;
   /**
    * Qué decisión del armador manda sobre esta pieza: la casaca toma su precio
-   * de la técnica del paso 3 y la gorra del tipo del paso 4. El resto de las
-   * piezas son fijas.
+   * de la técnica, la gorra del tipo elegido y el pantalón del corte del modelo
+   * de referencia. El resto de las piezas son fijas.
    */
-  segun?: "tecnica" | "gorra";
+  segun?: "tecnica" | "gorra" | "pantalon";
   /** Piezas de este producto por jugador. */
   porJugador: number;
   /** Opciones preseleccionadas: { opcionId: valorId } */

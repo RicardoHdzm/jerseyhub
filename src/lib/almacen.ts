@@ -1,5 +1,5 @@
 import { jugadoresPorDefecto } from "@/lib/config";
-import type { JugadorRoster, LineaCotizacion } from "@/lib/types";
+import type { JugadorRoster, LineaCotizacion, PiezaConColor } from "@/lib/types";
 
 /**
  * La cotización vive en localStorage y se lee con useSyncExternalStore, para que
@@ -16,6 +16,8 @@ export type EstadoCotizacion = {
   tecnica: string;
   /** Slug del producto de gorra elegido, o "" si todavía no elige. */
   gorra: string;
+  /** Color por pieza del paquete: { gorra: "negro", calcetas: "rojas", ... } */
+  colores: Partial<Record<PiezaConColor, string>>;
   /** Nombres, números y tallas. Opcional: se puede cotizar sin llenarla. */
   roster: JugadorRoster[];
   equipo: string;
@@ -28,6 +30,7 @@ export const COTIZACION_VACIA: EstadoCotizacion = {
   modelo: "",
   tecnica: "",
   gorra: "",
+  colores: {},
   roster: [],
   equipo: "",
   nota: "",
@@ -58,6 +61,7 @@ function interpretar(texto: string | null): EstadoCotizacion {
       modelo: guardado.modelo ?? "",
       tecnica: guardado.tecnica ?? "",
       gorra: guardado.gorra ?? "",
+      colores: guardado.colores ?? {},
       roster: Array.isArray(guardado.roster) ? guardado.roster : [],
       equipo: guardado.equipo ?? "",
       nota: guardado.nota ?? "",
