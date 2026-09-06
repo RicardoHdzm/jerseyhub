@@ -41,8 +41,8 @@ export function Hero() {
         <div className="text-center lg:col-start-1 lg:row-start-1 lg:text-left">
           <p className="etiqueta text-base text-tinta sm:text-lg">Bienvenido a {negocio.nombre}</p>
           <h1 className="titulo mt-4 text-5xl sm:text-6xl lg:text-7xl">
-            Es el momento de
-            <span className="text-dorado"> llevar tu estilo al campo</span>
+            Es el momento de llevar
+            <span className="text-dorado"> tu nueva piel al campo de juego</span>
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-tenue lg:mx-0">
             Hacemos el jersey de tu equipo favorito en su diseño original, o{" "}
@@ -57,7 +57,7 @@ export function Hero() {
               href="#paquetes"
               className="rounded-xl bg-tinta px-6 py-3.5 text-center font-semibold text-white transition-colors hover:bg-black"
             >
-              Armemos un paquete
+              Cotiza un paquete
             </a>
             <a
               href={linkWhatsApp(

@@ -94,13 +94,13 @@ export default function Inicio() {
         fondo="tinta"
         separador={false}
         etiqueta="Paquetes de equipo"
-        titulo="Arma el uniforme completo"
+        titulo="Arma tu uniforme completo"
         intro="Combinaciones listas con precio por jugador. Agrega una y después ajústala pieza por pieza como quieras."
       >
         <Paquetes />
       </Seccion>
 
-      <Seccion id="catalogo" fondo="papel" etiqueta="Catálogo" titulo="Prenda por prenda">
+      <Seccion id="catalogo" fondo="papel" etiqueta="Catálogo" titulo="Nuestros Productos">
         <Catalogo />
       </Seccion>
 
@@ -108,7 +108,7 @@ export default function Inicio() {
         id="testimonios"
         fondo="tinta"
         etiqueta="Lo que dicen los equipos"
-        titulo="Ya juegan con lo nuestro"
+        titulo="Que visten JerseyHub"
         intro="Reseñas de equipos que armaron su uniforme con nosotros."
       >
         <Testimonios />
@@ -132,7 +132,7 @@ export default function Inicio() {
       <section className="bg-tinta text-white">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-5 py-16 text-center lg:flex-row lg:items-center lg:justify-between lg:py-20 lg:text-left">
           <div>
-            <h2 className="titulo text-4xl sm:text-5xl">¿Ya sabes qué quieres?</h2>
+            <h2 className="titulo text-4xl sm:text-5xl">¿Estás listo?</h2>
             <p className="mx-auto mt-3 max-w-xl text-white/70 lg:mx-0">
               Mándanos tu idea, el logo del equipo o una foto de referencia y te regresamos una
               propuesta de diseño sin costo.
