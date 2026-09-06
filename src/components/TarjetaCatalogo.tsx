@@ -23,7 +23,7 @@ export function TarjetaCatalogo({
   /** La del catálogo completo, con menos aire y tipografía más chica. */
   compacta?: boolean;
 }) {
-  const { producto, modelo, nombre, foto } = entrada;
+  const { producto, modelo, nombre, foto, variante, destacado } = entrada;
 
   return (
     <button
@@ -41,7 +41,7 @@ export function TarjetaCatalogo({
         <div className="h-full w-full transition-transform duration-300 group-hover:scale-105">
           <ProductoImagen producto={producto} foto={foto} sizes="(min-width: 1024px) 280px, 45vw" />
         </div>
-        {producto.destacado && !modelo && (
+        {destacado && (
           <span className="absolute left-3 top-3 rounded-full bg-dorado px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-tinta">
             Popular
           </span>
@@ -58,6 +58,7 @@ export function TarjetaCatalogo({
 
       <div className={`flex flex-1 flex-col ${compacta ? "px-3 py-3" : "p-4"}`}>
         <h3 className={`titulo leading-tight ${compacta ? "text-lg" : "text-xl"}`}>{nombre}</h3>
+        {variante && <p className="mt-1 text-xs text-tenue">{variante.label}</p>}
         <div className={compacta ? "mt-2" : "mt-4 pt-2"}>
           <p className="text-[11px] uppercase tracking-wide text-tenue">Desde</p>
           <p className={`titulo leading-none ${compacta ? "text-xl" : "text-2xl"}`}>

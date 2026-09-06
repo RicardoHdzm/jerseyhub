@@ -100,19 +100,22 @@ export function Catalogo() {
       </div>
 
       {ocultas > 0 && (
-        <button
-          type="button"
-          onClick={() => setVerTodo(true)}
-          className="mt-6 w-full rounded-xl border border-linea py-3 text-sm font-semibold text-tenue transition-colors hover:border-dorado hover:text-tinta"
-        >
-          Hay {ocultas} {ocultas === 1 ? "prenda más" : "prendas más"} — ver catálogo completo
-        </button>
+        <div className="mt-6 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setVerTodo(true)}
+            className="rounded-full border border-linea px-5 py-2 text-sm font-semibold text-tenue transition-colors hover:border-dorado hover:text-tinta"
+          >
+            Mostrar más
+          </button>
+        </div>
       )}
 
       {abierta && (
         <ModalProducto
           producto={abierta.producto}
           modelo={abierta.modelo}
+          variante={abierta.variante}
           onCerrar={() => setAbierta(null)}
         />
       )}

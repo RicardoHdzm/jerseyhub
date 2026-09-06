@@ -19,11 +19,11 @@ import type {
 export const categorias: Categoria[] = [
   {
     id: "caballero",
-    nombre: "Corte caballero",
+    nombre: "Casaca Caballero",
   },
   {
     id: "dama",
-    nombre: "Corte dama",
+    nombre: "Casaca Dama",
   },
   {
     id: "pantalones",
@@ -33,7 +33,7 @@ export const categorias: Categoria[] = [
   {
     id: "gorras",
     nombre: "Gorras",
-    descripcion: "De algodón o en tela dry-fit, con el logo de tu equipo bordado al frente.",
+    descripcion: "De algodón o en tela dry-fit, con el logo de tu equipo al frente.",
   },
   {
     id: "accesorios",
@@ -59,14 +59,18 @@ const corte: Opcion = {
  * tu publicación. Sustitúyelo por la URL exacta del anuncio (la que sale al
  * abrir tu publicación), o borra la línea `mercadoLibre` del producto para que
  * el botón no aparezca.
+ *
+ * Lo llevan las cuatro casacas del catálogo, que son las que se venden por
+ * pieza. Los tres acabados del armador no: ahí se cotiza el equipo completo.
  */
-const ML_EJEMPLO_GORRA = "https://listado.mercadolibre.com.mx/gorra-beisbol-personalizada";
+const ML_EJEMPLO_CASACA = "https://listado.mercadolibre.com.mx/jersey-beisbol-personalizado";
 
 // --- Productos -------------------------------------------------------------
 
 export const productos: Producto[] = [
   {
     slug: "casaca-sublimada",
+    mercadoLibre: ML_EJEMPLO_CASACA,
     nombre: "Casaca sublimada",
     foto: "/productos/jerseys/sublimado/whitesox-01.avif",
     categoria: "casacas",
@@ -81,6 +85,7 @@ export const productos: Producto[] = [
   },
   {
     slug: "casaca-bordada",
+    mercadoLibre: ML_EJEMPLO_CASACA,
     nombre: "Casaca bordada",
     foto: "/productos/jerseys/bordado/dodgers-01.avif",
     categoria: "casacas",
@@ -89,23 +94,13 @@ export const productos: Producto[] = [
     color: "#1e3a8a",
     colorSecundario: "#f8fafc",
     descripcion:
-      "Nombre, número y logo aplicados en twill bordado sobre la tela, no sublimados. Es el acabado con relieve y el más resistente al uso y a los lavados.",
-    incluye: ["Twill bordado en pecho y espalda", "Botonado completo", "Acabado con relieve"],
-    opciones: [
-      corte,
-      {
-        id: "alcance",
-        label: "Qué va bordado",
-        valores: [
-          { id: "completo", label: "Logo, nombre y número" },
-          { id: "logo-numero", label: "Logo y número", extra: -60 },
-          { id: "solo-logo", label: "Solo el logo del pecho", extra: -110 },
-        ],
-      },
-    ],
+      "Nombre, número y logo aplicados en twill sobre la tela, no sublimados. Es el acabado con relieve y el más resistente al uso y a los lavados.",
+    incluye: ["Twill en pecho y espalda", "Botonado completo", "Acabado con relieve"],
+    opciones: [corte],
   },
   {
     slug: "casaca-drifit",
+    mercadoLibre: ML_EJEMPLO_CASACA,
     nombre: "Casaca dry-fit",
     foto: "/productos/jerseys/drifit/braves-01.avif",
     categoria: "casacas",
@@ -119,6 +114,7 @@ export const productos: Producto[] = [
   },
   {
     slug: "casaca-dama",
+    mercadoLibre: ML_EJEMPLO_CASACA,
     nombre: "Casaca corte dama",
     foto: "/productos/jerseys/dama/angels-01.avif",
     categoria: "casacas",
@@ -127,18 +123,8 @@ export const productos: Producto[] = [
     colorSecundario: "#f5f3ff",
     descripcion:
       "Corte entallado con costados en malla y largo pensado para softbol. Sublimado full color.",
-    incluye: ["Corte entallado", "Costados en malla", "Nombre y número"],
-    opciones: [
-      {
-        id: "cuello",
-        label: "Cuello",
-        valores: [
-          { id: "v", label: "V" },
-          { id: "redondo", label: "Redondo" },
-          { id: "botonado", label: "Botonado completo", extra: 70 },
-        ],
-      },
-    ],
+    incluye: ["Corte entallado", "Cuello V", "Costados en malla"],
+    opciones: [],
   },
   /*
     Las tres técnicas con las que se decora la casaca del paquete. Son productos
@@ -190,7 +176,7 @@ export const productos: Producto[] = [
   },
   {
     slug: "pantalon-clasico",
-    nombre: "Pantalón clásico liso",
+    nombre: "Pantalón corte caballero",
     categoria: "pantalones",
     precio: 340,
     destacado: true,
@@ -270,7 +256,7 @@ export const productos: Producto[] = [
     colorSecundario: "#f8fafc",
     descripcion:
       "Tela dry-fit con paneles perforados: mucho más fresca que la de algodón. La que piden los equipos que entrenan al rayo del sol.",
-    incluye: ["Tela transpirable", "Paneles perforados", "Logo bordado al frente"],
+    incluye: ["Tela transpirable", "Paneles perforados", "Logo al frente"],
     opciones: [
       {
         id: "color",
@@ -302,7 +288,6 @@ export const productos: Producto[] = [
   },
   {
     slug: "gorra-bordada-6-paneles",
-    mercadoLibre: ML_EJEMPLO_GORRA,
     foto: "/productos/gorras/tela/gorra-algodon.jpg",
     nombre: "Gorra de algodón",
     categoria: "gorras",
@@ -310,8 +295,8 @@ export const productos: Producto[] = [
     color: "#0f172a",
     colorSecundario: "#facc15",
     descripcion:
-      "Algodón estructurado con logo bordado en alta densidad. El acabado más duradero para uso diario.",
-    incluye: ["Logo bordado al frente", "Estructura rígida"],
+      "Algodón estructurado con el logo aplicado en alta densidad. El acabado más duradero para uso diario.",
+    incluye: ["Logo al frente", "Estructura rígida"],
     opciones: [
       {
         id: "color",
@@ -321,15 +306,6 @@ export const productos: Producto[] = [
           { id: "blanco", label: "Blanco" },
           { id: "azul", label: "Azul" },
           { id: "rojo", label: "Rojo" },
-        ],
-      },
-      {
-        id: "bordado",
-        label: "Bordados",
-        valores: [
-          { id: "frente", label: "Solo frente" },
-          { id: "frente-lado", label: "Frente + lateral", extra: 45 },
-          { id: "completo", label: "Frente + lateral + trasero", extra: 75 },
         ],
       },
       {
@@ -361,14 +337,6 @@ export const productos: Producto[] = [
           { id: "blancas", label: "Blanco", foto: "/productos/calcetas/blancas.jpg" },
           { id: "rojas", label: "Rojo", foto: "/productos/calcetas/rojas.jpg" },
           { id: "azules", label: "Azul", foto: "/productos/calcetas/azules.jpg" },
-        ],
-      },
-      {
-        id: "largo",
-        label: "Largo",
-        valores: [
-          { id: "alta", label: "Alta (bajo rodilla)" },
-          { id: "media", label: "Media pantorrilla" },
         ],
       },
     ],
@@ -650,6 +618,14 @@ export type EntradaCatalogo = {
   foto?: string;
   producto: Producto;
   modelo?: ModeloUniforme;
+  /** El color concreto, cuando la tarjeta es una variante de color. */
+  variante?: OpcionValor;
+  /**
+   * Si lleva la insignia de Popular. Va en la entrada y no se lee del
+   * producto porque una prenda con tres colores son tres tarjetas: la
+   * insignia se pone en la primera y no tres veces seguidas.
+   */
+  destacado?: boolean;
 };
 
 /**
@@ -674,15 +650,42 @@ export function entradasDelCatalogo(): EntradaCatalogo[] {
     });
   }
 
-  const deProductos: EntradaCatalogo[] = productos
-    .filter((prod) => !prod.soloEnArmador && prod.categoria !== "casacas")
-    .map((producto) => ({
+  const deProductos: EntradaCatalogo[] = [];
+  for (const producto of productos) {
+    if (producto.soloEnArmador || producto.categoria === "casacas") continue;
+    const filtro = producto.categoria as FiltroCatalogo;
+
+    /*
+      Un color es una tarjeta propia solo si tiene su propia foto. Sin ese
+      filtro, el cinturón blanco —que todavía no tiene foto— saldría con la
+      imagen del negro y la tarjeta mentiría. Las gorras caen solas en el caso
+      de abajo: tienen colores, pero una sola foto.
+    */
+    const conFoto = coloresDe(producto.slug).filter((v) => v.foto);
+    if (conFoto.length > 0) {
+      conFoto.forEach((variante, i) => {
+        deProductos.push({
+          id: `${producto.slug}-${variante.id}`,
+          filtro,
+          nombre: producto.nombre,
+          foto: variante.foto,
+          producto,
+          variante,
+          destacado: producto.destacado && i === 0,
+        });
+      });
+      continue;
+    }
+
+    deProductos.push({
       id: producto.slug,
-      filtro: producto.categoria as FiltroCatalogo,
+      filtro,
       nombre: producto.nombre,
       foto: producto.foto,
       producto,
-    }));
+      destacado: producto.destacado,
+    });
+  }
 
   return [...deModelos, ...deProductos];
 }
