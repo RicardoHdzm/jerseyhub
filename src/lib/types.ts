@@ -61,6 +61,8 @@ export type Producto = {
    * comprar una sola pieza. Si se deja vacío, el botón no aparece.
    */
   mercadoLibre?: string;
+  /** Se puede ver y probar en el local. Saca el aviso de sucursal en la ficha. */
+  disponibleEnSucursal?: boolean;
   destacado?: boolean;
   incluye: string[];
   opciones: Opcion[];
@@ -87,6 +89,8 @@ export type ModeloUniforme = {
    * porque cualquier modelo se puede producir con cualquier acabado.
    */
   casacaSlug: string;
+  /** Lleva la insignia de Popular en el catálogo. */
+  destacado?: boolean;
   /** Foto del modelo. Si existe, se usa en vez de la ilustración. */
   foto?: string;
   /** Ilustración de respaldo cuando no hay foto. */

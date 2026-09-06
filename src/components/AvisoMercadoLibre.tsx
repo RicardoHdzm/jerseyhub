@@ -22,9 +22,9 @@ export function AvisoMercadoLibre({ href }: { href: string }) {
           <IconoTienda className="h-4 w-4" />
         </span>
         <span className="text-sm leading-tight">
-          <span className="font-semibold">¿Solo quieres una pieza?</span>
+          <span className="font-semibold">Disponible en línea</span>
           <br />
-          <span className="text-xs text-tenue">Cómprala directo en Mercado Libre</span>
+          <span className="text-xs text-tenue">Cómprala directo desde Mercado Libre</span>
         </span>
       </span>
       <IconoEnlaceExterno className="h-3.5 w-3.5 shrink-0 text-tenue" />

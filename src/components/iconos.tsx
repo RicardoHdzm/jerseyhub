@@ -12,6 +12,7 @@ import {
   faCrown,
   faFeather,
   faGem,
+  faLocationDot,
   faGripVertical,
   faQuoteLeft,
   faStar,
@@ -108,6 +109,10 @@ export function IconoComillas({ className = "h-5 w-5" }: Props) {
 
 export function IconoCuadricula({ className = "h-4 w-4" }: Props) {
   return <FontAwesomeIcon icon={faGripVertical} className={className} />;
+}
+
+export function IconoUbicacion({ className = "h-4 w-4" }: Props) {
+  return <FontAwesomeIcon icon={faLocationDot} className={className} />;
 }
 
 export function IconoTienda({ className = "h-4 w-4" }: Props) {

@@ -4,7 +4,8 @@ import { useEffect, useMemo } from "react";
 
 import { ProductoImagen } from "@/components/ProductoImagen";
 import { AvisoMercadoLibre } from "@/components/AvisoMercadoLibre";
-import { IconoCerrar, IconoCheck, IconoWhatsApp } from "@/components/iconos";
+import { AvisoSucursal } from "@/components/AvisoSucursal";
+import { IconoCerrar, IconoWhatsApp } from "@/components/iconos";
 import { negocio } from "@/lib/config";
 import { muestrasDeColor } from "@/data/catalog";
 import { linkWhatsApp, precioMXN } from "@/lib/quote";
@@ -95,10 +96,14 @@ export function ModalProducto({
             />
           </div>
 
-          <div className="flex flex-col p-5 sm:p-6">
+          {/*
+            Centrado en vertical: la ficha quedó con poco contenido —nombre,
+            color y descripción— y anclada arriba se veía abandonada en la mitad
+            derecha de la caja.
+          */}
+          <div className="flex flex-col justify-center p-5 sm:p-6">
             <div>
-              <p className="etiqueta text-tinta">Desde {precioMXN(producto.precio)} por pieza</p>
-              <h2 className="titulo mt-1 text-4xl">{titulo}</h2>
+              <h2 className="titulo text-4xl">{titulo}</h2>
               {variante && (
                 <p className="mt-2 flex items-center gap-2 text-sm font-semibold">
                   <span
@@ -114,26 +119,10 @@ export function ModalProducto({
               </p>
             </div>
 
-            {/*
-              La ficha va en columna y no en renglón corrido: con la lista
-              vertical y los datos de abajo, la mitad derecha deja de ser un
-              bloque de texto suelto flotando en el blanco.
-            */}
-            <div className="mt-6 border-t border-linea pt-5">
-              <p className="etiqueta text-[11px] text-tenue">Qué incluye</p>
-              <ul className="mt-3 space-y-2 text-sm">
-                {producto.incluye.map((item) => (
-                  <li key={item} className="flex items-start gap-2">
-                    <IconoCheck className="mt-0.5 h-4 w-4 shrink-0 text-tinta" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {producto.mercadoLibre && (
-              <div className="mt-auto pt-6">
-                <AvisoMercadoLibre href={producto.mercadoLibre} />
+            {(producto.disponibleEnSucursal || producto.mercadoLibre) && (
+              <div className="mt-6 space-y-2">
+                {producto.disponibleEnSucursal && <AvisoSucursal />}
+                {producto.mercadoLibre && <AvisoMercadoLibre href={producto.mercadoLibre} />}
               </div>
             )}
           </div>
@@ -147,7 +136,7 @@ export function ModalProducto({
         <div className="bg-tinta p-5 text-white">
           <div className="flex flex-wrap items-center gap-4">
             <div>
-              <p className="text-xs text-white/60">Precio por pieza</p>
+              <p className="text-xs text-white/60">Precio</p>
               <p className="titulo text-3xl leading-none">{precioMXN(producto.precio)}</p>
             </div>
 

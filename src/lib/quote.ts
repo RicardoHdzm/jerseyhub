@@ -38,14 +38,22 @@ export function precioUnitario(producto: Producto, opciones: Record<string, stri
   return precio;
 }
 
-/** Etiquetas legibles de las opciones elegidas, en el orden del catálogo. */
-export function etiquetasOpciones(producto: Producto, opciones: Record<string, string>): string[] {
-  return producto.opciones
-    .map((opcion) => {
-      const valor = opcion.valores.find((v) => v.id === opciones[opcion.id]);
-      return valor ? `${opcion.label}: ${valor.label}` : null;
-    })
-    .filter((texto): texto is string => texto !== null);
+/**
+ * Lo único que el cliente decide de verdad en el armador es el color: el corte,
+ * el largo, la visera y el ajuste se quedan en su valor por omisión porque
+ * nadie los elige. Listarlos en la cotización hacía parecer que sí, y el
+ * renglón salía con "Corte: Adulto · Largo: Recto" que nadie pidió.
+ */
+function etiquetasElegidas(producto: Producto, opciones: Record<string, string>): string[] {
+  const color = producto.opciones.find((o) => o.id === "color");
+  const valor = color?.valores.find((v) => v.id === opciones.color);
+  return valor ? [`Color: ${valor.label}`] : [];
+}
+
+/** La foto del color elegido, para la miniatura de la cotización. */
+export function fotoDeLinea(producto: Producto, opciones: Record<string, string>) {
+  const color = producto.opciones.find((o) => o.id === "color");
+  return color?.valores.find((v) => v.id === opciones.color)?.foto;
 }
 
 /** Identificador estable de una línea: mismo producto con distintas opciones son líneas distintas. */
@@ -62,6 +70,8 @@ export type LineaResuelta = {
   unitario: number;
   subtotal: number;
   detalle: string[];
+  /** Foto de la variante de color, si el producto la tiene. */
+  foto?: string;
 };
 
 export type Resumen = {
@@ -103,7 +113,8 @@ export function calcularResumen(lineas: LineaCotizacion[]): Resumen {
       producto,
       unitario,
       subtotal: unitario * linea.cantidad,
-      detalle: etiquetasOpciones(producto, linea.opciones),
+      detalle: etiquetasElegidas(producto, linea.opciones),
+      foto: fotoDeLinea(producto, linea.opciones),
     });
   }
 

@@ -71,6 +71,7 @@ export const productos: Producto[] = [
   {
     slug: "casaca-sublimada",
     mercadoLibre: ML_EJEMPLO_CASACA,
+    disponibleEnSucursal: true,
     nombre: "Casaca sublimada",
     foto: "/productos/jerseys/sublimado/whitesox-01.avif",
     categoria: "casacas",
@@ -86,6 +87,7 @@ export const productos: Producto[] = [
   {
     slug: "casaca-bordada",
     mercadoLibre: ML_EJEMPLO_CASACA,
+    disponibleEnSucursal: true,
     nombre: "Casaca bordada",
     foto: "/productos/jerseys/bordado/dodgers-01.avif",
     categoria: "casacas",
@@ -101,6 +103,7 @@ export const productos: Producto[] = [
   {
     slug: "casaca-drifit",
     mercadoLibre: ML_EJEMPLO_CASACA,
+    disponibleEnSucursal: true,
     nombre: "Casaca dry-fit",
     foto: "/productos/jerseys/drifit/braves-01.avif",
     categoria: "casacas",
@@ -115,6 +118,7 @@ export const productos: Producto[] = [
   {
     slug: "casaca-dama",
     mercadoLibre: ML_EJEMPLO_CASACA,
+    disponibleEnSucursal: true,
     nombre: "Casaca corte dama",
     foto: "/productos/jerseys/dama/angels-01.avif",
     categoria: "casacas",
@@ -389,6 +393,7 @@ export const modelos: ModeloUniforme[] = [
   {
     slug: "clasico",
     nombre: "Clásico",
+    destacado: true,
     descripcion: "Blanco con letra script azul y número a contraste.",
     genero: "caballero",
     casacaSlug: "casaca-bordada",
@@ -461,6 +466,7 @@ export const modelos: ModeloUniforme[] = [
   {
     slug: "clasico-dama",
     nombre: "Clásico",
+    destacado: true,
     descripcion: "El script azul sobre blanco, en corte entallado.",
     genero: "dama",
     casacaSlug: "casaca-dama",
@@ -647,6 +653,7 @@ export function entradasDelCatalogo(): EntradaCatalogo[] {
       foto: modelo.foto,
       producto,
       modelo,
+      destacado: modelo.destacado,
     });
   }
 

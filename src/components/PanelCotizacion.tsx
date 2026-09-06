@@ -6,7 +6,7 @@ import { useCotizacion } from "@/components/CotizacionProvider";
 import { ProductoImagen } from "@/components/ProductoImagen";
 import { IconoCerrar, IconoMas, IconoMenos, IconoWhatsApp } from "@/components/iconos";
 import { ListaJugadores } from "@/components/ListaJugadores";
-import { nombreModelo, tituloTecnica } from "@/data/catalog";
+import { getModelo, nombreModelo, tituloTecnica } from "@/data/catalog";
 import { negocio } from "@/lib/config";
 import { linkWhatsApp, mensajeWhatsApp, precioMXN } from "@/lib/quote";
 
@@ -80,6 +80,7 @@ export function PanelCotizacion() {
 
   const vacio = resumen.lineas.length === 0;
   const modeloElegido = nombreModelo(modelo);
+  const disenoElegido = modelo ? getModelo(modelo) : undefined;
   const tecnicaElegida = tecnica ? tituloTecnica(tecnica) : null;
   const mensaje = mensajeWhatsApp(resumen, {
     equipo,
@@ -179,39 +180,56 @@ export function PanelCotizacion() {
               )}
 
               <ul className="mt-5 space-y-3">
-                {resumen.lineas.map((l) => (
-                  <li key={l.linea.id} className="tarjeta flex gap-3 p-3">
-                    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-arena">
-                      <ProductoImagen producto={l.producto} sizes="64px" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-start justify-between gap-2">
-                        <p className="text-sm font-semibold leading-tight">{l.producto.nombre}</p>
-                        <button
-                          type="button"
-                          onClick={() => quitar(l.linea.id)}
-                          aria-label={`Quitar ${l.producto.nombre}`}
-                          className="text-xs text-tenue transition-colors hover:text-tinta"
-                        >
-                          Quitar
-                        </button>
+                {resumen.lineas.map((l) => {
+                  /*
+                    La casaca del paquete se cotiza por acabado, y esos productos
+                    no tienen foto propia: la que le toca es la del modelo de
+                    referencia, que es el diseño que se va a producir. Su nombre
+                    también va en el renglón, porque "Casaca bordado completo"
+                    solo dice la técnica.
+                  */
+                  const esCasaca = l.producto.categoria === "casacas";
+                  const foto = esCasaca ? disenoElegido?.foto : l.foto;
+                  const detalle = esCasaca && disenoElegido ? [disenoElegido.nombre] : l.detalle;
+
+                  return (
+                    <li key={l.linea.id} className="tarjeta flex gap-3 p-3">
+                      <div
+                        className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-lg ${
+                          esCasaca ? "bg-white" : "bg-arena"
+                        }`}
+                      >
+                        <ProductoImagen producto={l.producto} foto={foto} sizes="64px" />
                       </div>
-                      {l.detalle.length > 0 && (
-                        <p className="mt-0.5 text-xs text-tenue">{l.detalle.join(" · ")}</p>
-                      )}
-                      <div className="mt-2 flex items-center justify-between gap-2">
-                        <Stepper
-                          valor={l.linea.cantidad}
-                          onCambio={(n) => cambiarCantidad(l.linea.id, n)}
-                        />
-                        <div className="text-right">
-                          <p className="text-sm font-bold">{precioMXN(l.subtotal)}</p>
-                          <p className="text-[11px] text-tenue">{precioMXN(l.unitario)} c/u</p>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-start justify-between gap-2">
+                          <p className="text-sm font-semibold leading-tight">{l.producto.nombre}</p>
+                          <button
+                            type="button"
+                            onClick={() => quitar(l.linea.id)}
+                            aria-label={`Quitar ${l.producto.nombre}`}
+                            className="text-xs text-tenue transition-colors hover:text-tinta"
+                          >
+                            Quitar
+                          </button>
+                        </div>
+                        {detalle.length > 0 && (
+                          <p className="mt-0.5 text-xs text-tenue">{detalle.join(" · ")}</p>
+                        )}
+                        <div className="mt-2 flex items-center justify-between gap-2">
+                          <Stepper
+                            valor={l.linea.cantidad}
+                            onCambio={(n) => cambiarCantidad(l.linea.id, n)}
+                          />
+                          <div className="text-right">
+                            <p className="text-sm font-bold">{precioMXN(l.subtotal)}</p>
+                            <p className="text-[11px] text-tenue">{precioMXN(l.unitario)} c/u</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </li>
-                ))}
+                    </li>
+                  );
+                })}
               </ul>
 
               <ListaJugadores />
