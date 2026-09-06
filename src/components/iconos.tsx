@@ -10,7 +10,7 @@ import {
   faChevronDown,
   faCircleHalfStroke,
   faCrown,
-  faFeather,
+  faPenNib,
   faGem,
   faLocationDot,
   faGripVertical,
@@ -96,7 +96,7 @@ export function IconoMitades({ className = "h-6 w-6" }: Props) {
 }
 
 export function IconoPluma({ className = "h-6 w-6" }: Props) {
-  return <FontAwesomeIcon icon={faFeather} className={className} />;
+  return <FontAwesomeIcon icon={faPenNib} className={className} />;
 }
 
 export function IconoDiamante({ className = "h-6 w-6" }: Props) {
