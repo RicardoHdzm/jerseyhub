@@ -252,11 +252,12 @@ body {
       animation: aparecer linear both;
       animation-timeline: view();
       /*
-        Empieza cuando asoma y termina antes de estar del todo dentro: si el
-        rango llega hasta el final de la entrada, las tarjetas altas siguen
-        apareciendo cuando ya las estás leyendo.
+        El rango se mide en píxeles, no en porcentaje del elemento: arranca en
+        cuanto asoma por abajo y dura 300 px de scroll, sea una tarjeta alta o
+        un encabezado de tres líneas. Con porcentajes, un elemento bajito
+        completa su entrada en un puñado de píxeles y aparece de golpe.
       */
-      animation-range: entry 5% entry 45%;
+      animation-range: cover 0% cover 300px;
     }
   }
 }
