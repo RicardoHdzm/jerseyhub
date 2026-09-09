@@ -62,7 +62,7 @@ export function PreguntasFrecuentes() {
             la pregunta que estaba abierta al abrirse otra. Sin estado ni JS.
           */
           name="pregunta-frecuente"
-          className="tarjeta group px-5 py-4 [&_summary::-webkit-details-marker]:hidden"
+          className="tarjeta aparece group px-5 py-4 [&_summary::-webkit-details-marker]:hidden"
         >
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold">
             {item.q}

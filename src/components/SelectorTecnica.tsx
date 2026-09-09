@@ -44,7 +44,7 @@ export function SelectorTecnica() {
             type="button"
             onClick={() => setTecnica(slug)}
             aria-pressed={activo}
-            className={`tarjeta relative flex flex-col text-left transition-colors ${
+            className={`tarjeta aparece relative flex flex-col text-left transition-colors ${
               activo ? "border-dorado" : "hover:border-dorado"
             }`}
           >

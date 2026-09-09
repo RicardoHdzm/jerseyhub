@@ -61,13 +61,16 @@ export function ModalProducto({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
-      <div className="absolute inset-0 bg-black/75" onClick={onCerrar} />
+      <div
+        className="velo-entra absolute inset-0 bg-black/75"
+        onClick={onCerrar}
+      />
 
       <div
         role="dialog"
         aria-modal="true"
         aria-label={titulo}
-        className="relative flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-2xl border border-linea bg-papel sm:max-w-4xl sm:rounded-2xl"
+        className="modal-entra relative flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-2xl border border-linea bg-papel sm:max-w-4xl sm:rounded-2xl"
       >
         <button
           type="button"

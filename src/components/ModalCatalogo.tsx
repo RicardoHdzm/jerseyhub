@@ -38,13 +38,16 @@ export function ModalCatalogo({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
-      <div className="absolute inset-0 bg-black/75" onClick={onCerrar} />
+      <div
+        className="velo-entra absolute inset-0 bg-black/75"
+        onClick={onCerrar}
+      />
 
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Catálogo completo"
-        className="relative flex max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-t-2xl border border-linea bg-papel sm:rounded-2xl"
+        className="modal-entra relative flex max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-t-2xl border border-linea bg-papel sm:rounded-2xl"
       >
         <div className="flex items-start justify-between gap-4 border-b border-linea px-5 py-4 sm:px-6">
           <div>

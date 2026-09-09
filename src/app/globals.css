@@ -204,6 +204,117 @@ body {
 */
 .trama-hero {
   background-color: var(--color-papel);
-  background-image: radial-gradient(rgba(26, 26, 26, 0.08) 1.2px, transparent 1.2px);
+  background-image: radial-gradient(
+    rgba(26, 26, 26, 0.08) 1.2px,
+    transparent 1.2px
+  );
   background-size: 12px 12px;
+}
+
+/*
+  ───────────────────────────────────────────────────────────────────────────
+  Transiciones
+  ───────────────────────────────────────────────────────────────────────────
+
+  Todo lo de abajo va detrás de un `@supports`. Si el navegador no entiende la
+  propiedad, no pasa nada: el contenido se ve completo y quieto, que es el
+  estado correcto. Nunca al revés — una animación que no corre no puede dejar
+  media página invisible.
+*/
+
+/*
+  Aparición al entrar en pantalla.
+
+  Va con línea de tiempo de scroll (`view()`) y no con JavaScript a propósito:
+  sin JS no hay riesgo de que el observador falle y deje el contenido en
+  opacidad cero, y el elemento que ya está en pantalla al cargar arranca al
+  final de su rango, o sea visible. Cada tarjeta lleva la suya, así que el
+  escalonado sale solo del orden en que van entrando.
+
+  El bloque global de `prefers-reduced-motion` de más arriba no alcanza aquí:
+  una animación con línea de tiempo de scroll no se mide en segundos, así que
+  ponerle `animation-duration: 0` no la apaga. Por eso el `@media` propio.
+*/
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .aparece {
+      animation: aparecer linear both;
+      animation-timeline: view();
+      /*
+        Empieza cuando asoma y termina antes de estar del todo dentro: si el
+        rango llega hasta el final de la entrada, las tarjetas altas siguen
+        apareciendo cuando ya las estás leyendo.
+      */
+      animation-range: entry 5% entry 45%;
+    }
+  }
+}
+
+/*
+  Preguntas frecuentes: abrir y cerrar con altura animada.
+
+  `interpolate-size` es lo que permite animar hacia `auto`; sin eso hay que
+  medir la altura con JavaScript. Como el acordeón es exclusivo, la que se
+  cierra y la que se abre se mueven a la vez y se entiende el intercambio.
+*/
+@supports (interpolate-size: allow-keywords) and (selector(::details-content)) {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+
+  details::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size 0.3s ease,
+      content-visibility 0.3s;
+    transition-behavior: allow-discrete;
+  }
+
+  details[open]::details-content {
+    block-size: auto;
+  }
+}
+
+/*
+  Entrada de los modales. Solo entrada: la salida pediría mantenerlos montados
+  mientras se van, y desmontar de golpe al cerrar no se nota.
+*/
+@keyframes velo-entra {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-entra {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.velo-entra {
+  animation: velo-entra 0.2s ease-out both;
+}
+
+.modal-entra {
+  animation: modal-entra 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
 }

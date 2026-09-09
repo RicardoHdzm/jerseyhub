@@ -28,7 +28,10 @@ export function Testimonios() {
   return (
     <div className="grid gap-4 md:grid-cols-3">
       {testimonios.map((testimonio) => (
-        <figure key={testimonio.nombre} className="tarjeta flex flex-col p-6">
+        <figure
+          key={testimonio.nombre}
+          className="tarjeta aparece flex flex-col p-6"
+        >
           <div className="flex items-start justify-between gap-4">
             <Calificacion estrellas={testimonio.calificacion ?? 5} />
             <IconoComillas className="h-6 w-6 shrink-0 text-tinta/20" />

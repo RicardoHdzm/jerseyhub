@@ -30,7 +30,9 @@ export function TarjetaCatalogo({
       type="button"
       onClick={() => onAbrir(entrada)}
       title={modelo?.descripcion ?? producto.descripcion}
-      className="group tarjeta flex flex-col overflow-hidden text-left transition-colors hover:border-dorado"
+      className={`group tarjeta flex flex-col overflow-hidden text-left transition-[border-color,translate] duration-200 hover:-translate-y-1 hover:border-dorado ${
+        compacta ? "" : "aparece"
+      }`}
     >
       {/*
         Los modelos van sobre blanco y las prendas sueltas sobre arena: las
