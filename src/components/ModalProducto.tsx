@@ -108,7 +108,10 @@ export function ModalProducto({
                 <p className="mt-2 flex items-center gap-2 text-sm font-semibold">
                   <span
                     aria-hidden="true"
-                    style={{ backgroundColor: muestrasDeColor[variante.id] ?? "#9ca3af" }}
+                    style={{
+                      backgroundColor:
+                        muestrasDeColor[variante.id] ?? "#9ca3af",
+                    }}
                     className="h-4 w-4 rounded-full ring-1 ring-linea"
                   />
                   {variante.label}
@@ -122,7 +125,9 @@ export function ModalProducto({
             {(producto.disponibleEnSucursal || producto.mercadoLibre) && (
               <div className="mt-6 space-y-2">
                 {producto.disponibleEnSucursal && <AvisoSucursal />}
-                {producto.mercadoLibre && <AvisoMercadoLibre href={producto.mercadoLibre} />}
+                {producto.mercadoLibre && (
+                  <AvisoMercadoLibre href={producto.mercadoLibre} />
+                )}
               </div>
             )}
           </div>
@@ -137,7 +142,9 @@ export function ModalProducto({
           <div className="flex flex-wrap items-center gap-4">
             <div>
               <p className="text-xs text-white/60">Precio</p>
-              <p className="titulo text-3xl leading-none">{precioMXN(producto.precio)}</p>
+              <p className="titulo text-3xl leading-none">
+                {precioMXN(producto.precio)}
+              </p>
             </div>
 
             <a

@@ -6,6 +6,12 @@ export type Testimonio = {
   texto: string;
   /** Qué le compraron. Sale como pie de la tarjeta. */
   pedido: string;
+  /**
+   * De 1 a 5 estrellas. Es opcional y por omisión son 5, que es lo que trae
+   * una reseña que la persona quiso dejar; si alguna vez llega una de 4,
+   * ponla aquí en lugar de omitir la reseña.
+   */
+  calificacion?: 1 | 2 | 3 | 4 | 5;
 };
 
 /**

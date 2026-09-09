@@ -5,7 +5,11 @@ const CUERPO =
 
 /** Vista previa dibujada, para los modelos que todavía no tienen foto. */
 export function ModeloArte({ modelo }: { modelo: ModeloUniforme }) {
-  const [principal, secundario, detalle] = modelo.colores ?? ["#1e293b", "#94a3b8", "#f8fafc"];
+  const [principal, secundario, detalle] = modelo.colores ?? [
+    "#1e293b",
+    "#94a3b8",
+    "#f8fafc",
+  ];
   const idRecorte = `recorte-${modelo.slug}`;
   const idDegradado = `degradado-${modelo.slug}`;
 
@@ -21,12 +25,24 @@ export function ModeloArte({ modelo }: { modelo: ModeloUniforme }) {
         </linearGradient>
       </defs>
 
-      <path d={CUERPO} fill={modelo.patron === "degradado" ? `url(#${idDegradado})` : principal} />
+      <path
+        d={CUERPO}
+        fill={
+          modelo.patron === "degradado" ? `url(#${idDegradado})` : principal
+        }
+      />
 
       <g clipPath={`url(#${idRecorte})`}>
         {modelo.patron === "rayas" &&
           [0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
-            <rect key={i} x={40 + i * 18} y="20" width="5" height="170" fill={secundario} />
+            <rect
+              key={i}
+              x={40 + i * 18}
+              y="20"
+              width="5"
+              height="170"
+              fill={secundario}
+            />
           ))}
         {modelo.patron === "bloques" && (
           <rect x="0" y="104" width="200" height="96" fill={secundario} />

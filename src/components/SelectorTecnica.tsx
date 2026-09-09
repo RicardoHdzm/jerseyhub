@@ -1,7 +1,13 @@
 "use client";
 
 import { useCotizacion } from "@/components/CotizacionProvider";
-import { IconoCheck, IconoCorona, IconoMitades, IconoPluma } from "@/components/iconos";
+import {
+  IconoCheck,
+  IconoCorona,
+  IconoEstrella,
+  IconoMitades,
+  IconoPluma,
+} from "@/components/iconos";
 import { getProducto, tecnicas } from "@/data/catalog";
 
 /*
@@ -43,7 +49,8 @@ export function SelectorTecnica() {
             }`}
           >
             {badge && (
-              <span className="absolute left-3 top-3 z-10 whitespace-nowrap rounded-full bg-tinta px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
+              <span className="absolute left-3 top-3 z-10 flex items-center gap-1.5 whitespace-nowrap rounded-full bg-tinta px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
+                <IconoEstrella className="h-2.5 w-2.5 text-dorado-claro" />
                 {badge}
               </span>
             )}

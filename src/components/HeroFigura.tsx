@@ -27,7 +27,9 @@ export function HeroFigura() {
     // Sólo con mouse: en una pantalla táctil no hay cursor al que seguir, y
     // quien pidió menos movimiento no quiere que la figura persiga nada.
     const conMouse = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const menosMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const menosMovimiento = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    );
     if (!conMouse.matches || menosMovimiento.matches) return;
 
     let cuadro = 0;
@@ -67,7 +69,10 @@ export function HeroFigura() {
       fuera de vista.
     */
     <div className="relative lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:max-h-[calc(100svh-14rem)]">
-      <div aria-hidden="true" className="panel-hero absolute inset-x-0 -bottom-4 top-[15%]" />
+      <div
+        aria-hidden="true"
+        className="panel-hero absolute inset-x-0 -bottom-4 top-[15%]"
+      />
 
       <div className="relative aspect-4/5">
         {/*

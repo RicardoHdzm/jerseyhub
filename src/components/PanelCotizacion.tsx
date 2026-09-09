@@ -4,13 +4,24 @@ import { useEffect, useRef } from "react";
 
 import { useCotizacion } from "@/components/CotizacionProvider";
 import { ProductoImagen } from "@/components/ProductoImagen";
-import { IconoCerrar, IconoMas, IconoMenos, IconoWhatsApp } from "@/components/iconos";
+import {
+  IconoCerrar,
+  IconoMas,
+  IconoMenos,
+  IconoWhatsApp,
+} from "@/components/iconos";
 import { ListaJugadores } from "@/components/ListaJugadores";
 import { getModelo, nombreModelo, tituloTecnica } from "@/data/catalog";
 import { negocio } from "@/lib/config";
 import { linkWhatsApp, mensajeWhatsApp, precioMXN } from "@/lib/quote";
 
-function Stepper({ valor, onCambio }: { valor: number; onCambio: (n: number) => void }) {
+function Stepper({
+  valor,
+  onCambio,
+}: {
+  valor: number;
+  onCambio: (n: number) => void;
+}) {
   return (
     <div className="flex items-center rounded-lg border border-linea bg-arena">
       <button
@@ -135,8 +146,8 @@ export function PanelCotizacion() {
           <div className="flex flex-1 flex-col items-center justify-center gap-3 px-8 text-center">
             <p className="titulo text-xl text-tenue">Todavía no agregas nada</p>
             <p className="text-sm text-tenue">
-              Elige un paquete armado o agrega prendas sueltas del catálogo para ver el precio
-              estimado de tu equipo.
+              Elige un paquete armado o agrega prendas sueltas del catálogo para
+              ver el precio estimado de tu equipo.
             </p>
             <button
               type="button"
@@ -151,7 +162,9 @@ export function PanelCotizacion() {
             <div className="flex-1 overflow-y-auto px-5 py-4">
               <div className="grid grid-cols-2 gap-3">
                 <label className="block">
-                  <span className="mb-1 block text-xs font-medium text-tenue">Equipo</span>
+                  <span className="mb-1 block text-xs font-medium text-tenue">
+                    Equipo
+                  </span>
                   <input
                     value={equipo}
                     onChange={(e) => setEquipo(e.target.value)}
@@ -160,7 +173,9 @@ export function PanelCotizacion() {
                   />
                 </label>
                 <label className="block">
-                  <span className="mb-1 block text-xs font-medium text-tenue">Jugadores</span>
+                  <span className="mb-1 block text-xs font-medium text-tenue">
+                    Jugadores
+                  </span>
                   <input
                     type="number"
                     min={1}
@@ -175,7 +190,9 @@ export function PanelCotizacion() {
               {modeloElegido && (
                 <p className="mt-3 rounded-lg border border-linea bg-arena px-3 py-2 text-xs text-tenue">
                   Modelo de uniforme:{" "}
-                  <span className="font-semibold text-tinta">{modeloElegido}</span>
+                  <span className="font-semibold text-tinta">
+                    {modeloElegido}
+                  </span>
                 </p>
               )}
 
@@ -190,7 +207,10 @@ export function PanelCotizacion() {
                   */
                   const esCasaca = l.producto.categoria === "casacas";
                   const foto = esCasaca ? disenoElegido?.foto : l.foto;
-                  const detalle = esCasaca && disenoElegido ? [disenoElegido.nombre] : l.detalle;
+                  const detalle =
+                    esCasaca && disenoElegido
+                      ? [disenoElegido.nombre]
+                      : l.detalle;
 
                   return (
                     <li key={l.linea.id} className="tarjeta flex gap-3 p-3">
@@ -199,11 +219,17 @@ export function PanelCotizacion() {
                           esCasaca ? "bg-white" : "bg-arena"
                         }`}
                       >
-                        <ProductoImagen producto={l.producto} foto={foto} sizes="64px" />
+                        <ProductoImagen
+                          producto={l.producto}
+                          foto={foto}
+                          sizes="64px"
+                        />
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-start justify-between gap-2">
-                          <p className="text-sm font-semibold leading-tight">{l.producto.nombre}</p>
+                          <p className="text-sm font-semibold leading-tight">
+                            {l.producto.nombre}
+                          </p>
                           <button
                             type="button"
                             onClick={() => quitar(l.linea.id)}
@@ -214,7 +240,9 @@ export function PanelCotizacion() {
                           </button>
                         </div>
                         {detalle.length > 0 && (
-                          <p className="mt-0.5 text-xs text-tenue">{detalle.join(" · ")}</p>
+                          <p className="mt-0.5 text-xs text-tenue">
+                            {detalle.join(" · ")}
+                          </p>
                         )}
                         <div className="mt-2 flex items-center justify-between gap-2">
                           <Stepper
@@ -222,8 +250,12 @@ export function PanelCotizacion() {
                             onCambio={(n) => cambiarCantidad(l.linea.id, n)}
                           />
                           <div className="text-right">
-                            <p className="text-sm font-bold">{precioMXN(l.subtotal)}</p>
-                            <p className="text-[11px] text-tenue">{precioMXN(l.unitario)} c/u</p>
+                            <p className="text-sm font-bold">
+                              {precioMXN(l.subtotal)}
+                            </p>
+                            <p className="text-[11px] text-tenue">
+                              {precioMXN(l.unitario)} c/u
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -265,14 +297,17 @@ export function PanelCotizacion() {
                 {resumen.descuentoMonto > 0 && (
                   <div className="flex justify-between text-tinta">
                     <dt>
-                      Descuento por volumen ({Math.round(resumen.descuentoPorcentaje * 100)}%)
+                      Descuento por volumen (
+                      {Math.round(resumen.descuentoPorcentaje * 100)}%)
                     </dt>
                     <dd>&minus;{precioMXN(resumen.descuentoMonto)}</dd>
                   </div>
                 )}
                 <div className="flex items-baseline justify-between border-t border-linea pt-2">
                   <dt className="titulo text-lg">Total estimado</dt>
-                  <dd className="titulo text-2xl">{precioMXN(resumen.total)}</dd>
+                  <dd className="titulo text-2xl">
+                    {precioMXN(resumen.total)}
+                  </dd>
                 </div>
                 {jugadores > 0 && (
                   <div className="flex justify-between text-xs text-tenue">
@@ -285,8 +320,9 @@ export function PanelCotizacion() {
               {resumen.siguienteNivel && (
                 <p className="mt-3 rounded-lg border border-linea bg-arena px-3 py-2 text-xs text-tenue">
                   Agrega {resumen.siguienteNivel.faltan}{" "}
-                  {resumen.siguienteNivel.faltan === 1 ? "pieza" : "piezas"} más y el descuento sube
-                  a {Math.round(resumen.siguienteNivel.porcentaje * 100)}%.
+                  {resumen.siguienteNivel.faltan === 1 ? "pieza" : "piezas"} más
+                  y el descuento sube a{" "}
+                  {Math.round(resumen.siguienteNivel.porcentaje * 100)}%.
                 </p>
               )}
 
@@ -300,8 +336,8 @@ export function PanelCotizacion() {
                 Me interesa — mandar mi cotización
               </a>
               <p className="mt-2 text-center text-[11px] leading-relaxed text-tenue">
-                Precio estimado, sin envío. Lo confirmamos junto con el diseño. Producción de{" "}
-                {negocio.tiempoEntrega}.
+                Precio estimado, sin envío. Lo confirmamos junto con el diseño.
+                Producción de {negocio.tiempoEntrega}.
               </p>
             </div>
           </>

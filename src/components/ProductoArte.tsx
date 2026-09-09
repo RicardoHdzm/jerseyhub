@@ -14,7 +14,11 @@ function Jersey({ color, acento }: { color: string; acento: string }) {
       />
       <path d="M80 31 Q100 50 120 31 L112 27 Q100 38 88 27 Z" fill={acento} />
       <rect x="63" y="150" width="74" height="7" fill={acento} opacity="0.85" />
-      <path d="M152 90 L137 79 L133 86 L148 97 Z" fill={acento} opacity="0.85" />
+      <path
+        d="M152 90 L137 79 L133 86 L148 97 Z"
+        fill={acento}
+        opacity="0.85"
+      />
       <path d="M48 90 L63 79 L67 86 L52 97 Z" fill={acento} opacity="0.85" />
       <text
         x="100"
@@ -35,8 +39,19 @@ function Jersey({ color, acento }: { color: string; acento: string }) {
 function Pantalon({ color, acento }: { color: string; acento: string }) {
   return (
     <g>
-      <path d="M62 34 H138 L143 92 L134 178 H108 L100 118 L92 178 H66 L57 92 Z" fill={color} />
-      <rect x="60" y="28" width="80" height="15" rx="4" fill={acento} opacity="0.9" />
+      <path
+        d="M62 34 H138 L143 92 L134 178 H108 L100 118 L92 178 H66 L57 92 Z"
+        fill={color}
+      />
+      <rect
+        x="60"
+        y="28"
+        width="80"
+        height="15"
+        rx="4"
+        fill={acento}
+        opacity="0.9"
+      />
       <rect x="69" y="50" width="5" height="124" fill={acento} opacity="0.5" />
       <rect x="126" y="50" width="5" height="124" fill={acento} opacity="0.5" />
     </g>
@@ -48,13 +63,23 @@ function Gorra({ color, acento }: { color: string; acento: string }) {
     <g>
       <path d="M42 124 Q42 50 100 50 Q158 50 158 124 Z" fill={color} />
       <circle cx="100" cy="49" r="6" fill={acento} />
-      <path d="M100 56 V74" stroke={acento} strokeWidth="3" opacity="0.45" fill="none" />
+      <path
+        d="M100 56 V74"
+        stroke={acento}
+        strokeWidth="3"
+        opacity="0.45"
+        fill="none"
+      />
       <circle cx="100" cy="97" r="21" fill={acento} />
       <path
         d="M32 124 Q100 112 168 124 Q178 130 172 142 Q100 162 28 142 Q22 130 32 124 Z"
         fill={color}
       />
-      <path d="M32 124 Q100 112 168 124 L169 130 Q100 118 31 130 Z" fill={acento} opacity="0.6" />
+      <path
+        d="M32 124 Q100 112 168 124 L169 130 Q100 118 31 130 Z"
+        fill={acento}
+        opacity="0.6"
+      />
       <text
         x="100"
         y="106"

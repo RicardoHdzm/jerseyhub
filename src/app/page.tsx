@@ -74,9 +74,20 @@ function Seccion({
           las vuelve difíciles de recorrer con la vista.
         */}
         <div className="text-center lg:text-left">
-          <p className={`etiqueta text-base sm:text-lg ${tono.etiqueta}`}>{etiqueta}</p>
-          <h2 className={`titulo mt-2 text-4xl sm:text-5xl ${tono.titulo}`}>{titulo}</h2>
-          {intro && <p className={`mx-auto mt-3 max-w-2xl lg:mx-0 ${tono.intro}`}>{intro}</p>}
+          <p
+            className={`etiqueta flex items-center justify-center gap-2 text-base sm:text-lg lg:justify-start ${tono.etiqueta}`}
+          >
+            <IconoEstrella className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5" />
+            {etiqueta}
+          </p>
+          <h2 className={`titulo mt-2 text-4xl sm:text-5xl ${tono.titulo}`}>
+            {titulo}
+          </h2>
+          {intro && (
+            <p className={`mx-auto mt-3 max-w-2xl lg:mx-0 ${tono.intro}`}>
+              {intro}
+            </p>
+          )}
         </div>
         <div className="mt-8">{children}</div>
       </div>
@@ -100,7 +111,12 @@ export default function Inicio() {
         <Paquetes />
       </Seccion>
 
-      <Seccion id="catalogo" fondo="papel" etiqueta="Catálogo" titulo="Nuestros Productos">
+      <Seccion
+        id="catalogo"
+        fondo="papel"
+        etiqueta="Catálogo"
+        titulo="Nuestros Productos"
+      >
         <Catalogo />
       </Seccion>
 
@@ -108,7 +124,7 @@ export default function Inicio() {
         id="testimonios"
         fondo="tinta"
         etiqueta="Lo que dicen los equipos"
-        titulo="Que visten JerseyHub"
+        titulo="Que ya visten JerseyHub"
         intro="Reseñas de equipos que armaron su uniforme con nosotros."
       >
         <Testimonios />
@@ -134,8 +150,8 @@ export default function Inicio() {
           <div>
             <h2 className="titulo text-4xl sm:text-5xl">¿Estás listo?</h2>
             <p className="mx-auto mt-3 max-w-xl text-white/70 lg:mx-0">
-              Mándanos tu idea, el logo del equipo o una foto de referencia y te regresamos una
-              propuesta de diseño sin costo.
+              Mándanos tu idea, el logo del equipo o una foto de referencia y te
+              regresamos una propuesta de diseño sin costo.
             </p>
           </div>
           <a

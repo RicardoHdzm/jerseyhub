@@ -18,7 +18,9 @@ export function BarraCotizacion() {
   if (resumen.piezas === 0) {
     return (
       <a
-        href={linkWhatsApp(`¡Hola ${negocio.nombre}! Tengo una duda sobre los uniformes.`)}
+        href={linkWhatsApp(
+          `¡Hola ${negocio.nombre}! Tengo una duda sobre los uniformes.`,
+        )}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Escribir por WhatsApp"
@@ -56,12 +58,15 @@ export function BarraCotizacion() {
 
         <div className="min-w-0">
           <p className="text-xs text-tenue">
-            {resumen.piezas} {resumen.piezas === 1 ? "pieza" : "piezas"} · {resumen.lineas.length}{" "}
+            {resumen.piezas} {resumen.piezas === 1 ? "pieza" : "piezas"} ·{" "}
+            {resumen.lineas.length}{" "}
             {resumen.lineas.length === 1 ? "artículo" : "artículos"}
             {resumen.descuentoMonto > 0 &&
               ` · ${Math.round(resumen.descuentoPorcentaje * 100)}% de descuento`}
           </p>
-          <p className="titulo text-2xl leading-none">{precioMXN(resumen.total)}</p>
+          <p className="titulo text-2xl leading-none">
+            {precioMXN(resumen.total)}
+          </p>
         </div>
 
         <div className="ml-auto flex items-center gap-2">

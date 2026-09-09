@@ -1,6 +1,11 @@
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebookF, faInstagram, faTiktok, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import {
+  faFacebookF,
+  faInstagram,
+  faTiktok,
+  faWhatsapp,
+} from "@fortawesome/free-brands-svg-icons";
 import {
   faArrowLeft,
   faArrowRight,
@@ -15,7 +20,6 @@ import {
   faLocationDot,
   faGripVertical,
   faQuoteLeft,
-  faStar,
   faMinus,
   faPlus,
   faStore,
@@ -81,8 +85,28 @@ export function IconoPelota({ className = "h-6 w-6" }: Props) {
   return <FontAwesomeIcon icon={faBaseball} className={className} />;
 }
 
+/*
+  La estrella no viene de Font Awesome: es la del logo, medida sobre el
+  archivo. Las cinco puntas de la estrella central caen a 72° exactos y la
+  proporción entre el radio interior y el exterior es 0.382 —la estrella
+  áurea, de puntas largas y esquinas vivas—. La de Font Awesome es más ancha
+  y con las uniones redondeadas, así que al repetirla por toda la página se
+  notaba que no era la de la marca.
+*/
+const TRAZO_ESTRELLA =
+  "M12 1.15L14.69 9.44L23.41 9.44L16.36 14.56L19.05 22.85L12 17.73L4.95 22.85L7.64 14.56L0.59 9.44L9.31 9.44Z";
+
 export function IconoEstrella({ className = "h-6 w-6" }: Props) {
-  return <FontAwesomeIcon icon={faStar} className={className} />;
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d={TRAZO_ESTRELLA} />
+    </svg>
+  );
 }
 
 /* Los tres acabados de la casaca: la corona para el más completo, el círculo

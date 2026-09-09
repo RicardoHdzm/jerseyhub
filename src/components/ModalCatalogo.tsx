@@ -4,7 +4,11 @@ import { useEffect, useMemo } from "react";
 
 import { TarjetaCatalogo } from "@/components/TarjetaCatalogo";
 import { IconoCerrar } from "@/components/iconos";
-import { categorias, entradasDelCatalogo, type EntradaCatalogo } from "@/data/catalog";
+import {
+  categorias,
+  entradasDelCatalogo,
+  type EntradaCatalogo,
+} from "@/data/catalog";
 
 /**
  * Todo el catálogo de un jalón, agrupado por corte y por tipo de prenda.
@@ -46,8 +50,8 @@ export function ModalCatalogo({
           <div>
             <h2 className="titulo text-3xl">Catálogo completo</h2>
             <p className="mt-1 text-sm text-tenue">
-              Todos los modelos de casaca y las demás prendas. Toca cualquiera para elegir sus
-              opciones y pedir información.
+              Todos los modelos de casaca y las demás prendas. Toca cualquiera
+              para elegir sus opciones y pedir información.
             </p>
           </div>
           <button
@@ -70,7 +74,9 @@ export function ModalCatalogo({
                 <div className="flex flex-wrap items-baseline gap-x-3">
                   <h3 className="titulo text-2xl">{categoria.nombre}</h3>
                   {categoria.descripcion && (
-                    <span className="text-sm text-tenue">{categoria.descripcion}</span>
+                    <span className="text-sm text-tenue">
+                      {categoria.descripcion}
+                    </span>
                   )}
                 </div>
 

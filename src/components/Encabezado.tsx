@@ -32,7 +32,11 @@ const leerEncogidoEnServidor = () => false;
 
 export function Encabezado() {
   const { resumen, abrirPanel } = useCotizacion();
-  const encogido = useSyncExternalStore(suscribirScroll, leerEncogido, leerEncogidoEnServidor);
+  const encogido = useSyncExternalStore(
+    suscribirScroll,
+    leerEncogido,
+    leerEncogidoEnServidor,
+  );
 
   return (
     <header className="sticky top-0 z-40 bg-tinta">
@@ -53,7 +57,11 @@ export function Encabezado() {
 
         <nav className="ml-auto hidden items-center gap-7 text-sm text-white/70 md:flex">
           {enlaces.map((enlace) => (
-            <a key={enlace.href} href={enlace.href} className="transition-colors hover:text-white">
+            <a
+              key={enlace.href}
+              href={enlace.href}
+              className="transition-colors hover:text-white"
+            >
               {enlace.texto}
             </a>
           ))}
@@ -71,7 +79,9 @@ export function Encabezado() {
               vacío. */}
           <span
             className={`grid h-6 min-w-6 place-items-center rounded-full px-1.5 text-xs font-bold ${
-              resumen.piezas > 0 ? "bg-tinta text-dorado" : "bg-tinta/15 text-tinta/70"
+              resumen.piezas > 0
+                ? "bg-tinta text-dorado"
+                : "bg-tinta/15 text-tinta/70"
             }`}
           >
             {resumen.piezas}

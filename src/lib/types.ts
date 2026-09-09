@@ -13,7 +13,8 @@ export type CategoriaId = "casacas" | "gorras" | "pantalones" | "accesorios";
  * corte, porque cualquier modelo se puede producir con cualquier acabado. Lo
  * que se muestra en esas dos pestañas son los modelos, no los productos.
  */
-export type FiltroCatalogo = "caballero" | "dama" | "pantalones" | "gorras" | "accesorios";
+export type FiltroCatalogo =
+  "caballero" | "dama" | "pantalones" | "gorras" | "accesorios";
 
 export type Categoria = {
   id: FiltroCatalogo;

@@ -1,7 +1,7 @@
 "use client";
 
 import { ProductoImagen } from "@/components/ProductoImagen";
-import { IconoTienda } from "@/components/iconos";
+import { IconoEstrella, IconoTienda } from "@/components/iconos";
 import type { EntradaCatalogo } from "@/data/catalog";
 import { precioMXN } from "@/lib/quote";
 
@@ -37,12 +37,19 @@ export function TarjetaCatalogo({
         fotos de casaca vienen recortadas sobre blanco y sobre el beige se les
         notaría el recorte.
       */}
-      <div className={`relative aspect-square overflow-hidden ${modelo ? "bg-white" : "bg-arena"}`}>
+      <div
+        className={`relative aspect-square overflow-hidden ${modelo ? "bg-white" : "bg-arena"}`}
+      >
         <div className="h-full w-full transition-transform duration-300 group-hover:scale-105">
-          <ProductoImagen producto={producto} foto={foto} sizes="(min-width: 1024px) 280px, 45vw" />
+          <ProductoImagen
+            producto={producto}
+            foto={foto}
+            sizes="(min-width: 1024px) 280px, 45vw"
+          />
         </div>
         {destacado && (
-          <span className="absolute left-3 top-3 rounded-full bg-dorado px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-tinta">
+          <span className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-dorado px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-tinta">
+            <IconoEstrella className="h-2.5 w-2.5" />
             Popular
           </span>
         )}
@@ -57,11 +64,21 @@ export function TarjetaCatalogo({
       </div>
 
       <div className={`flex flex-1 flex-col ${compacta ? "px-3 py-3" : "p-4"}`}>
-        <h3 className={`titulo leading-tight ${compacta ? "text-lg" : "text-xl"}`}>{nombre}</h3>
-        {variante && <p className="mt-1 text-xs text-tenue">{variante.label}</p>}
+        <h3
+          className={`titulo leading-tight ${compacta ? "text-lg" : "text-xl"}`}
+        >
+          {nombre}
+        </h3>
+        {variante && (
+          <p className="mt-1 text-xs text-tenue">{variante.label}</p>
+        )}
         <div className={compacta ? "mt-2" : "mt-4 pt-2"}>
-          <p className="text-[11px] uppercase tracking-wide text-tenue">Desde</p>
-          <p className={`titulo leading-none ${compacta ? "text-xl" : "text-2xl"}`}>
+          <p className="text-[11px] uppercase tracking-wide text-tenue">
+            Desde
+          </p>
+          <p
+            className={`titulo leading-none ${compacta ? "text-xl" : "text-2xl"}`}
+          >
             {precioMXN(producto.precio)}
           </p>
         </div>

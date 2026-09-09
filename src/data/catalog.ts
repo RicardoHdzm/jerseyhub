@@ -44,7 +44,8 @@ export const categorias: Categoria[] = [
 const corte: Opcion = {
   id: "corte",
   label: "Corte",
-  ayuda: "Las tallas exactas de cada jugador las tomamos al confirmar el pedido.",
+  ayuda:
+    "Las tallas exactas de cada jugador las tomamos al confirmar el pedido.",
   valores: [
     { id: "adulto", label: "Adulto" },
     { id: "juvenil", label: "Juvenil" },
@@ -60,7 +61,8 @@ const corte: Opcion = {
  * Lo llevan las cuatro casacas del catálogo, que son las que se venden por
  * pieza. Los tres acabados del armador no: ahí se cotiza el equipo completo.
  */
-const ML_EJEMPLO_CASACA = "https://listado.mercadolibre.com.mx/jersey-beisbol-personalizado";
+const ML_EJEMPLO_CASACA =
+  "https://listado.mercadolibre.com.mx/jersey-beisbol-personalizado";
 
 // --- Productos -------------------------------------------------------------
 
@@ -77,7 +79,11 @@ export const productos: Producto[] = [
     colorSecundario: "#f8fafc",
     descripcion:
       "Sublimación de borde a borde en tela dry-fit ligera. Diseño libre: degradados, patrones y logos sin costo extra por color.",
-    incluye: ["Nombre y número", "Logo del equipo y patrocinadores", "Colores libres"],
+    incluye: [
+      "Nombre y número",
+      "Logo del equipo y patrocinadores",
+      "Colores libres",
+    ],
     // El tipo de cuello solo se elige en el corte dama; aquí va cuello V fijo.
     opciones: [corte],
   },
@@ -94,7 +100,11 @@ export const productos: Producto[] = [
     colorSecundario: "#f8fafc",
     descripcion:
       "Nombre, número y logo aplicados en twill sobre la tela, no sublimados. Es el acabado con relieve y el más resistente al uso y a los lavados.",
-    incluye: ["Twill en pecho y espalda", "Botonado completo", "Acabado con relieve"],
+    incluye: [
+      "Twill en pecho y espalda",
+      "Botonado completo",
+      "Acabado con relieve",
+    ],
     opciones: [corte],
   },
   {
@@ -192,8 +202,16 @@ export const productos: Producto[] = [
         id: "color",
         label: "Color",
         valores: [
-          { id: "negro", label: "Negro", foto: "/productos/pantalones/negro.jpg" },
-          { id: "blanco", label: "Blanco", foto: "/productos/pantalones/blanco.jpg" },
+          {
+            id: "negro",
+            label: "Negro",
+            foto: "/productos/pantalones/negro.jpg",
+          },
+          {
+            id: "blanco",
+            label: "Blanco",
+            foto: "/productos/pantalones/blanco.jpg",
+          },
           { id: "gris", label: "Gris", foto: "/productos/pantalones/gris.jpg" },
         ],
       },
@@ -201,7 +219,8 @@ export const productos: Producto[] = [
       {
         id: "corte",
         label: "Corte",
-        ayuda: "Las tallas exactas de cada jugador las tomamos al confirmar el pedido.",
+        ayuda:
+          "Las tallas exactas de cada jugador las tomamos al confirmar el pedido.",
         valores: [
           { id: "adulto", label: "Adulto" },
           { id: "juvenil", label: "Juvenil" },
@@ -233,8 +252,16 @@ export const productos: Producto[] = [
         id: "color",
         label: "Color",
         valores: [
-          { id: "blanco", label: "Blanco", foto: "/productos/pantalones/mujer/blanco.jpg" },
-          { id: "negro", label: "Negro", foto: "/productos/pantalones/mujer/negro.jpg" },
+          {
+            id: "blanco",
+            label: "Blanco",
+            foto: "/productos/pantalones/mujer/blanco.jpg",
+          },
+          {
+            id: "negro",
+            label: "Negro",
+            foto: "/productos/pantalones/mujer/negro.jpg",
+          },
         ],
       },
       {
@@ -327,17 +354,30 @@ export const productos: Producto[] = [
     color: "#1d4ed8",
     colorSecundario: "#f8fafc",
     foto: "/productos/calcetas/negras.jpg",
-    descripcion: "Calcetas altas con puño de compresión, en el color exacto del uniforme.",
+    descripcion:
+      "Calcetas altas con puño de compresión, en el color exacto del uniforme.",
     incluye: ["Puño de compresión", "Color a juego"],
     opciones: [
       {
         id: "color",
         label: "Color",
         valores: [
-          { id: "negras", label: "Negro", foto: "/productos/calcetas/negras.jpg" },
-          { id: "blancas", label: "Blanco", foto: "/productos/calcetas/blancas.jpg" },
+          {
+            id: "negras",
+            label: "Negro",
+            foto: "/productos/calcetas/negras.jpg",
+          },
+          {
+            id: "blancas",
+            label: "Blanco",
+            foto: "/productos/calcetas/blancas.jpg",
+          },
           { id: "rojas", label: "Rojo", foto: "/productos/calcetas/rojas.jpg" },
-          { id: "azules", label: "Azul", foto: "/productos/calcetas/azules.jpg" },
+          {
+            id: "azules",
+            label: "Azul",
+            foto: "/productos/calcetas/azules.jpg",
+          },
         ],
       },
     ],
@@ -350,14 +390,19 @@ export const productos: Producto[] = [
     color: "#1a1a1a",
     colorSecundario: "#cbd5e1",
     foto: "/productos/cinturon/negro.jpg",
-    descripcion: "Cinturón elástico con hebilla metálica, en el color exacto del uniforme.",
+    descripcion:
+      "Cinturón elástico con hebilla metálica, en el color exacto del uniforme.",
     incluye: ["Hebilla metálica", "Color a juego"],
     opciones: [
       {
         id: "color",
         label: "Color",
         valores: [
-          { id: "negro", label: "Negro", foto: "/productos/cinturon/negro.jpg" },
+          {
+            id: "negro",
+            label: "Negro",
+            foto: "/productos/cinturon/negro.jpg",
+          },
           { id: "blanco", label: "Blanco" },
           { id: "rojo", label: "Rojo", foto: "/productos/cinturon/rojo.jpg" },
           { id: "azul", label: "Azul", foto: "/productos/cinturon/azul.jpg" },
@@ -480,7 +525,8 @@ export const modelos: ModeloUniforme[] = [
   {
     slug: "franja-roja-dama",
     nombre: "Franja roja",
-    descripcion: "Blanco con script y vivos rojos, muy usado en softbol femenil.",
+    descripcion:
+      "Blanco con script y vivos rojos, muy usado en softbol femenil.",
     genero: "dama",
     casacaSlug: "casaca-dama",
     foto: "/productos/jerseys/dama/angels-01.avif",
@@ -550,7 +596,12 @@ export const tecnicas: {
   color: "tinta" | "dorado";
   badge?: string;
 }[] = [
-  { slug: "casaca-bordado-completo", titulo: "Bordado completo", icono: "corona", color: "tinta" },
+  {
+    slug: "casaca-bordado-completo",
+    titulo: "Bordado completo",
+    icono: "corona",
+    color: "tinta",
+  },
   {
     slug: "casaca-mixta",
     titulo: "Mixto",
@@ -558,7 +609,12 @@ export const tecnicas: {
     color: "dorado",
     badge: "El más pedido",
   },
-  { slug: "casaca-dtf", titulo: "DTF textil completo", icono: "pluma", color: "tinta" },
+  {
+    slug: "casaca-dtf",
+    titulo: "DTF textil completo",
+    icono: "pluma",
+    color: "tinta",
+  },
 ];
 
 /** Etiqueta corta de una técnica, o null si el slug ya no existe. */
@@ -605,7 +661,9 @@ export function piezaConColor(slug: string): PiezaConColor | undefined {
 
 /** Los colores que ofrece un producto, o vacío si no tiene opción de color. */
 export function coloresDe(slug: string): OpcionValor[] {
-  return getProducto(slug)?.opciones.find((o) => o.id === "color")?.valores ?? [];
+  return (
+    getProducto(slug)?.opciones.find((o) => o.id === "color")?.valores ?? []
+  );
 }
 
 /**
@@ -701,8 +759,13 @@ export function entradasDelCatalogo(): EntradaCatalogo[] {
  * simplemente se cortaran las primeras 12, las 17 casacas se comerían la
  * cuadrícula y parecería que no se venden pantalones ni gorras.
  */
-export function muestraDelCatalogo(entradas: EntradaCatalogo[], tope: number): EntradaCatalogo[] {
-  const porFiltro = categorias.map((c) => entradas.filter((e) => e.filtro === c.id));
+export function muestraDelCatalogo(
+  entradas: EntradaCatalogo[],
+  tope: number,
+): EntradaCatalogo[] {
+  const porFiltro = categorias.map((c) =>
+    entradas.filter((e) => e.filtro === c.id),
+  );
   const elegidas = new Set<EntradaCatalogo>();
 
   for (let vuelta = 0; elegidas.size < tope; vuelta++) {
@@ -731,10 +794,15 @@ export const paquetes: Paquete[] = [
     nombre: "Paquete Básico",
     icono: "pelota",
     color: "tinta",
-    descripcion: "Lo mínimo para salir al diamante con imagen de equipo: casaca y gorra a juego.",
+    descripcion:
+      "Lo mínimo para salir al diamante con imagen de equipo: casaca y gorra a juego.",
     items: [
       { productoSlug: "casaca-mixta", porJugador: 1, segun: "tecnica" },
-      { productoSlug: "gorra-bordada-6-paneles", porJugador: 1, segun: "gorra" },
+      {
+        productoSlug: "gorra-bordada-6-paneles",
+        porJugador: 1,
+        segun: "gorra",
+      },
     ],
   },
   {
@@ -742,13 +810,18 @@ export const paquetes: Paquete[] = [
     nombre: "Paquete Estrella",
     icono: "estrella",
     color: "dorado",
-    descripcion: "El uniforme de juego completo: casaca, pantalón a juego y gorra.",
+    descripcion:
+      "El uniforme de juego completo: casaca, pantalón a juego y gorra.",
     badge: "El más pedido",
     destacado: true,
     items: [
       { productoSlug: "casaca-mixta", porJugador: 1, segun: "tecnica" },
       { productoSlug: "pantalon-clasico", porJugador: 1, segun: "pantalon" },
-      { productoSlug: "gorra-bordada-6-paneles", porJugador: 1, segun: "gorra" },
+      {
+        productoSlug: "gorra-bordada-6-paneles",
+        porJugador: 1,
+        segun: "gorra",
+      },
     ],
   },
   {
@@ -761,7 +834,11 @@ export const paquetes: Paquete[] = [
     items: [
       { productoSlug: "casaca-mixta", porJugador: 1, segun: "tecnica" },
       { productoSlug: "pantalon-clasico", porJugador: 1, segun: "pantalon" },
-      { productoSlug: "gorra-bordada-6-paneles", porJugador: 1, segun: "gorra" },
+      {
+        productoSlug: "gorra-bordada-6-paneles",
+        porJugador: 1,
+        segun: "gorra",
+      },
       { productoSlug: "calcetas-sublimadas", porJugador: 1 },
       { productoSlug: "cinturon-beisbol", porJugador: 1 },
     ],

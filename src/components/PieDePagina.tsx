@@ -23,12 +23,14 @@ export function PieDePagina() {
         <div>
           <Logo className="mx-auto h-24 w-auto sm:mx-0" invertido />
           <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-white/70 sm:mx-0">
-            {negocio.tagline} en {negocio.ciudad}. Sublimado full color, bordado y diseño incluido
-            para equipos de liga, escuela y torneo.
+            {negocio.tagline} en {negocio.ciudad}. Sublimado full color, bordado
+            y diseño incluido para equipos de liga, escuela y torneo.
           </p>
           <div className="mx-auto mt-5 grid w-fit grid-cols-2 gap-2 sm:mx-0 sm:grid-cols-4">
             <a
-              href={linkWhatsApp(`¡Hola ${negocio.nombre}! Quiero cotizar uniformes.`)}
+              href={linkWhatsApp(
+                `¡Hola ${negocio.nombre}! Quiero cotizar uniformes.`,
+              )}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 rounded-lg bg-dorado px-4 py-2.5 text-sm font-semibold text-tinta transition-colors hover:bg-dorado-hover"
@@ -86,12 +88,18 @@ export function PieDePagina() {
           <p className="etiqueta text-dorado-claro">Información</p>
           <ul className="mt-4 space-y-2 text-sm">
             <li>
-              <a href="#paquetes" className="text-white/70 transition-colors hover:text-white">
+              <a
+                href="#paquetes"
+                className="text-white/70 transition-colors hover:text-white"
+              >
                 Paquetes de equipo
               </a>
             </li>
             <li>
-              <a href="#preguntas" className="text-white/70 transition-colors hover:text-white">
+              <a
+                href="#preguntas"
+                className="text-white/70 transition-colors hover:text-white"
+              >
                 Preguntas frecuentes
               </a>
             </li>
@@ -102,11 +110,12 @@ export function PieDePagina() {
       <div className="border-t border-white/15">
         <div className="mx-auto max-w-6xl space-y-2 px-5 py-6 text-center text-xs text-white/50">
           <p>
-            Los precios del sitio son estimados y no constituyen una venta en línea. Cada pedido se
-            confirma con nosotros.
+            Los precios del sitio son estimados y no constituyen una venta en
+            línea. Cada pedido se confirma con nosotros.
           </p>
           <p>
-            © {new Date().getFullYear()} {negocio.nombre}. Todos los derechos reservados.{" "}
+            © {new Date().getFullYear()} {negocio.nombre}. Todos los derechos
+            reservados.{" "}
             <span className="whitespace-nowrap">
               Diseñado por{" "}
               <a

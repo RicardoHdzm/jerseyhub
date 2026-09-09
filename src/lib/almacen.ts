@@ -1,5 +1,9 @@
 import { jugadoresPorDefecto } from "@/lib/config";
-import type { JugadorRoster, LineaCotizacion, PiezaConColor } from "@/lib/types";
+import type {
+  JugadorRoster,
+  LineaCotizacion,
+  PiezaConColor,
+} from "@/lib/types";
 
 /**
  * La cotización vive en localStorage y se lee con useSyncExternalStore, para que

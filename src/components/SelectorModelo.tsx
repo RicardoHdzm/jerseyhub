@@ -5,7 +5,11 @@ import { useMemo, useRef, useState } from "react";
 
 import { useCotizacion } from "@/components/CotizacionProvider";
 import { ModeloArte } from "@/components/ModeloArte";
-import { IconoCheck, IconoFlecha, IconoFlechaIzquierda } from "@/components/iconos";
+import {
+  IconoCheck,
+  IconoFlecha,
+  IconoFlechaIzquierda,
+} from "@/components/iconos";
 import { getModelo, modelos } from "@/data/catalog";
 import type { GeneroModelo } from "@/lib/types";
 
@@ -23,7 +27,10 @@ export function SelectorModelo() {
   );
   const pista = useRef<HTMLDivElement>(null);
 
-  const visibles = useMemo(() => modelos.filter((m) => m.genero === genero), [genero]);
+  const visibles = useMemo(
+    () => modelos.filter((m) => m.genero === genero),
+    [genero],
+  );
 
   const desplazar = (direccion: 1 | -1) => {
     const el = pista.current;
@@ -47,7 +54,9 @@ export function SelectorModelo() {
               onClick={() => cambiarGenero(opcion.id)}
               aria-pressed={genero === opcion.id}
               className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
-                genero === opcion.id ? "bg-dorado text-tinta" : "text-white/70 hover:text-white"
+                genero === opcion.id
+                  ? "bg-dorado text-tinta"
+                  : "text-white/70 hover:text-white"
               }`}
             >
               {opcion.label}
@@ -120,7 +129,9 @@ export function SelectorModelo() {
                   <IconoCheck className="h-3 w-3" />
                 </span>
               )}
-              <p className="titulo px-3 py-2 text-lg leading-none">{item.nombre}</p>
+              <p className="titulo px-3 py-2 text-lg leading-none">
+                {item.nombre}
+              </p>
             </button>
           );
         })}

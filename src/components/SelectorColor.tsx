@@ -25,7 +25,9 @@ export function SelectorColor({
   if (valores.length === 0) return null;
 
   // Sin elección previa se marca el primero, que es el que cotiza por defecto.
-  const elegido = valores.some((v) => v.id === colores[pieza]) ? colores[pieza] : valores[0].id;
+  const elegido = valores.some((v) => v.id === colores[pieza])
+    ? colores[pieza]
+    : valores[0].id;
 
   return (
     <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
@@ -50,7 +52,9 @@ export function SelectorColor({
             <span
               style={{ backgroundColor: muestra }}
               className={`grid h-9 w-9 place-items-center rounded-full ring-offset-2 ring-offset-tinta transition-all ${
-                activo ? "ring-2 ring-dorado" : "ring-1 ring-white/25 group-hover:ring-white/60"
+                activo
+                  ? "ring-2 ring-dorado"
+                  : "ring-1 ring-white/25 group-hover:ring-white/60"
               }`}
             >
               {activo && (
@@ -59,7 +63,9 @@ export function SelectorColor({
                 />
               )}
             </span>
-            <span className={`text-xs ${activo ? "text-white" : "text-white/50"}`}>
+            <span
+              className={`text-xs ${activo ? "text-white" : "text-white/50"}`}
+            >
               {valor.label}
             </span>
           </button>

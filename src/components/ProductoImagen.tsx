@@ -29,7 +29,13 @@ export function ProductoImagen({
   // blanco evita cortar la prenda sin importar la proporción del contenedor.
   return (
     <div className="absolute inset-0 bg-white">
-      <Image src={src} alt={producto.nombre} fill sizes={sizes} className="object-contain p-2" />
+      <Image
+        src={src}
+        alt={producto.nombre}
+        fill
+        sizes={sizes}
+        className="object-contain p-2"
+      />
     </div>
   );
 }

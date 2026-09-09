@@ -1,11 +1,18 @@
 import { HeroFigura } from "@/components/HeroFigura";
-import { IconoFlechaAbajo, IconoWhatsApp } from "@/components/iconos";
+import {
+  IconoEstrella,
+  IconoFlechaAbajo,
+  IconoWhatsApp,
+} from "@/components/iconos";
 import { minimoUniformes, negocio } from "@/lib/config";
 import { linkWhatsApp } from "@/lib/quote";
 
 const datos = [
   { valor: `Minimo de ${minimoUniformes}`, texto: "uniformes por equipo" },
-  { valor: negocio.tiempoEntrega.replace(" hábiles", ""), texto: " habiles para entrega" },
+  {
+    valor: negocio.tiempoEntrega.replace(" hábiles", ""),
+    texto: " habiles para entrega",
+  },
   { valor: "Diseño 100%", texto: "personalizable" },
 ];
 
@@ -39,17 +46,25 @@ export function Hero() {
       */}
       <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-10 px-5 pb-16 pt-14 lg:grid lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-x-12 lg:gap-y-8 lg:pb-24 lg:pt-16">
         <div className="text-center lg:col-start-1 lg:row-start-1 lg:text-left">
-          <p className="etiqueta text-base text-tinta sm:text-lg">Bienvenido a {negocio.nombre}</p>
+          <p className="etiqueta flex items-center justify-center gap-2 text-base text-tinta sm:text-lg lg:justify-start">
+            <IconoEstrella className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5" />
+            Bienvenido a {negocio.nombre}
+          </p>
           <h1 className="titulo mt-4 text-5xl sm:text-6xl lg:text-7xl">
             Es el momento de llevar
-            <span className="text-dorado"> tu nueva piel al campo de juego</span>
+            <span className="text-dorado">
+              {" "}
+              tu nueva piel al campo de juego
+            </span>
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-tenue lg:mx-0">
             Hacemos el jersey de tu equipo favorito en su diseño original, o{" "}
             <strong className="font-semibold text-tinta">
-              lo personalizamos por completo con el nombre y los colores del tuyo
+              lo personalizamos por completo con el nombre y los colores del
+              tuyo
             </strong>
-            . Arma tu paquete, mira el precio estimado y mándanoslo en un mensaje.
+            . Arma tu paquete, mira el precio estimado y mándanoslo en un
+            mensaje.
           </p>
 
           <div className="mx-auto mt-8 grid w-fit grid-cols-1 gap-3 sm:grid-cols-2 lg:mx-0">

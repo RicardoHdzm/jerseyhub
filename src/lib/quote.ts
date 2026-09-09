@@ -1,4 +1,9 @@
-import { getModelo, getProducto, paquetes, piezaConColor } from "@/data/catalog";
+import {
+  getModelo,
+  getProducto,
+  paquetes,
+  piezaConColor,
+} from "@/data/catalog";
 import { descuentosPorVolumen, negocio } from "@/lib/config";
 import type {
   JugadorRoster,
@@ -29,7 +34,10 @@ export function opcionesPorDefecto(producto: Producto): Record<string, string> {
 }
 
 /** Precio de una pieza con los extras de las opciones elegidas. */
-export function precioUnitario(producto: Producto, opciones: Record<string, string>): number {
+export function precioUnitario(
+  producto: Producto,
+  opciones: Record<string, string>,
+): number {
   let precio = producto.precio;
   for (const opcion of producto.opciones) {
     const valor = opcion.valores.find((v) => v.id === opciones[opcion.id]);
@@ -44,20 +52,29 @@ export function precioUnitario(producto: Producto, opciones: Record<string, stri
  * nadie los elige. Listarlos en la cotización hacía parecer que sí, y el
  * renglón salía con "Corte: Adulto · Largo: Recto" que nadie pidió.
  */
-function etiquetasElegidas(producto: Producto, opciones: Record<string, string>): string[] {
+function etiquetasElegidas(
+  producto: Producto,
+  opciones: Record<string, string>,
+): string[] {
   const color = producto.opciones.find((o) => o.id === "color");
   const valor = color?.valores.find((v) => v.id === opciones.color);
   return valor ? [`Color: ${valor.label}`] : [];
 }
 
 /** La foto del color elegido, para la miniatura de la cotización. */
-export function fotoDeLinea(producto: Producto, opciones: Record<string, string>) {
+export function fotoDeLinea(
+  producto: Producto,
+  opciones: Record<string, string>,
+) {
   const color = producto.opciones.find((o) => o.id === "color");
   return color?.valores.find((v) => v.id === opciones.color)?.foto;
 }
 
 /** Identificador estable de una línea: mismo producto con distintas opciones son líneas distintas. */
-export function idLinea(productoSlug: string, opciones: Record<string, string>): string {
+export function idLinea(
+  productoSlug: string,
+  opciones: Record<string, string>,
+): string {
   const partes = Object.keys(opciones)
     .sort()
     .map((clave) => `${clave}:${opciones[clave]}`);
@@ -88,7 +105,8 @@ export type Resumen = {
 export function descuentoPara(piezas: number): number {
   let porcentaje = 0;
   for (const nivel of descuentosPorVolumen) {
-    if (piezas >= nivel.desde) porcentaje = Math.max(porcentaje, nivel.porcentaje);
+    if (piezas >= nivel.desde)
+      porcentaje = Math.max(porcentaje, nivel.porcentaje);
   }
   return porcentaje;
 }
@@ -98,7 +116,9 @@ function siguienteNivelDescuento(piezas: number) {
     .filter((nivel) => piezas < nivel.desde)
     .sort((a, b) => a.desde - b.desde);
   const nivel = pendientes[0];
-  return nivel ? { faltan: nivel.desde - piezas, porcentaje: nivel.porcentaje } : null;
+  return nivel
+    ? { faltan: nivel.desde - piezas, porcentaje: nivel.porcentaje }
+    : null;
 }
 
 export function calcularResumen(lineas: LineaCotizacion[]): Resumen {
@@ -160,7 +180,10 @@ function opcionesDeItem(
   item: PaqueteItem,
   seleccion: SeleccionArmador,
 ): Record<string, string> {
-  const opciones = { ...opcionesPorDefecto(producto), ...(item.opciones ?? {}) };
+  const opciones = {
+    ...opcionesPorDefecto(producto),
+    ...(item.opciones ?? {}),
+  };
   const pieza = piezaConColor(producto.slug);
   const elegido = pieza ? seleccion.colores?.[pieza] : undefined;
   const existe = producto.opciones.some(
@@ -184,7 +207,8 @@ export function productoDeItem(
     if (casaca) return casaca;
   }
   if (item.segun === "pantalon") {
-    const dama = seleccion.modelo && getModelo(seleccion.modelo)?.genero === "dama";
+    const dama =
+      seleccion.modelo && getModelo(seleccion.modelo)?.genero === "dama";
     const pantalon = getProducto(dama ? "pantalon-dama" : "pantalon-clasico");
     if (pantalon) return pantalon;
   }
@@ -196,12 +220,17 @@ export function productoDeItem(
 }
 
 /** Precio por jugador de un paquete, ya con lo elegido en el armador aplicado. */
-export function precioPaquete(paquete: Paquete, seleccion: SeleccionArmador = {}): number {
+export function precioPaquete(
+  paquete: Paquete,
+  seleccion: SeleccionArmador = {},
+): number {
   return paquete.items.reduce((suma, item) => {
     const producto = productoDeItem(item, seleccion);
     if (!producto) return suma;
     return (
-      suma + precioUnitario(producto, opcionesDeItem(producto, item, seleccion)) * item.porJugador
+      suma +
+      precioUnitario(producto, opcionesDeItem(producto, item, seleccion)) *
+        item.porJugador
     );
   }, 0);
 }
@@ -215,7 +244,9 @@ export function paqueteALineas(
   return paquete.items.map((item) => {
     const producto = productoDeItem(item, seleccion);
     const slug = producto?.slug ?? item.productoSlug;
-    const opciones = producto ? opcionesDeItem(producto, item, seleccion) : (item.opciones ?? {});
+    const opciones = producto
+      ? opcionesDeItem(producto, item, seleccion)
+      : (item.opciones ?? {});
     return {
       id: idLinea(slug, opciones),
       productoSlug: slug,
@@ -244,7 +275,10 @@ export type DatosContacto = {
 };
 
 /** Mensaje que se abre precargado en WhatsApp con la cotización armada. */
-export function mensajeWhatsApp(resumen: Resumen, datos: DatosContacto = {}): string {
+export function mensajeWhatsApp(
+  resumen: Resumen,
+  datos: DatosContacto = {},
+): string {
   const lineas: string[] = [
     `¡Hola ${negocio.nombre}! Me interesa esta cotización que armé en su página:`,
     "",
@@ -254,7 +288,8 @@ export function mensajeWhatsApp(resumen: Resumen, datos: DatosContacto = {}): st
   if (datos.jugadores) lineas.push(`*Jugadores:* ${datos.jugadores}`);
   if (datos.modelo) lineas.push(`*Modelo de referencia:* ${datos.modelo}`);
   if (datos.tecnica) lineas.push(`*Acabado de la casaca:* ${datos.tecnica}`);
-  if (datos.equipo?.trim() || datos.jugadores || datos.modelo || datos.tecnica) lineas.push("");
+  if (datos.equipo?.trim() || datos.jugadores || datos.modelo || datos.tecnica)
+    lineas.push("");
 
   for (const l of resumen.lineas) {
     lineas.push(`• ${l.linea.cantidad}x ${l.producto.nombre}`);
@@ -267,11 +302,17 @@ export function mensajeWhatsApp(resumen: Resumen, datos: DatosContacto = {}): st
   lineas.push(`*Subtotal:* ${precioMXN(resumen.subtotal)}`);
   if (resumen.descuentoMonto > 0) {
     const pct = Math.round(resumen.descuentoPorcentaje * 100);
-    lineas.push(`*Descuento por volumen (${pct}%):* -${precioMXN(resumen.descuentoMonto)}`);
+    lineas.push(
+      `*Descuento por volumen (${pct}%):* -${precioMXN(resumen.descuentoMonto)}`,
+    );
   }
-  lineas.push(`*Total estimado:* ${precioMXN(resumen.total)} ${negocio.moneda}`);
+  lineas.push(
+    `*Total estimado:* ${precioMXN(resumen.total)} ${negocio.moneda}`,
+  );
 
-  const roster = (datos.roster ?? []).filter((j) => j.nombre.trim() || j.numero.trim());
+  const roster = (datos.roster ?? []).filter(
+    (j) => j.nombre.trim() || j.numero.trim(),
+  );
   if (roster.length > 0) {
     lineas.push("");
     lineas.push(`*Lista de jugadores (${roster.length}):*`);

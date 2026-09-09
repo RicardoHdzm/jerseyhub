@@ -18,12 +18,28 @@ import {
   IconoMenos,
   IconoPelota,
 } from "@/components/iconos";
-import { getModelo, getProducto, nombreModelo, paquetes, tituloTecnica } from "@/data/catalog";
+import {
+  getModelo,
+  getProducto,
+  nombreModelo,
+  paquetes,
+  tituloTecnica,
+} from "@/data/catalog";
 import { minimoUniformes } from "@/lib/config";
-import { descuentoPara, precioMXN, precioPaquete, productoDeItem } from "@/lib/quote";
+import {
+  descuentoPara,
+  precioMXN,
+  precioPaquete,
+  productoDeItem,
+} from "@/lib/quote";
 
 const encabezados = {
-  tinta: { fondo: "bg-tinta", texto: "text-white", icono: "text-white", detalle: "text-white/70" },
+  tinta: {
+    fondo: "bg-tinta",
+    texto: "text-white",
+    icono: "text-white",
+    detalle: "text-white/70",
+  },
   dorado: {
     fondo: "bg-dorado",
     texto: "text-tinta",
@@ -41,7 +57,9 @@ const encabezados = {
  */
 const piezasDeTodos: { clave: string; item: PaqueteItem }[] = (() => {
   const vistas = new Map<string, PaqueteItem>();
-  for (const paquete of [...paquetes].sort((a, b) => b.items.length - a.items.length)) {
+  for (const paquete of [...paquetes].sort(
+    (a, b) => b.items.length - a.items.length,
+  )) {
     for (const item of paquete.items) {
       const clave = item.segun ?? item.productoSlug;
       if (!vistas.has(clave)) vistas.set(clave, item);
@@ -146,7 +164,8 @@ function ContadorJugadores() {
 }
 
 export function Paquetes() {
-  const { jugadores, agregarPaquete, modelo, tecnica, gorra, colores } = useCotizacion();
+  const { jugadores, agregarPaquete, modelo, tecnica, gorra, colores } =
+    useCotizacion();
   const modeloElegido = nombreModelo(modelo);
   const tecnicaElegida = tecnica ? tituloTecnica(tecnica) : undefined;
   const gorraElegida = gorra ? getProducto(gorra)?.nombre : undefined;
@@ -184,7 +203,11 @@ export function Paquetes() {
       <Paso
         numero={3}
         titulo="Elige el acabado de la casaca"
-        detalle={tecnicaElegida ? `Elegiste: ${tecnicaElegida}` : "Bordado, mixto o DTF textil"}
+        detalle={
+          tecnicaElegida
+            ? `Elegiste: ${tecnicaElegida}`
+            : "Bordado, mixto o DTF textil"
+        }
       >
         <SelectorTecnica />
       </Paso>
@@ -192,11 +215,15 @@ export function Paquetes() {
       <Paso
         numero={4}
         titulo="Elige la gorra"
-        detalle={gorraElegida ? `Elegiste: ${gorraElegida}` : "Algodón o dry-fit"}
+        detalle={
+          gorraElegida ? `Elegiste: ${gorraElegida}` : "Algodón o dry-fit"
+        }
       >
         <SelectorGorra />
         <div className="mt-5">
-          <p className="etiqueta text-[11px] text-white/60">Color de la gorra</p>
+          <p className="etiqueta text-[11px] text-white/60">
+            Color de la gorra
+          </p>
           <div className="mt-3">
             <SelectorColor pieza="gorra" productoSlug={gorraSlug} />
           </div>
@@ -240,13 +267,19 @@ export function Paquetes() {
         <div className="grid gap-4 pt-3 md:grid-cols-2 lg:grid-cols-3">
           {paquetes.map((paquete) => {
             const porJugador = precioPaquete(paquete, seleccion);
-            const piezasPorJugador = paquete.items.reduce((s, i) => s + i.porJugador, 0);
+            const piezasPorJugador = paquete.items.reduce(
+              (s, i) => s + i.porJugador,
+              0,
+            );
             const piezas = piezasPorJugador * jugadores;
             const total = porJugador * jugadores * (1 - descuentoPara(piezas));
             const Icono = iconosPaquete[paquete.icono];
             const cabecera = encabezados[paquete.color];
             const incluidas = new Map(
-              paquete.items.map((item) => [item.segun ?? item.productoSlug, item]),
+              paquete.items.map((item) => [
+                item.segun ?? item.productoSlug,
+                item,
+              ]),
             );
 
             return (
@@ -261,7 +294,8 @@ export function Paquetes() {
                   izquierda del encabezado de color.
                 */}
                 {paquete.badge && (
-                  <span className="absolute left-3 top-3 z-10 whitespace-nowrap rounded-full bg-tinta px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-white">
+                  <span className="absolute left-3 top-3 z-10 flex items-center gap-1.5 whitespace-nowrap rounded-full bg-tinta px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-white">
+                    <IconoEstrella className="h-2.5 w-2.5 text-dorado-claro" />
                     {paquete.badge}
                   </span>
                 )}
@@ -275,8 +309,12 @@ export function Paquetes() {
                   className={`rounded-t-[15px] px-5 pb-5 pt-8 text-center ${cabecera.fondo} ${cabecera.texto}`}
                 >
                   <Icono className={`mx-auto h-14 w-14 ${cabecera.icono}`} />
-                  <h3 className="titulo mt-4 text-3xl leading-none">{paquete.nombre}</h3>
-                  <p className={`mt-2 text-sm leading-snug ${cabecera.detalle}`}>
+                  <h3 className="titulo mt-4 text-3xl leading-none">
+                    {paquete.nombre}
+                  </h3>
+                  <p
+                    className={`mt-2 text-sm leading-snug ${cabecera.detalle}`}
+                  >
                     {paquete.descripcion}
                   </p>
                 </div>
@@ -288,7 +326,10 @@ export function Paquetes() {
                   <ul className="mt-3 space-y-1.5 pb-5 text-sm">
                     {piezasDeTodos.map(({ clave, item: referencia }) => {
                       const item = incluidas.get(clave);
-                      const producto = productoDeItem(item ?? referencia, seleccion);
+                      const producto = productoDeItem(
+                        item ?? referencia,
+                        seleccion,
+                      );
                       if (!producto) return null;
                       /*
                         La casaca se nombra por el acabado elegido en el paso 3.
@@ -315,7 +356,9 @@ export function Paquetes() {
                             <IconoCerrar className="mt-0.5 h-4 w-4 shrink-0 text-linea" />
                           )}
                           <span>
-                            {item && item.porJugador > 1 && `${item.porJugador}× `}
+                            {item &&
+                              item.porJugador > 1 &&
+                              `${item.porJugador}× `}
                             {etiqueta}
                           </span>
                         </li>
@@ -325,24 +368,32 @@ export function Paquetes() {
 
                   <div className="mt-auto border-t border-linea pt-5">
                     <div className="flex items-baseline gap-2">
-                      <p className="titulo text-4xl leading-none">{precioMXN(porJugador)}</p>
+                      <p className="titulo text-4xl leading-none">
+                        {precioMXN(porJugador)}
+                      </p>
                       <p className="text-xs text-tenue">por jugador</p>
                     </div>
                     <p className="mt-2 text-sm">
                       <span className="font-semibold">{precioMXN(total)}</span>
-                      <span className="text-tenue"> el equipo · {piezas} piezas</span>
+                      <span className="text-tenue">
+                        {" "}
+                        el equipo · {piezas} piezas
+                      </span>
                     </p>
 
                     <button
                       type="button"
-                      onClick={() => agregarPaquete(paquete, jugadores, seleccion)}
+                      onClick={() =>
+                        agregarPaquete(paquete, jugadores, seleccion)
+                      }
                       className={`mt-4 w-full rounded-xl px-5 py-3.5 text-sm font-semibold transition-colors ${
                         paquete.destacado
                           ? "bg-tinta text-white hover:bg-black"
                           : "border border-tinta text-tinta hover:bg-tinta hover:text-white"
                       }`}
                     >
-                      Armar para {jugadores} {jugadores === 1 ? "jugador" : "jugadores"}
+                      Armar para {jugadores}{" "}
+                      {jugadores === 1 ? "jugador" : "jugadores"}
                     </button>
                   </div>
                 </div>
@@ -357,8 +408,10 @@ export function Paquetes() {
         <p className="mt-5 flex items-center justify-center gap-2 text-center text-sm text-white">
           <IconoCheck className="h-4 w-4 shrink-0" />
           <span>
-            <strong className="font-semibold">Diseño 100% personalizable</strong> en la casaca y la
-            gorra: colores, logo, nombre y número.
+            <strong className="font-semibold">
+              Diseño 100% personalizable
+            </strong>{" "}
+            en la casaca y la gorra: colores, logo, nombre y número.
           </span>
         </p>
       </Paso>

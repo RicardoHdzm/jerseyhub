@@ -1,8 +1,12 @@
 import { IconoMas } from "@/components/iconos";
 import { descuentosPorVolumen, minimoUniformes, negocio } from "@/lib/config";
 
-const nivelMasAlto = [...descuentosPorVolumen].sort((a, b) => b.porcentaje - a.porcentaje)[0];
-const nivelMasBajo = [...descuentosPorVolumen].sort((a, b) => a.desde - b.desde)[0];
+const nivelMasAlto = [...descuentosPorVolumen].sort(
+  (a, b) => b.porcentaje - a.porcentaje,
+)[0];
+const nivelMasBajo = [...descuentosPorVolumen].sort(
+  (a, b) => a.desde - b.desde,
+)[0];
 
 const preguntas = [
   {
@@ -53,6 +57,11 @@ export function PreguntasFrecuentes() {
       {preguntas.map((item) => (
         <details
           key={item.q}
+          /*
+            Acordeón nativo: al compartir el mismo `name`, el navegador cierra
+            la pregunta que estaba abierta al abrirse otra. Sin estado ni JS.
+          */
+          name="pregunta-frecuente"
           className="tarjeta group px-5 py-4 [&_summary::-webkit-details-marker]:hidden"
         >
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold">

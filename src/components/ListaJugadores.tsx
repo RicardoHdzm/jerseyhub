@@ -14,16 +14,27 @@ const FILA_VACIA = { nombre: "", numero: "", talla: "" };
 export function ListaJugadores() {
   const { roster, setRoster, jugadores } = useCotizacion();
 
-  const cambiar = (indice: number, campo: keyof typeof FILA_VACIA, valor: string) => {
-    setRoster(roster.map((fila, i) => (i === indice ? { ...fila, [campo]: valor } : fila)));
+  const cambiar = (
+    indice: number,
+    campo: keyof typeof FILA_VACIA,
+    valor: string,
+  ) => {
+    setRoster(
+      roster.map((fila, i) =>
+        i === indice ? { ...fila, [campo]: valor } : fila,
+      ),
+    );
   };
 
   const agregarFila = () => setRoster([...roster, { ...FILA_VACIA }]);
-  const quitarFila = (indice: number) => setRoster(roster.filter((_, i) => i !== indice));
+  const quitarFila = (indice: number) =>
+    setRoster(roster.filter((_, i) => i !== indice));
   const completarHasta = () =>
     setRoster([
       ...roster,
-      ...Array.from({ length: jugadores - roster.length }, () => ({ ...FILA_VACIA })),
+      ...Array.from({ length: jugadores - roster.length }, () => ({
+        ...FILA_VACIA,
+      })),
     ]);
 
   const faltan = jugadores - roster.length;
@@ -31,7 +42,9 @@ export function ListaJugadores() {
   return (
     <div className="mt-4">
       <div className="flex items-baseline justify-between gap-2">
-        <span className="text-xs font-medium text-tenue">Lista de jugadores (opcional)</span>
+        <span className="text-xs font-medium text-tenue">
+          Lista de jugadores (opcional)
+        </span>
         {roster.length > 0 && (
           <span className="text-[11px] text-tenue">
             {roster.length} de {jugadores}
@@ -42,8 +55,8 @@ export function ListaJugadores() {
       {roster.length === 0 ? (
         <div className="mt-2 rounded-lg border border-dashed border-linea px-3 py-3">
           <p className="text-xs leading-relaxed text-tenue">
-            Captura aquí nombres, números y tallas y viajan dentro del mismo mensaje. Si prefieres,
-            los pasamos por chat.
+            Captura aquí nombres, números y tallas y viajan dentro del mismo
+            mensaje. Si prefieres, los pasamos por chat.
           </p>
           <button
             type="button"

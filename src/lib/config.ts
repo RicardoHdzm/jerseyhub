@@ -50,7 +50,19 @@ export const descuentosPorVolumen = [
 ] as const;
 
 /** Tallas que ofrecen, para la lista de jugadores. */
-export const tallas = ["CH", "M", "G", "XG", "XXG", "6", "8", "10", "12", "14", "16"] as const;
+export const tallas = [
+  "CH",
+  "M",
+  "G",
+  "XG",
+  "XXG",
+  "6",
+  "8",
+  "10",
+  "12",
+  "14",
+  "16",
+] as const;
 
 /**
  * Mínimo de uniformes por equipo. Aplica solo al armador de paquetes: las

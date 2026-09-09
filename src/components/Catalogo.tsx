@@ -41,8 +41,10 @@ export function Catalogo() {
 
   const ocultas = useMemo(
     () =>
-      (filtro === "todo" ? entradas : entradas.filter((e) => e.filtro === filtro)).length -
-      visibles.length,
+      (filtro === "todo"
+        ? entradas
+        : entradas.filter((e) => e.filtro === filtro)
+      ).length - visibles.length,
     [filtro, entradas, visibles],
   );
 
@@ -53,7 +55,9 @@ export function Catalogo() {
   );
 
   const descripcionFiltro =
-    filtro === "todo" ? null : categorias.find((c) => c.id === filtro)?.descripcion;
+    filtro === "todo"
+      ? null
+      : categorias.find((c) => c.id === filtro)?.descripcion;
 
   return (
     <>
@@ -97,7 +101,11 @@ export function Catalogo() {
 
       <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {visibles.map((entrada) => (
-          <TarjetaCatalogo key={entrada.id} entrada={entrada} onAbrir={setAbierta} />
+          <TarjetaCatalogo
+            key={entrada.id}
+            entrada={entrada}
+            onAbrir={setAbierta}
+          />
         ))}
       </div>
 

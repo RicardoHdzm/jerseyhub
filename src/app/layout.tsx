@@ -80,7 +80,11 @@ export const viewport: Viewport = {
   themeColor: "#1a1a1a",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="es-MX" className={`${display.variable} ${cuerpo.variable}`}>
       <body className="min-h-screen">
