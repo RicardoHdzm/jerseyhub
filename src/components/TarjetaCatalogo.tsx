@@ -31,7 +31,7 @@ export function TarjetaCatalogo({
       onClick={() => onAbrir(entrada)}
       title={modelo?.descripcion ?? producto.descripcion}
       className={`group tarjeta flex flex-col overflow-hidden text-left transition-[border-color,translate] duration-200 hover:-translate-y-1 hover:border-dorado ${
-        compacta ? "" : "aparece"
+        compacta ? "" : "sube"
       }`}
     >
       {/*

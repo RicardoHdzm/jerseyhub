@@ -223,41 +223,56 @@ body {
 */
 
 /*
-  Aparición al entrar en pantalla.
+  Entrada al aparecer en pantalla: solo movimiento, sin fundido.
 
   Va con línea de tiempo de scroll (`view()`) y no con JavaScript a propósito:
-  sin JS no hay riesgo de que el observador falle y deje el contenido en
-  opacidad cero, y el elemento que ya está en pantalla al cargar arranca al
-  final de su rango, o sea visible. Cada tarjeta lleva la suya, así que el
-  escalonado sale solo del orden en que van entrando.
+  sin JS no hay estado inicial que se pueda quedar pegado si algo falla, y el
+  elemento que ya está en pantalla al cargar arranca al final de su rango, o
+  sea en su sitio. Cada tarjeta lleva la suya, así que el escalonado sale solo
+  del orden en que van entrando.
 
   El bloque global de `prefers-reduced-motion` de más arriba no alcanza aquí:
   una animación con línea de tiempo de scroll no se mide en segundos, así que
   ponerle `animation-duration: 0` no la apaga. Por eso el `@media` propio.
 */
-@keyframes aparecer {
+
+/*
+  El elemento arranca 48 px por debajo de su sitio y sube hasta él conforme
+  haces scroll. Como la página va subiendo al mismo tiempo, se lee como que la
+  tarjeta se queda atrás un momento y luego alcanza al resto — el movimiento
+  es relativo, no un desplazamiento suelto.
+
+  Sin opacidad a propósito: el fundido hace la mitad del trabajo de un reveal,
+  y sin él hay que darle más recorrido para que se note igual.
+*/
+@keyframes subir {
   from {
-    opacity: 0;
-    transform: translateY(1.25rem);
+    transform: translateY(3rem);
   }
   to {
-    opacity: 1;
     transform: none;
   }
 }
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .aparece {
-      animation: aparecer linear both;
+    .sube {
+      animation: subir linear both;
       animation-timeline: view();
       /*
-        El rango se mide en píxeles, no en porcentaje del elemento: arranca en
-        cuanto asoma por abajo y dura 300 px de scroll, sea una tarjeta alta o
-        un encabezado de tres líneas. Con porcentajes, un elemento bajito
-        completa su entrada en un puñado de píxeles y aparece de golpe.
+        El rango se mide en píxeles y no en porcentaje del elemento: así dura
+        lo mismo una tarjeta alta que un encabezado de tres líneas. Con
+        porcentajes, un elemento bajito completa su entrada en un puñado de
+        píxeles y aparece de golpe.
+
+        Los números importan más de lo que parece. Arranca a 80 px de que el
+        elemento asome —antes está fuera de pantalla y el movimiento se
+        desperdicia— y termina a 550, que en una ventana normal cae cerca de la
+        mitad de la altura. Terminar antes es lo que hacía que no se notara:
+        la tarjeta acababa de aparecer allá abajo, en la orilla, y para cuando
+        la vista llegaba ya estaba quieta.
       */
-      animation-range: cover 0% cover 300px;
+      animation-range: cover 80px cover 550px;
     }
   }
 }

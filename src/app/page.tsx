@@ -73,7 +73,7 @@ function Seccion({
           izquierda. El contenido de abajo no se toca: centrar listas y tarjetas
           las vuelve difíciles de recorrer con la vista.
         */}
-        <div className="aparece text-center lg:text-left">
+        <div className="sube text-center lg:text-left">
           <p
             className={`etiqueta flex items-center justify-center gap-2 text-base sm:text-lg lg:justify-start ${tono.etiqueta}`}
           >
@@ -147,7 +147,7 @@ export default function Inicio() {
       */}
       <section className="bg-tinta text-white">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-5 py-16 text-center lg:flex-row lg:items-center lg:justify-between lg:py-20 lg:text-left">
-          <div className="aparece">
+          <div className="sube">
             <h2 className="titulo text-4xl sm:text-5xl">¿Estás listo?</h2>
             <p className="mx-auto mt-3 max-w-xl text-white/70 lg:mx-0">
               Mándanos tu idea, el logo del equipo o una foto de referencia y te

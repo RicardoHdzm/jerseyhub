@@ -285,7 +285,7 @@ export function Paquetes() {
             return (
               <article
                 key={paquete.slug}
-                className={`tarjeta aparece relative flex flex-col transition-[border-color,translate] duration-200 hover:-translate-y-1 ${
+                className={`tarjeta sube relative flex flex-col transition-[border-color,translate] duration-200 hover:-translate-y-1 ${
                   paquete.destacado ? "border-dorado" : "hover:border-dorado"
                 }`}
               >

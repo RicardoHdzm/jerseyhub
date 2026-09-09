@@ -30,7 +30,7 @@ export function Testimonios() {
       {testimonios.map((testimonio) => (
         <figure
           key={testimonio.nombre}
-          className="tarjeta aparece flex flex-col p-6"
+          className="tarjeta sube flex flex-col p-6"
         >
           <div className="flex items-start justify-between gap-4">
             <Calificacion estrellas={testimonio.calificacion ?? 5} />
