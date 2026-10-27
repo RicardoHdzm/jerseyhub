@@ -152,7 +152,7 @@ export type Paquete = {
   nombre: string;
   descripcion: string;
   /** Icono del encabezado de la tarjeta. */
-  icono: "pelota" | "estrella" | "diamante";
+  icono: "casaca" | "pelota" | "estrella" | "diamante";
   /** Color del encabezado. Cada paquete tiene el suyo. */
   color: "tinta" | "dorado";
   badge?: string;

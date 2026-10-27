@@ -10,6 +10,7 @@ import { SelectorGorra } from "@/components/SelectorGorra";
 import { TableroLaminas } from "@/components/TableroLaminas";
 import { SelectorTecnica } from "@/components/SelectorTecnica";
 import {
+  IconoCasaca,
   IconoCerrar,
   IconoCheck,
   IconoDiamante,
@@ -68,6 +69,7 @@ const piezasDeTodos: { clave: string; item: PaqueteItem }[] = (() => {
 })();
 
 const iconosPaquete = {
+  casaca: IconoCasaca,
   pelota: IconoPelota,
   estrella: IconoEstrella,
   diamante: IconoDiamante,

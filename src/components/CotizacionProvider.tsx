@@ -38,6 +38,10 @@ type Contexto = EstadoCotizacion & {
   abrirPanel: () => void;
   cerrarPanel: () => void;
   setJugadores: (n: number) => void;
+  /** El paquete del paso 2. Vuelve a pasar el mismo slug para deseleccionar. */
+  setPaquete: (slug: string) => void;
+  /** Si la casaca se diseña desde cero o se toma del catálogo impreso. */
+  setOrigenDiseno: (origen: "" | "personalizado" | "catalogo") => void;
   /** Vuelve a pasar el mismo slug para deseleccionar. */
   setModelo: (slug: string) => void;
   /** Corte de la casaca: hoy los dos se hacen con los mismos diseños. */
@@ -170,6 +174,27 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
     [actualizar],
   );
 
+  const setPaquete = useCallback(
+    (slug: string) =>
+      actualizar((a) => ({ ...a, paquete: a.paquete === slug ? "" : slug })),
+    [actualizar],
+  );
+
+  /*
+    Elegir "personalizado" borra el modelo: si el cliente ya había señalado una
+    casaca del catálogo y luego decide diseñar la suya, dejar el código ahí
+    haría que la cotización pidiera las dos cosas.
+  */
+  const setOrigenDiseno = useCallback(
+    (origen: "" | "personalizado" | "catalogo") =>
+      actualizar((a) => ({
+        ...a,
+        origenDiseno: a.origenDiseno === origen ? "" : origen,
+        modelo: origen === "catalogo" ? a.modelo : "",
+      })),
+    [actualizar],
+  );
+
   const setCorte = useCallback(
     (corte: GeneroModelo) => actualizar((a) => ({ ...a, corte })),
     [actualizar],
@@ -215,6 +240,8 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
       abrirPanel,
       cerrarPanel,
       setJugadores,
+      setPaquete,
+      setOrigenDiseno,
       setModelo,
       setCorte,
       setTecnica,
@@ -235,6 +262,8 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
       abrirPanel,
       cerrarPanel,
       setJugadores,
+      setPaquete,
+      setOrigenDiseno,
       setModelo,
       setCorte,
       setTecnica,

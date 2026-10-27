@@ -16,6 +16,7 @@ import {
   faCircleHalfStroke,
   faCrown,
   faPenNib,
+  faShirt,
   faGem,
   faLocationDot,
   faGripVertical,
@@ -79,6 +80,10 @@ export function IconoFlecha({ className = "h-4 w-4" }: Props) {
 
 export function IconoFlechaIzquierda({ className = "h-4 w-4" }: Props) {
   return <FontAwesomeIcon icon={faArrowLeft} className={className} />;
+}
+
+export function IconoCasaca({ className = "h-6 w-6" }: Props) {
+  return <FontAwesomeIcon icon={faShirt} className={className} />;
 }
 
 export function IconoPelota({ className = "h-6 w-6" }: Props) {

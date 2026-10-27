@@ -1432,6 +1432,15 @@ export const laminas: Lamina[] = [
 
 export const paquetes: Paquete[] = [
   {
+    slug: "casaca",
+    nombre: "Solo Casaca",
+    icono: "casaca",
+    color: "tinta",
+    descripcion:
+      "Nada más la casaca del equipo, con el diseño y los nombres de cada jugador.",
+    items: [{ productoSlug: "casaca-mixta", porJugador: 1, segun: "tecnica" }],
+  },
+  {
     slug: "basico",
     nombre: "Paquete Básico",
     icono: "pelota",

@@ -15,6 +15,15 @@ const CLAVE = "jerseyhub.cotizacion.v1";
 
 export type EstadoCotizacion = {
   jugadores: number;
+  /** Slug del paquete elegido en el paso 2, o "" si todavía no elige. */
+  paquete: string;
+  /**
+   * De dónde sale el diseño de la casaca: del catálogo impreso o hecho desde
+   * cero. Va aparte de `modelo` porque "personalizado" es una decisión, no la
+   * ausencia de una: con el campo vacío no se sabe si eligió hacerlo a medida o
+   * si todavía no ha llegado a ese paso.
+   */
+  origenDiseno: "" | "personalizado" | "catalogo";
   /** Slug del modelo de uniforme elegido, o "" si todavía no elige. */
   modelo: string;
   /**
@@ -38,6 +47,8 @@ export type EstadoCotizacion = {
 
 export const COTIZACION_VACIA: EstadoCotizacion = {
   jugadores: jugadoresPorDefecto,
+  paquete: "",
+  origenDiseno: "",
   modelo: "",
   corte: "caballero",
   tecnica: "",
@@ -70,6 +81,12 @@ function interpretar(texto: string | null): EstadoCotizacion {
     const guardado = JSON.parse(texto) as Partial<EstadoCotizacion>;
     return {
       jugadores: guardado.jugadores ?? COTIZACION_VACIA.jugadores,
+      paquete: guardado.paquete ?? "",
+      origenDiseno:
+        guardado.origenDiseno === "personalizado" ||
+        guardado.origenDiseno === "catalogo"
+          ? guardado.origenDiseno
+          : "",
       modelo: guardado.modelo ?? "",
       corte: guardado.corte === "dama" ? "dama" : "caballero",
       tecnica: guardado.tecnica ?? "",
