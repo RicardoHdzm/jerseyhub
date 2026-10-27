@@ -107,6 +107,31 @@ export type ModeloUniforme = {
   colores?: [string, string, string];
 };
 
+/**
+ * Una de las nueve hojas del catálogo impreso, con la caja de cada casaca
+ * dentro de ella.
+ *
+ * Las cajas van en porcentaje de la lámina, no en píxeles, para que sigan
+ * cuadrando a cualquier tamaño en que se muestre la imagen. Salieron del mismo
+ * análisis con el que se recortaron las fotos de modelos/, así que si llegan
+ * láminas nuevas se vuelven a calcular, no se miden a mano.
+ */
+export type ZonaLamina = {
+  /** Modelo al que corresponde esta casaca de la hoja. */
+  slug: string;
+  /** Esquina superior izquierda y tamaño, en % del ancho y alto de la lámina. */
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+};
+
+export type Lamina = {
+  numero: number;
+  foto: string;
+  zonas: ZonaLamina[];
+};
+
 export type PaqueteItem = {
   /** Producto con el que se cotiza si el cliente no eligió modelo. */
   productoSlug: string;

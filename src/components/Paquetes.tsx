@@ -7,7 +7,7 @@ import type { PaqueteItem } from "@/lib/types";
 import { useCotizacion } from "@/components/CotizacionProvider";
 import { SelectorColor } from "@/components/SelectorColor";
 import { SelectorGorra } from "@/components/SelectorGorra";
-import { SelectorModelo } from "@/components/SelectorModelo";
+import { TableroLaminas } from "@/components/TableroLaminas";
 import { SelectorTecnica } from "@/components/SelectorTecnica";
 import {
   IconoCerrar,
@@ -195,7 +195,7 @@ export function Paquetes() {
             : "Cualquiera se puede producir con cualquier acabado"
         }
       >
-        <SelectorModelo />
+        <TableroLaminas />
       </Paso>
 
       <Paso

@@ -17,7 +17,15 @@ Cómo está organizado:
                       mandaron. No se usan en el sitio: son el original del que
                       se recortaron las fotos de modelos/.
 
-  modelos/            Los 87 diseños de corte caballero, uno por archivo, con
+  laminas/            Las mismas nueve hojas en webp (1.85 MB las nueve, unos
+                      205 KB cada una). Son las que ve el cliente en el paso 2
+                      del armador: se muestran enteras y encima van las zonas
+                      clicables de cada casaca, que viven en el arreglo
+                      `laminas` de src/data/catalog.ts con sus coordenadas en
+                      porcentaje. Si cambian las láminas hay que regenerar las
+                      dos cosas: el webp y las coordenadas.
+
+  modelos/            Los 87 diseños, uno por archivo, con
                       el nombre de su código: JH-001.webp ... JH-098.webp.
                       Cuadradas de 1000x1000 sobre blanco.
 

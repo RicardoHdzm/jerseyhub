@@ -1,6 +1,7 @@
 import type {
   Categoria,
   GeneroModelo,
+  Lamina,
   ModeloUniforme,
   FiltroCatalogo,
   Opcion,
@@ -1272,6 +1273,160 @@ export function nombreModelo(
   if (corte) partes.push(corte === "dama" ? "corte dama" : "corte caballero");
   return partes.join(" · ");
 }
+
+// --- Láminas del catálogo impreso -------------------------------------------
+
+/**
+ * Las nueve hojas tal como llegaron, con las coordenadas de cada casaca dentro
+ * de cada una. Es lo que permite mostrar la lámina entera —sin cortarla— y aun
+ * así dejar que el cliente señale una prenda concreta.
+ *
+ * El orden de las zonas es el de lectura: de izquierda a derecha y de arriba
+ * abajo, que es como van los códigos en la hoja.
+ */
+export const laminas: Lamina[] = [
+  {
+    numero: 1,
+    foto: "/productos/laminas/lamina-1.webp",
+    zonas: [
+      { slug: "jh-001", x: 0.6, y: 0.9, w: 18.8, h: 47.9 },
+      { slug: "jh-002", x: 20.6, y: 0.9, w: 18.8, h: 47.9 },
+      { slug: "jh-003", x: 40.6, y: 0.9, w: 18.9, h: 47.9 },
+      { slug: "jh-004", x: 60.6, y: 0.9, w: 18.8, h: 47.9 },
+      { slug: "jh-005", x: 80.6, y: 0.9, w: 18.8, h: 47.9 },
+      { slug: "jh-006", x: 0.6, y: 50.6, w: 18.8, h: 48.5 },
+      { slug: "jh-007", x: 20.6, y: 50.6, w: 18.8, h: 48.5 },
+      { slug: "jh-008", x: 40.6, y: 50.6, w: 18.9, h: 48.5 },
+      { slug: "jh-009", x: 60.6, y: 50.6, w: 18.8, h: 48.5 },
+      { slug: "jh-010", x: 80.6, y: 50.6, w: 18.8, h: 48.5 },
+    ],
+  },
+  {
+    numero: 2,
+    foto: "/productos/laminas/lamina-2.webp",
+    zonas: [
+      { slug: "jh-011", x: 0.6, y: 0.9, w: 18.8, h: 47.1 },
+      { slug: "jh-012", x: 20.6, y: 0.9, w: 18.8, h: 47.1 },
+      { slug: "jh-013", x: 40.6, y: 0.9, w: 18.9, h: 47.1 },
+      { slug: "jh-014", x: 60.6, y: 0.9, w: 18.8, h: 47.1 },
+      { slug: "jh-015", x: 80.6, y: 0.9, w: 18.8, h: 47.1 },
+      { slug: "jh-016", x: 6.4, y: 49.7, w: 23.2, h: 49.4 },
+      { slug: "jh-017", x: 38, y: 49.7, w: 23.8, h: 49.4 },
+      { slug: "jh-018", x: 70.5, y: 49.7, w: 23.4, h: 49.4 },
+    ],
+  },
+  {
+    numero: 3,
+    foto: "/productos/laminas/lamina-3.webp",
+    zonas: [
+      { slug: "jh-020", x: 0.6, y: 0.9, w: 18.8, h: 48.1 },
+      { slug: "jh-021", x: 20.6, y: 0.9, w: 18.8, h: 48.1 },
+      { slug: "jh-022", x: 40.6, y: 0.9, w: 18.9, h: 48.1 },
+      { slug: "jh-023", x: 60.6, y: 0.9, w: 18.8, h: 48.1 },
+      { slug: "jh-024", x: 80.6, y: 0.9, w: 18.8, h: 48.1 },
+      { slug: "jh-025", x: 0.6, y: 50.8, w: 18.8, h: 48.3 },
+      { slug: "jh-026", x: 20.6, y: 50.8, w: 18.8, h: 48.3 },
+      { slug: "jh-027", x: 40.6, y: 50.8, w: 18.9, h: 48.3 },
+      { slug: "jh-028", x: 60.6, y: 50.8, w: 18.8, h: 48.3 },
+      { slug: "jh-029", x: 80.6, y: 50.8, w: 18.8, h: 48.3 },
+    ],
+  },
+  {
+    numero: 4,
+    foto: "/productos/laminas/lamina-4.webp",
+    zonas: [
+      { slug: "jh-030", x: 0.6, y: 0.9, w: 18.8, h: 46.6 },
+      { slug: "jh-031", x: 20.6, y: 0.9, w: 18.8, h: 46.6 },
+      { slug: "jh-032", x: 40.6, y: 0.9, w: 18.9, h: 46.6 },
+      { slug: "jh-033", x: 60.6, y: 0.9, w: 18.8, h: 46.6 },
+      { slug: "jh-034", x: 80.6, y: 0.9, w: 18.8, h: 46.6 },
+      { slug: "jh-035", x: 0.6, y: 49.2, w: 18.8, h: 49.9 },
+      { slug: "jh-036", x: 20.6, y: 49.2, w: 18.8, h: 49.9 },
+      { slug: "jh-037", x: 40.6, y: 49.2, w: 18.9, h: 49.9 },
+      { slug: "jh-038", x: 60.6, y: 49.2, w: 18.8, h: 49.9 },
+      { slug: "jh-039", x: 80.6, y: 49.2, w: 18.8, h: 49.9 },
+    ],
+  },
+  {
+    numero: 5,
+    foto: "/productos/laminas/lamina-5.webp",
+    zonas: [
+      { slug: "jh-040", x: 0.4, y: 0.9, w: 21.1, h: 46.8 },
+      { slug: "jh-041", x: 21.8, y: 0.9, w: 19.7, h: 46.8 },
+      { slug: "jh-042", x: 41.6, y: 0.9, w: 19.1, h: 46.8 },
+      { slug: "jh-043", x: 60.9, y: 0.9, w: 18.8, h: 46.8 },
+      { slug: "jh-044", x: 80, y: 0.9, w: 19.8, h: 46.8 },
+      { slug: "jh-045", x: 0.6, y: 49.4, w: 18.8, h: 49.7 },
+      { slug: "jh-046", x: 20.6, y: 49.4, w: 18.8, h: 49.7 },
+      { slug: "jh-047", x: 40.6, y: 49.4, w: 18.9, h: 49.7 },
+      { slug: "jh-048", x: 60.6, y: 49.4, w: 18.8, h: 49.7 },
+      { slug: "jh-049", x: 80.6, y: 49.4, w: 18.8, h: 49.7 },
+    ],
+  },
+  {
+    numero: 6,
+    foto: "/productos/laminas/lamina-6.webp",
+    zonas: [
+      { slug: "jh-050", x: 0.5, y: 0.9, w: 20.1, h: 45.2 },
+      { slug: "jh-051", x: 21.3, y: 0.9, w: 19.5, h: 45.2 },
+      { slug: "jh-052", x: 41, y: 0.9, w: 19.3, h: 45.2 },
+      { slug: "jh-053", x: 60.3, y: 0.9, w: 19.6, h: 45.2 },
+      { slug: "jh-054", x: 80, y: 0.9, w: 19.6, h: 45.2 },
+      { slug: "jh-055", x: 0.6, y: 47.9, w: 18.8, h: 51.3 },
+      { slug: "jh-056", x: 20.6, y: 47.9, w: 18.8, h: 51.3 },
+      { slug: "jh-057", x: 40.6, y: 47.9, w: 18.9, h: 51.3 },
+      { slug: "jh-058", x: 60.6, y: 47.9, w: 18.8, h: 51.3 },
+      { slug: "jh-059", x: 80.6, y: 47.9, w: 18.8, h: 51.3 },
+    ],
+  },
+  {
+    numero: 7,
+    foto: "/productos/laminas/lamina-7.webp",
+    zonas: [
+      { slug: "jh-070", x: 0.4, y: 0.9, w: 19.5, h: 45.7 },
+      { slug: "jh-071", x: 20.6, y: 0.9, w: 19.7, h: 45.7 },
+      { slug: "jh-072", x: 40.5, y: 0.9, w: 19.7, h: 45.7 },
+      { slug: "jh-073", x: 60.2, y: 0.9, w: 19.9, h: 45.7 },
+      { slug: "jh-074", x: 80.3, y: 0.9, w: 19.5, h: 45.7 },
+      { slug: "jh-075", x: 0.6, y: 48.3, w: 18.8, h: 50.8 },
+      { slug: "jh-076", x: 20.6, y: 48.3, w: 18.8, h: 50.8 },
+      { slug: "jh-077", x: 40.6, y: 48.3, w: 18.9, h: 50.8 },
+      { slug: "jh-078", x: 60.6, y: 48.3, w: 18.8, h: 50.8 },
+      { slug: "jh-079", x: 80.6, y: 48.3, w: 18.8, h: 50.8 },
+    ],
+  },
+  {
+    numero: 8,
+    foto: "/productos/laminas/lamina-8.webp",
+    zonas: [
+      { slug: "jh-080", x: 0.5, y: 0.9, w: 19.9, h: 46 },
+      { slug: "jh-081", x: 20.8, y: 0.9, w: 19.6, h: 46 },
+      { slug: "jh-082", x: 40.6, y: 0.9, w: 19.1, h: 46 },
+      { slug: "jh-083", x: 60.2, y: 0.9, w: 19.4, h: 46 },
+      { slug: "jh-084", x: 80.4, y: 0.9, w: 19, h: 46 },
+      { slug: "jh-085", x: 0.5, y: 48.6, w: 19.8, h: 50.5 },
+      { slug: "jh-086", x: 20.9, y: 48.6, w: 19.3, h: 50.5 },
+      { slug: "jh-087", x: 40.6, y: 48.6, w: 19.1, h: 50.5 },
+      { slug: "jh-088", x: 60.2, y: 48.6, w: 19.3, h: 50.5 },
+      { slug: "jh-089", x: 80.1, y: 48.6, w: 19.4, h: 50.5 },
+    ],
+  },
+  {
+    numero: 9,
+    foto: "/productos/laminas/lamina-9.webp",
+    zonas: [
+      { slug: "jh-090", x: 0.6, y: 0.9, w: 19.7, h: 45.9 },
+      { slug: "jh-091", x: 20.6, y: 0.9, w: 19.7, h: 45.9 },
+      { slug: "jh-092", x: 40.4, y: 0.9, w: 19.5, h: 45.9 },
+      { slug: "jh-093", x: 60.1, y: 0.9, w: 19.5, h: 45.9 },
+      { slug: "jh-094", x: 79.8, y: 0.9, w: 19.5, h: 45.9 },
+      { slug: "jh-095", x: 0.6, y: 48.5, w: 19.6, h: 50.6 },
+      { slug: "jh-096", x: 20.6, y: 48.5, w: 19.6, h: 50.6 },
+      { slug: "jh-097", x: 40.4, y: 48.5, w: 19.4, h: 50.6 },
+      { slug: "jh-098", x: 60, y: 48.5, w: 19.6, h: 50.6 },
+    ],
+  },
+];
 
 // --- Paquetes armados ------------------------------------------------------
 
