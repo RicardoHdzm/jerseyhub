@@ -55,5 +55,6 @@ Formato: cuadrada de preferencia (1000x1000), recortada sobre fondo blanco.
 El sitio las muestra con object-contain, así que no se recorta la prenda aunque
 la proporción no sea exacta. Sirven jpg, webp y avif.
 
-Si un producto o modelo no tiene foto, el sitio dibuja una ilustración de
-respaldo con los colores que trae en el catálogo. No se rompe nada.
+Si un PRODUCTO no tiene foto, el sitio dibuja una ilustración de respaldo con
+los colores que trae en el catálogo. Los MODELOS sí necesitan foto: los 87 salen
+de las láminas y no hay dibujo de reserva para ellos.
