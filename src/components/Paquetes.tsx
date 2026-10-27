@@ -28,7 +28,6 @@ import {
 } from "@/data/catalog";
 import { minimosUniformes } from "@/lib/config";
 import {
-  descuentoPara,
   precioMXN,
   precioPaquete,
   productoDeItem,
@@ -215,20 +214,6 @@ export function Paquetes() {
     contenido: ReactNode;
   }[] = [
     {
-      clave: "jugadores",
-      titulo: "¿Cuántos jugadores son?",
-      /*
-        El mínimo cambia con la casaca, así que se dice aquí y no en un texto
-        fijo: con un diseño del catálogo son 12 y personalizada 20. Mientras no
-        haya casaca elegida se anuncian los dos para que nadie se lleve la
-        sorpresa a mitad del armado.
-      */
-      detalle: tecnica
-        ? `Mínimo ${minimoDe(tecnica)} uniformes con esta casaca`
-        : `Mínimo ${minimosUniformes.catalogo} del catálogo, ${minimosUniformes.personalizada} personalizadas`,
-      contenido: <ContadorJugadores />,
-    },
-    {
       clave: "casaca",
       titulo: "Elige tu casaca",
       detalle: tecnicaElegida
@@ -247,6 +232,20 @@ export function Paquetes() {
       detalle:
         nombreModelo(modelo, corte) ?? "Uno de los 87 diseños del catálogo",
       contenido: <TableroLaminas />,
+    },
+    {
+      clave: "jugadores",
+      titulo: "¿Cuántos jugadores son?",
+      /*
+        El mínimo cambia con la casaca, así que se dice aquí y no en un texto
+        fijo: con un diseño del catálogo son 12 y personalizada 20. Mientras no
+        haya casaca elegida se anuncian los dos para que nadie se lleve la
+        sorpresa a mitad del armado.
+      */
+      detalle: tecnica
+        ? `Mínimo ${minimoDe(tecnica)} uniformes con esta casaca`
+        : `Mínimo ${minimosUniformes.catalogo} del catálogo, ${minimosUniformes.personalizada} personalizadas`,
+      contenido: <ContadorJugadores />,
     },
     {
       clave: "paquete",
@@ -353,7 +352,7 @@ function TarjetasPaquete({ seleccion }: { seleccion: SeleccionArmador }) {
           0,
         );
         const piezas = piezasPorJugador * jugadores;
-        const total = porJugador * jugadores * (1 - descuentoPara(piezas));
+        const total = porJugador * jugadores;
         const Icono = iconosPaquete[item.icono];
         const cabecera = encabezados[item.color];
         const incluidas = new Map(
@@ -487,7 +486,7 @@ function Cierre({
     0,
   );
   const piezas = piezasPorJugador * jugadores;
-  const total = porJugador * jugadores * (1 - descuentoPara(piezas));
+  const total = porJugador * jugadores;
 
   /*
     Sin casaca elegida el precio de arriba no es un hueco: el paquete cotiza

@@ -38,17 +38,6 @@ export const negocio = {
   anticipo: "50%",
 } as const;
 
-/**
- * Descuentos por volumen aplicados al total de piezas de la cotización.
- * IMPORTANTE: revisa estos porcentajes antes de publicar el sitio.
- * Para desactivarlos por completo, deja el arreglo vacío: []
- */
-export const descuentosPorVolumen = [
-  { desde: 10, porcentaje: 0.05 },
-  { desde: 20, porcentaje: 0.08 },
-  { desde: 30, porcentaje: 0.12 },
-] as const;
-
 /** Tallas que ofrecen, para la lista de jugadores. */
 export const tallas = [
   "CH",

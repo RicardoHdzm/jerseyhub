@@ -61,8 +61,6 @@ export function BarraCotizacion() {
             {resumen.piezas} {resumen.piezas === 1 ? "pieza" : "piezas"} ·{" "}
             {resumen.lineas.length}{" "}
             {resumen.lineas.length === 1 ? "artículo" : "artículos"}
-            {resumen.descuentoMonto > 0 &&
-              ` · ${Math.round(resumen.descuentoPorcentaje * 100)}% de descuento`}
           </p>
           <p className="titulo text-2xl leading-none">
             {precioMXN(resumen.total)}

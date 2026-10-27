@@ -1,5 +1,5 @@
 import { getProducto, paquetes, piezaConColor } from "@/data/catalog";
-import { descuentosPorVolumen, negocio } from "@/lib/config";
+import { negocio } from "@/lib/config";
 import type {
   GeneroModelo,
   JugadorRoster,
@@ -106,31 +106,8 @@ export type Resumen = {
   lineas: LineaResuelta[];
   piezas: number;
   subtotal: number;
-  descuentoPorcentaje: number;
-  descuentoMonto: number;
   total: number;
-  /** Piezas que faltan para el siguiente nivel de descuento, si existe. */
-  siguienteNivel: { faltan: number; porcentaje: number } | null;
 };
-
-export function descuentoPara(piezas: number): number {
-  let porcentaje = 0;
-  for (const nivel of descuentosPorVolumen) {
-    if (piezas >= nivel.desde)
-      porcentaje = Math.max(porcentaje, nivel.porcentaje);
-  }
-  return porcentaje;
-}
-
-function siguienteNivelDescuento(piezas: number) {
-  const pendientes = descuentosPorVolumen
-    .filter((nivel) => piezas < nivel.desde)
-    .sort((a, b) => a.desde - b.desde);
-  const nivel = pendientes[0];
-  return nivel
-    ? { faltan: nivel.desde - piezas, porcentaje: nivel.porcentaje }
-    : null;
-}
 
 export function calcularResumen(lineas: LineaCotizacion[]): Resumen {
   const resueltas: LineaResuelta[] = [];
@@ -151,26 +128,15 @@ export function calcularResumen(lineas: LineaCotizacion[]): Resumen {
 
   /*
     El descuento del paquete completo viaja como una línea más para que el total
-    cuadre, pero no es una prenda: no se cuenta como pieza ni cuenta para el
-    descuento por volumen.
+    cuadre, pero no es una prenda y por eso no se cuenta como pieza.
   */
   const piezas = resueltas.reduce(
     (suma, l) => suma + (l.producto.esAjuste ? 0 : l.linea.cantidad),
     0,
   );
   const subtotal = resueltas.reduce((suma, l) => suma + l.subtotal, 0);
-  const descuentoPorcentaje = descuentoPara(piezas);
-  const descuentoMonto = Math.round(subtotal * descuentoPorcentaje);
 
-  return {
-    lineas: resueltas,
-    piezas,
-    subtotal,
-    descuentoPorcentaje,
-    descuentoMonto,
-    total: subtotal - descuentoMonto,
-    siguienteNivel: siguienteNivelDescuento(piezas),
-  };
+  return { lineas: resueltas, piezas, subtotal, total: subtotal };
 }
 
 /** Lo que el cliente lleva elegido en el armador y que afecta a los paquetes. */
@@ -337,12 +303,6 @@ export function mensajeWhatsApp(
   lineas.push("");
   lineas.push(`*Piezas totales:* ${resumen.piezas}`);
   lineas.push(`*Subtotal:* ${precioMXN(resumen.subtotal)}`);
-  if (resumen.descuentoMonto > 0) {
-    const pct = Math.round(resumen.descuentoPorcentaje * 100);
-    lineas.push(
-      `*Descuento por volumen (${pct}%):* -${precioMXN(resumen.descuentoMonto)}`,
-    );
-  }
   lineas.push(
     `*Total estimado:* ${precioMXN(resumen.total)} ${negocio.moneda}`,
   );

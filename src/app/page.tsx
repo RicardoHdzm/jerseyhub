@@ -106,7 +106,7 @@ export default function Inicio() {
         separador={false}
         etiqueta="Paquetes de equipo"
         titulo="Arma tu uniforme completo"
-        intro="Escoge el paquete que necesita tu equipo y ve decidiendo pieza por pieza. El precio se actualiza conforme eliges."
+        intro="Elige la casaca, su diseño y la combinación que necesita tu equipo. El precio se actualiza conforme decides."
       >
         <Paquetes />
       </Seccion>

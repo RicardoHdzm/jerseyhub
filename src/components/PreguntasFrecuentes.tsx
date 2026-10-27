@@ -1,12 +1,5 @@
 import { IconoMas } from "@/components/iconos";
-import { descuentosPorVolumen, minimosUniformes, negocio } from "@/lib/config";
-
-const nivelMasAlto = [...descuentosPorVolumen].sort(
-  (a, b) => b.porcentaje - a.porcentaje,
-)[0];
-const nivelMasBajo = [...descuentosPorVolumen].sort(
-  (a, b) => a.desde - b.desde,
-)[0];
+import { minimosUniformes, negocio } from "@/lib/config";
 
 const preguntas = [
   {
@@ -23,11 +16,7 @@ const preguntas = [
   },
   {
     q: "¿Hacen descuento por cantidad?",
-    a: nivelMasBajo
-      ? `Sí. A partir de ${nivelMasBajo.desde} piezas se aplica descuento automático, y llega hasta ${Math.round(
-          nivelMasAlto.porcentaje * 100,
-        )}% en pedidos grandes. La página ya te lo calcula mientras armas el paquete.`
-      : "Escríbenos con el volumen de tu pedido y te cotizamos.",
+    a: "El paquete completo ya trae $100 de descuento por jugador frente a pedir las piezas por separado. Si tu pedido es grande, escríbenos con el número de uniformes y lo vemos.",
   },
   {
     q: "¿El diseño tiene costo?",

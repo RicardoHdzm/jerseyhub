@@ -295,15 +295,6 @@ export function PanelCotizacion() {
                   <dt>Subtotal ({resumen.piezas} piezas)</dt>
                   <dd>{precioMXN(resumen.subtotal)}</dd>
                 </div>
-                {resumen.descuentoMonto > 0 && (
-                  <div className="flex justify-between text-tinta">
-                    <dt>
-                      Descuento por volumen (
-                      {Math.round(resumen.descuentoPorcentaje * 100)}%)
-                    </dt>
-                    <dd>&minus;{precioMXN(resumen.descuentoMonto)}</dd>
-                  </div>
-                )}
                 <div className="flex items-baseline justify-between border-t border-linea pt-2">
                   <dt className="titulo text-lg">Total estimado</dt>
                   <dd className="titulo text-2xl">
@@ -317,15 +308,6 @@ export function PanelCotizacion() {
                   </div>
                 )}
               </dl>
-
-              {resumen.siguienteNivel && (
-                <p className="mt-3 rounded-lg border border-linea bg-arena px-3 py-2 text-xs text-tenue">
-                  Agrega {resumen.siguienteNivel.faltan}{" "}
-                  {resumen.siguienteNivel.faltan === 1 ? "pieza" : "piezas"} más
-                  y el descuento sube a{" "}
-                  {Math.round(resumen.siguienteNivel.porcentaje * 100)}%.
-                </p>
-              )}
 
               <a
                 href={linkWhatsApp(mensaje)}
