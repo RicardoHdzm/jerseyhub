@@ -102,12 +102,6 @@ export type ModeloUniforme = {
    * porque cualquier modelo se puede producir con cualquier acabado.
    */
   casacaSlug: string;
-  /**
-   * Base lisa para la casaca personalizada: un color plano sobre el que se
-   * coloca el logo del equipo. No son diseños del catálogo impreso, así que no
-   * tienen código JH ni salen en la vitrina.
-   */
-  base?: boolean;
   /** Lleva la insignia de Popular en el catálogo. */
   destacado?: boolean;
   /** Foto del modelo. Si existe, se usa en vez de la ilustración. */

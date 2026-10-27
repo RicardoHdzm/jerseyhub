@@ -3,10 +3,10 @@
 import { useCotizacion } from "@/components/CotizacionProvider";
 import {
   IconoCheck,
-  IconoCorona,
+  IconoEmblema,
   IconoEstrella,
-  IconoMitades,
-  IconoPluma,
+  IconoEtiqueta,
+  IconoImpresora,
 } from "@/components/iconos";
 import { getProducto, tecnicas } from "@/data/catalog";
 
@@ -21,9 +21,9 @@ const encabezados = {
 };
 
 const iconos = {
-  corona: IconoCorona,
-  mitades: IconoMitades,
-  pluma: IconoPluma,
+  etiqueta: IconoEtiqueta,
+  impresora: IconoImpresora,
+  emblema: IconoEmblema,
 };
 
 export function SelectorTecnica() {

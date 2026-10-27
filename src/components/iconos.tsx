@@ -15,8 +15,11 @@ import {
   faChevronDown,
   faCircleHalfStroke,
   faCrown,
+  faAward,
   faPenNib,
+  faPrint,
   faShirt,
+  faTag,
   faGem,
   faLocationDot,
   faGripVertical,
@@ -114,8 +117,21 @@ export function IconoEstrella({ className = "h-6 w-6" }: Props) {
   );
 }
 
-/* Los tres acabados de la casaca: la corona para el más completo, el círculo
-   partido para el mixto y la pluma para el más ligero. */
+/* Las tres casacas del armador: la etiqueta para la de catálogo —la prenda tal
+   como viene—, la impresora para la personalizada en DTF y el emblema para la
+   bordada. */
+export function IconoEtiqueta({ className = "h-6 w-6" }: Props) {
+  return <FontAwesomeIcon icon={faTag} className={className} />;
+}
+
+export function IconoImpresora({ className = "h-6 w-6" }: Props) {
+  return <FontAwesomeIcon icon={faPrint} className={className} />;
+}
+
+export function IconoEmblema({ className = "h-6 w-6" }: Props) {
+  return <FontAwesomeIcon icon={faAward} className={className} />;
+}
+
 export function IconoCorona({ className = "h-6 w-6" }: Props) {
   return <FontAwesomeIcon icon={faCrown} className={className} />;
 }

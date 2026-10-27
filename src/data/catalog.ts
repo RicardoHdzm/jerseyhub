@@ -472,48 +472,6 @@ export const productos: Producto[] = [
  * veinte se ven con el código encima; no es un error del recorte.
  */
 export const modelos: ModeloUniforme[] = [
-  /*
-    Las bases lisas de la casaca personalizada. Van sin foto a propósito: no son
-    prendas del catálogo sino el color de partida sobre el que se coloca el logo
-    del equipo, así que las dibuja `ModeloArte` con estos tres tonos. Si algún
-    día hay fotos reales de las bases, se les agrega `foto` y nada más.
-  */
-  {
-    slug: "base-negro",
-    nombre: "Negro",
-    base: true,
-    casacaSlug: "casaca-sublimada",
-    colores: ["#1a1a1a", "#111111", "#f8fafc"],
-  },
-  {
-    slug: "base-blanco",
-    nombre: "Blanco",
-    base: true,
-    casacaSlug: "casaca-sublimada",
-    colores: ["#ffffff", "#e8e8e8", "#1a1a1a"],
-  },
-  {
-    slug: "base-gris",
-    nombre: "Gris",
-    base: true,
-    casacaSlug: "casaca-sublimada",
-    colores: ["#9ca3af", "#7c838d", "#1a1a1a"],
-  },
-  {
-    slug: "base-azul-marino",
-    nombre: "Azul marino",
-    base: true,
-    casacaSlug: "casaca-sublimada",
-    colores: ["#1e3a8a", "#162c68", "#f8fafc"],
-  },
-  {
-    slug: "base-rojo",
-    nombre: "Rojo",
-    base: true,
-    casacaSlug: "casaca-sublimada",
-    colores: ["#c8102e", "#9c0c24", "#f8fafc"],
-  },
-
   {
     slug: "jh-001",
     nombre: "JH-001",
@@ -1150,27 +1108,27 @@ export function getModelo(slug: string): ModeloUniforme | undefined {
 export const tecnicas: {
   slug: string;
   titulo: string;
-  icono: "corona" | "mitades" | "pluma";
+  icono: "etiqueta" | "impresora" | "emblema";
   color: "tinta" | "dorado";
   badge?: string;
 }[] = [
   {
     slug: "casaca-catalogo",
     titulo: "De catálogo",
-    icono: "pluma",
+    icono: "etiqueta",
     color: "tinta",
   },
   {
     slug: "casaca-logo-dtf",
-    titulo: "Logo en DTF",
-    icono: "mitades",
+    titulo: "Personalizada DTF",
+    icono: "impresora",
     color: "dorado",
     badge: "El más pedido",
   },
   {
     slug: "casaca-logo-bordado",
-    titulo: "Logo bordado",
-    icono: "corona",
+    titulo: "Personalizada Bordada",
+    icono: "emblema",
     color: "tinta",
   },
 ];
@@ -1342,12 +1300,6 @@ export function muestraDelCatalogo(
   // Se devuelven en el orden original para que la cuadrícula quede agrupada.
   return entradas.filter((e) => elegidas.has(e));
 }
-
-/** Las bases lisas de la casaca personalizada. */
-export const basesLisas = modelos.filter((m) => m.base);
-
-/** Los 87 diseños del catálogo impreso, sin las bases lisas. */
-export const disenosDeCatalogo = modelos.filter((m) => !m.base);
 
 /**
  * Nombre legible del modelo, listo para el mensaje de WhatsApp: el código y
