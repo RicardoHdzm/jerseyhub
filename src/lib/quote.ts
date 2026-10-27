@@ -296,7 +296,7 @@ export type DatosContacto = {
    * colores, o que va personalizado. Texto ya legible, no el slug.
    */
   diseno?: string | null;
-  /** Nombre legible de la técnica de la casaca, no el slug. */
+  /** Cuál de las tres casacas del armador, ya legible: "Logo bordado". */
   tecnica?: string | null;
   /** Lista de jugadores; las filas sin nombre ni número se ignoran. */
   roster?: JugadorRoster[];
@@ -316,7 +316,7 @@ export function mensajeWhatsApp(
   if (datos.equipo?.trim()) lineas.push(`*Equipo:* ${datos.equipo.trim()}`);
   if (datos.jugadores) lineas.push(`*Jugadores:* ${datos.jugadores}`);
   if (datos.diseno) lineas.push(`*Diseño de la casaca:* ${datos.diseno}`);
-  if (datos.tecnica) lineas.push(`*Acabado de la casaca:* ${datos.tecnica}`);
+  if (datos.tecnica) lineas.push(`*Casaca:* ${datos.tecnica}`);
   if (datos.equipo?.trim() || datos.jugadores || datos.diseno || datos.tecnica)
     lineas.push("");
 
