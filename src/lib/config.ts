@@ -65,10 +65,26 @@ export const tallas = [
 ] as const;
 
 /**
- * Mínimo de uniformes por equipo. Aplica solo al armador de paquetes: las
- * prendas sueltas del catálogo se piden por WhatsApp sin mínimo.
+ * Mínimo de uniformes por equipo, según el tipo de casaca. Personalizar el
+ * logo lleva preparación de arte y por eso pide más piezas que tomar un diseño
+ * del catálogo tal como está.
+ *
+ * Aplica solo al armador de paquetes: las prendas sueltas del catálogo se
+ * piden por WhatsApp sin mínimo.
  */
-export const minimoUniformes = 12;
+export const minimosUniformes = {
+  catalogo: 12,
+  personalizada: 20,
+} as const;
+
+/** El más bajo de los dos: el mínimo para entrar al armador. */
+export const minimoUniformes = Math.min(
+  minimosUniformes.catalogo,
+  minimosUniformes.personalizada,
+);
+
+/** El más alto, para los textos que hablan de los dos casos. */
+export const minimoPersonalizada = minimosUniformes.personalizada;
 
 /** Jugadores sugeridos al abrir el armador de paquetes. */
-export const jugadoresPorDefecto = minimoUniformes;
+export const jugadoresPorDefecto = minimosUniformes.catalogo;

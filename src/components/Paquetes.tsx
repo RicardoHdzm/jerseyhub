@@ -21,11 +21,12 @@ import {
 } from "@/components/iconos";
 import {
   getProducto,
+  minimoDe,
   nombreModelo,
   paquetes,
   tituloTecnica,
 } from "@/data/catalog";
-import { minimoUniformes } from "@/lib/config";
+import { minimosUniformes } from "@/lib/config";
 import {
   descuentoPara,
   precioMXN,
@@ -115,7 +116,7 @@ function Paso({
  * se aplica al salir del campo, que es cuando ya hay un número completo.
  */
 function ContadorJugadores() {
-  const { jugadores, setJugadores } = useCotizacion();
+  const { jugadores, setJugadores, tecnica } = useCotizacion();
   const [borrador, setBorrador] = useState<string | null>(null);
 
   // Con `borrador` en null el campo muestra el valor de la cotización; en
@@ -144,7 +145,7 @@ function ContadorJugadores() {
       <input
         type="number"
         inputMode="numeric"
-        min={minimoUniformes}
+        min={minimoDe(tecnica)}
         max={60}
         value={borrador ?? jugadores}
         onChange={(e) => setBorrador(e.target.value)}
@@ -216,6 +217,15 @@ export function Paquetes() {
     {
       clave: "jugadores",
       titulo: "¿Cuántos jugadores son?",
+      /*
+        El mínimo cambia con la casaca, así que se dice aquí y no en un texto
+        fijo: con un diseño del catálogo son 12 y personalizada 20. Mientras no
+        haya casaca elegida se anuncian los dos para que nadie se lleve la
+        sorpresa a mitad del armado.
+      */
+      detalle: tecnica
+        ? `Mínimo ${minimoDe(tecnica)} uniformes con esta casaca`
+        : `Mínimo ${minimosUniformes.catalogo} del catálogo, ${minimosUniformes.personalizada} personalizadas`,
       contenido: <ContadorJugadores />,
     },
     {

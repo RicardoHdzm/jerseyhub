@@ -11,7 +11,8 @@ import {
   type ReactNode,
 } from "react";
 
-import { minimoUniformes } from "@/lib/config";
+
+import { minimoDe } from "@/data/catalog";
 import {
   guardarCotizacion,
   leerCotizacion,
@@ -155,16 +156,17 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
   const abrirPanel = useCallback(() => setPanelAbierto(true), []);
   const cerrarPanel = useCallback(() => setPanelAbierto(false), []);
 
-  // Los paquetes son para equipo: no baja del mínimo de uniformes.
+  /*
+    Los paquetes son para equipo: no baja del mínimo, y el mínimo depende de la
+    casaca —12 con un diseño del catálogo, 20 si se personaliza—, así que se
+    consulta en el momento y no se toma uno fijo.
+  */
   const setJugadores = useCallback(
     (n: number) =>
-      actualizar((a) => ({
-        ...a,
-        jugadores: Math.max(
-          minimoUniformes,
-          Math.min(60, n || minimoUniformes),
-        ),
-      })),
+      actualizar((a) => {
+        const minimo = minimoDe(a.tecnica);
+        return { ...a, jugadores: Math.max(minimo, Math.min(60, n || minimo)) };
+      }),
     [actualizar],
   );
 
@@ -190,9 +192,22 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
     [actualizar],
   );
 
+  /*
+    Cambiar de casaca puede subir el mínimo: personalizar pide 20 uniformes y
+    el catálogo 12. Si el equipo iba en menos, se sube al nuevo mínimo en vez
+    de dejar una cotización que no se puede pedir. Bajar nunca lo toca: quien
+    puso 30 sigue en 30.
+  */
   const setTecnica = useCallback(
     (slug: string) =>
-      actualizar((a) => ({ ...a, tecnica: a.tecnica === slug ? "" : slug })),
+      actualizar((a) => {
+        const tecnica = a.tecnica === slug ? "" : slug;
+        return {
+          ...a,
+          tecnica,
+          jugadores: Math.max(a.jugadores, minimoDe(tecnica)),
+        };
+      }),
     [actualizar],
   );
 

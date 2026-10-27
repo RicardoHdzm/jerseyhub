@@ -1,3 +1,4 @@
+import { minimosUniformes } from "@/lib/config";
 import type {
   Categoria,
   GeneroModelo,
@@ -1132,6 +1133,17 @@ export const tecnicas: {
     color: "tinta",
   },
 ];
+
+/**
+ * Cuántos uniformes pide como mínimo la casaca elegida. Sin elegir todavía se
+ * usa el del catálogo, que es el más bajo: no tiene caso pedirle 20 a quien
+ * aún no sabe si va a personalizar.
+ */
+export function minimoDe(tecnicaSlug: string): number {
+  return tecnicaSlug === "" || tecnicaSlug === "casaca-catalogo"
+    ? minimosUniformes.catalogo
+    : minimosUniformes.personalizada;
+}
 
 /** Etiqueta corta de una técnica, o null si el slug ya no existe. */
 export function tituloTecnica(slug: string): string | null {
