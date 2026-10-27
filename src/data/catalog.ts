@@ -1475,25 +1475,6 @@ export const paquetes: Paquete[] = [
       },
     ],
   },
-  {
-    slug: "diamante",
-    nombre: "Paquete Diamante",
-    icono: "diamante",
-    color: "tinta",
-    descripcion:
-      "El uniforme completo más los accesorios que amarran el look: calcetas y cinturón a juego.",
-    items: [
-      { productoSlug: "casaca-mixta", porJugador: 1, segun: "tecnica" },
-      { productoSlug: "pantalon-clasico", porJugador: 1, segun: "pantalon" },
-      {
-        productoSlug: "gorra-bordada-6-paneles",
-        porJugador: 1,
-        segun: "gorra",
-      },
-      { productoSlug: "calcetas-sublimadas", porJugador: 1 },
-      { productoSlug: "cinturon-beisbol", porJugador: 1 },
-    ],
-  },
 ];
 
 // --- Índices ---------------------------------------------------------------
