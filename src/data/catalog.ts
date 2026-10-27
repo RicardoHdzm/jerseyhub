@@ -62,8 +62,7 @@ const corte: Opcion = {
 const marcado: Opcion = {
   id: "marcado",
   label: "Nombre y número",
-  ayuda:
-    "El del jugador, en la espalda. Bordarlos cuesta $100 más por casaca.",
+  ayuda: "El del jugador, en la espalda. Bordarlos cuesta $100 más por casaca.",
   valores: [
     { id: "dtf", label: "En DTF textil" },
     { id: "bordado", label: "Bordados", extra: 100 },
@@ -1465,7 +1464,9 @@ export const paquetes: Paquete[] = [
     color: "tinta",
     descripcion:
       "Nada más la casaca del equipo, con el diseño y los nombres de cada jugador.",
-    items: [{ productoSlug: "casaca-catalogo", porJugador: 1, segun: "tecnica" }],
+    items: [
+      { productoSlug: "casaca-catalogo", porJugador: 1, segun: "tecnica" },
+    ],
   },
   {
     slug: "basico",

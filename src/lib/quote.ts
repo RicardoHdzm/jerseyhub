@@ -43,18 +43,33 @@ export function precioUnitario(
 }
 
 /**
- * Lo único que el cliente decide de verdad en el armador es el color: el corte,
- * el largo, la visera y el ajuste se quedan en su valor por omisión porque
- * nadie los elige. Listarlos en la cotización hacía parecer que sí, y el
- * renglón salía con "Corte: Adulto · Largo: Recto" que nadie pidió.
+ * Lo que el cliente decide de verdad en el armador: el color de cada pieza y si
+ * el nombre y el número de la casaca van bordados. El corte, el largo, la
+ * visera y el ajuste se quedan en su valor por omisión porque nadie los elige;
+ * listarlos hacía parecer que sí, y el renglón salía con "Corte: Adulto ·
+ * Largo: Recto" que nadie pidió.
  */
 function etiquetasElegidas(
   producto: Producto,
   opciones: Record<string, string>,
 ): string[] {
+  const etiquetas: string[] = [];
+
   const color = producto.opciones.find((o) => o.id === "color");
-  const valor = color?.valores.find((v) => v.id === opciones.color);
-  return valor ? [`Color: ${valor.label}`] : [];
+  const valorColor = color?.valores.find((v) => v.id === opciones.color);
+  if (valorColor) etiquetas.push(`Color: ${valorColor.label}`);
+
+  /*
+    Solo se dice cuando van bordados: el DTF es lo que trae la casaca de serie
+    y ponerlo en todas las cotizaciones es ruido.
+  */
+  const marcado = producto.opciones.find((o) => o.id === "marcado");
+  const valorMarcado = marcado?.valores.find((v) => v.id === opciones.marcado);
+  if (valorMarcado?.extra) {
+    etiquetas.push(`Nombre y número: ${valorMarcado.label.toLowerCase()}`);
+  }
+
+  return etiquetas;
 }
 
 /** La foto del color elegido, para la miniatura de la cotización. */
@@ -197,7 +212,8 @@ function opcionesDeItem(
     precio del paquete y en la línea de la cotización.
   */
   const admiteMarcado = producto.opciones.some(
-    (o) => o.id === "marcado" && o.valores.some((v) => v.id === seleccion.marcado),
+    (o) =>
+      o.id === "marcado" && o.valores.some((v) => v.id === seleccion.marcado),
   );
   if (seleccion.marcado && admiteMarcado) opciones.marcado = seleccion.marcado;
   return opciones;

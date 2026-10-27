@@ -171,8 +171,16 @@ function clavesDe(paquete: Paquete): Set<string> {
 }
 
 export function Paquetes() {
-  const { jugadores, paquete, modelo, corte, tecnica, marcado, gorra, colores } =
-    useCotizacion();
+  const {
+    jugadores,
+    paquete,
+    modelo,
+    corte,
+    tecnica,
+    marcado,
+    gorra,
+    colores,
+  } = useCotizacion();
 
   const elegido = paquetes.find((p) => p.slug === paquete);
   const trae = elegido ? clavesDe(elegido) : new Set<string>();
@@ -190,7 +198,6 @@ export function Paquetes() {
   const gorraSlug = gorra || "gorra-bordada-6-paneles";
   const pantalonSlug = corte === "dama" ? "pantalon-dama" : "pantalon-clasico";
   const pantalonNombre = getProducto(pantalonSlug)?.nombre ?? "";
-
 
   /*
     Los pasos se arman en una lista y se numeran al pintarlos. Del 5 en
@@ -448,7 +455,7 @@ function Cierre({
   paquete: Paquete;
   seleccion: SeleccionArmador;
 }) {
-  const { jugadores, agregarPaquete, tecnica } = useCotizacion();
+  const { jugadores, agregarPaquete, tecnica, marcado } = useCotizacion();
   const porJugador = precioPaquete(paquete, seleccion);
   const piezasPorJugador = paquete.items.reduce((s, i) => s + i.porJugador, 0);
   const piezas = piezasPorJugador * jugadores;
@@ -459,21 +466,22 @@ function Cierre({
     con la de catálogo, que es la de entrada. Decirlo aquí evita que el cliente
     lo descubra cuando el total le cambie al personalizarla.
   */
-  const acabado = tecnica
+  const casaca = tecnica
     ? tituloTecnica(tecnica)
-    : `Sin elegir · cotizado como ${tituloTecnica("casaca-catalogo")?.toLowerCase()}`;
+    : `Sin elegir · cotizada como ${tituloTecnica("casaca-catalogo")?.toLowerCase()}`;
 
   return (
     <div className="mt-10 flex flex-col gap-5 rounded-2xl border border-dorado/40 bg-white/5 p-6 lg:flex-row lg:items-center lg:justify-between">
       <div className="text-center lg:text-left">
         <p className="etiqueta text-[11px] text-dorado-claro">Tu paquete</p>
         <p className="titulo mt-1 text-3xl leading-none">{paquete.nombre}</p>
-        {acabado && (
+        {casaca && (
           <p className="mt-2 text-sm text-white/70">
-            Acabado:{" "}
+            Casaca:{" "}
             <span className={tecnica ? "font-semibold text-white" : ""}>
-              {acabado}
+              {casaca}
             </span>
+            {marcado === "bordado" && <span> · nombre y número bordados</span>}
           </p>
         )}
         <p className="mt-2 text-sm text-white/70">
