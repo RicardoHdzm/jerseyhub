@@ -30,67 +30,128 @@ export function SelectorTecnica() {
   const { tecnica, setTecnica } = useCotizacion();
 
   return (
-    <div className="grid gap-4 pt-3 sm:grid-cols-3">
-      {tecnicas.map(({ slug, titulo, icono, color, badge }) => {
-        const producto = getProducto(slug);
-        if (!producto) return null;
-        const activo = tecnica === slug;
-        const Icono = iconos[icono];
-        const cabecera = encabezados[color];
+    <>
+      <div className="grid gap-4 pt-3 sm:grid-cols-3">
+        {tecnicas.map(({ slug, titulo, icono, color, badge }) => {
+          const producto = getProducto(slug);
+          if (!producto) return null;
+          const activo = tecnica === slug;
+          const Icono = iconos[icono];
+          const cabecera = encabezados[color];
 
-        return (
-          <button
-            key={slug}
-            type="button"
-            onClick={() => setTecnica(slug)}
-            aria-pressed={activo}
-            className={`tarjeta sube relative flex flex-col text-left transition-colors ${
-              activo ? "border-dorado" : "hover:border-dorado"
-            }`}
-          >
-            {badge && (
-              <span className="absolute left-3 top-3 z-10 flex items-center gap-1.5 whitespace-nowrap rounded-full bg-tinta px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
-                <IconoEstrella className="h-2.5 w-2.5 text-dorado-claro" />
-                {badge}
-              </span>
-            )}
-
-            {/*
-              Los 15px del redondeo son los 16 de la tarjeta menos el borde, lo
-              mismo que en las tarjetas de paquete.
-            */}
-            <div
-              className={`rounded-t-[15px] px-4 pb-4 pt-7 text-center ${cabecera.fondo} ${cabecera.texto}`}
+          return (
+            <button
+              key={slug}
+              type="button"
+              onClick={() => setTecnica(slug)}
+              aria-pressed={activo}
+              className={`tarjeta sube relative flex flex-col text-left transition-colors ${
+                activo ? "border-dorado" : "hover:border-dorado"
+              }`}
             >
-              <Icono className="mx-auto h-9 w-9" />
-              <p className="titulo mt-3 text-2xl leading-none">{titulo}</p>
-              <p className={`mt-2 text-xs leading-snug ${cabecera.detalle}`}>
-                {producto.descripcion}
-              </p>
-            </div>
+              {badge && (
+                <span className="absolute left-3 top-3 z-10 flex items-center gap-1.5 whitespace-nowrap rounded-full bg-tinta px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
+                  <IconoEstrella className="h-2.5 w-2.5 text-dorado-claro" />
+                  {badge}
+                </span>
+              )}
 
-            {/*
-              La ficha es paralela en los tres: los mismos renglones, en el
-              mismo orden, para que se lea en horizontal y se vea de un golpe
-              qué cambia de un acabado al siguiente. Sin precio a propósito.
-            */}
-            <ul className="flex-1 space-y-2 p-4 text-sm">
-              {producto.incluye.map((detalle) => (
-                <li key={detalle} className="flex items-start gap-2">
-                  <IconoCheck className="mt-0.5 h-4 w-4 shrink-0 text-tinta" />
-                  <span>{detalle}</span>
-                </li>
-              ))}
-            </ul>
+              {/*
+                Los 15px del redondeo son los 16 de la tarjeta menos el borde,
+                lo mismo que en las tarjetas de paquete.
+              */}
+              <div
+                className={`rounded-t-[15px] px-4 pb-4 pt-7 text-center ${cabecera.fondo} ${cabecera.texto}`}
+              >
+                <Icono className="mx-auto h-9 w-9" />
+                <p className="titulo mt-3 text-2xl leading-none">{titulo}</p>
+                <p className={`mt-2 text-xs leading-snug ${cabecera.detalle}`}>
+                  {producto.descripcion}
+                </p>
+              </div>
 
-            {activo && (
-              <span className="absolute right-3 top-3 grid h-6 w-6 place-items-center rounded-full bg-dorado text-tinta ring-2 ring-white/70">
-                <IconoCheck className="h-3 w-3" />
+              {/*
+                La ficha es paralela en las tres: los mismos renglones, en el
+                mismo orden, para que se lea en horizontal y se vea de un golpe
+                qué cambia de una a la siguiente. Sin precio a propósito.
+              */}
+              <ul className="flex-1 space-y-2 p-4 text-sm">
+                {producto.incluye.map((detalle) => (
+                  <li key={detalle} className="flex items-start gap-2">
+                    <IconoCheck className="mt-0.5 h-4 w-4 shrink-0 text-tinta" />
+                    <span>{detalle}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {activo && (
+                <span className="absolute right-3 top-3 grid h-6 w-6 place-items-center rounded-full bg-dorado text-tinta ring-2 ring-white/70">
+                  <IconoCheck className="h-3 w-3" />
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      <MarcadoDelJugador />
+    </>
+  );
+}
+
+/*
+  El nombre y el número del jugador van aparte de las tres tarjetas porque
+  aplican a las tres por igual: bordarlos cuesta 100 pesos más sea cual sea la
+  casaca. Meterlo dentro de cada tarjeta habría repetido la misma fila tres
+  veces y sugerido que es una decisión distinta en cada una.
+*/
+const marcados = [
+  { id: "dtf" as const, label: "En DTF textil", nota: "Incluido" },
+  { id: "bordado" as const, label: "Bordados", nota: "+$100 por casaca" },
+];
+
+function MarcadoDelJugador() {
+  const { marcado, setMarcado } = useCotizacion();
+
+  return (
+    <div className="mt-5">
+      <p className="etiqueta text-[11px] text-white/60">
+        Nombre y número del jugador
+      </p>
+      <div className="mt-3 flex flex-wrap justify-center gap-3 lg:justify-start">
+        {marcados.map((opcion) => {
+          const activo = marcado === opcion.id;
+          return (
+            <button
+              key={opcion.id}
+              type="button"
+              onClick={() => setMarcado(opcion.id)}
+              aria-pressed={activo}
+              className={`flex items-center gap-2.5 rounded-xl border px-4 py-3 text-left transition-colors ${
+                activo
+                  ? "border-dorado bg-dorado/10"
+                  : "border-white/20 hover:border-white/50"
+              }`}
+            >
+              <span
+                className={`grid h-5 w-5 shrink-0 place-items-center rounded-full ${
+                  activo ? "bg-dorado text-tinta" : "ring-1 ring-white/30"
+                }`}
+              >
+                {activo && <IconoCheck className="h-2.5 w-2.5" />}
               </span>
-            )}
-          </button>
-        );
-      })}
+              <span>
+                <span className="block text-sm font-semibold">
+                  {opcion.label}
+                </span>
+                <span className="block text-xs text-white/60">
+                  {opcion.nota}
+                </span>
+              </span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

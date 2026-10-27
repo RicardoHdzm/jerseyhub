@@ -53,13 +53,31 @@ const corte: Opcion = {
 };
 
 /**
+ * El nombre y el número del jugador van en DTF textil en las tres casacas del
+ * armador. Bordarlos cuesta 100 pesos más por pieza, y eso es lo que hace el
+ * `extra`: el motor de precios lo suma solo, así que el recargo aparece en la
+ * tarjeta del paquete, en el resumen y en la cotización sin tener que repetirlo
+ * en ningún lado.
+ */
+const marcado: Opcion = {
+  id: "marcado",
+  label: "Nombre y número",
+  ayuda:
+    "El del jugador, en la espalda. Bordarlos cuesta $100 más por casaca.",
+  valores: [
+    { id: "dtf", label: "En DTF textil" },
+    { id: "bordado", label: "Bordados", extra: 100 },
+  ],
+};
+
+/**
  * OJO: este link es de ejemplo y apunta a una búsqueda de Mercado Libre, no a
  * tu publicación. Sustitúyelo por la URL exacta del anuncio (la que sale al
  * abrir tu publicación), o borra la línea `mercadoLibre` del producto para que
  * el botón no aparezca.
  *
  * Lo llevan las cuatro casacas del catálogo, que son las que se venden por
- * pieza. Los tres acabados del armador no: ahí se cotiza el equipo completo.
+ * pieza. Las tres del armador no: ahí se cotiza el equipo completo.
  */
 const ML_EJEMPLO_CASACA =
   "https://listado.mercadolibre.com.mx/jersey-beisbol-personalizado";
@@ -150,40 +168,43 @@ export const productos: Producto[] = [
     no precio, y el costo aparece ya sumado en la tarjeta del paquete.
   */
   {
-    slug: "casaca-bordado-completo",
+    slug: "casaca-catalogo",
     soloEnArmador: true,
-    nombre: "Casaca bordado completo",
-    categoria: "casacas",
-    precio: 550,
-    color: "#1a1a1a",
-    colorSecundario: "#c9a227",
-    descripcion: "El acabado más duradero y el que mejor se ve de cerca.",
-    incluye: ["Logo bordado al frente", "Nombre y número bordados"],
-    opciones: [],
-  },
-  {
-    slug: "casaca-mixta",
-    soloEnArmador: true,
-    nombre: "Casaca mixta",
-    categoria: "casacas",
-    precio: 450,
-    color: "#1a1a1a",
-    colorSecundario: "#c9a227",
-    descripcion: "El punto medio entre presencia y costo.",
-    incluye: ["Logo bordado al frente", "Nombre y número en DTF textil"],
-    opciones: [],
-  },
-  {
-    slug: "casaca-dtf",
-    soloEnArmador: true,
-    nombre: "Casaca DTF textil",
+    nombre: "Casaca de catálogo",
     categoria: "casacas",
     precio: 350,
     color: "#1a1a1a",
     colorSecundario: "#c9a227",
-    descripcion: "La opción más ligera y la de entrada para ligas y torneos.",
-    incluye: ["Logo al frente en DTF textil", "Nombre y número en DTF textil"],
-    opciones: [],
+    descripcion:
+      "El diseño del catálogo tal como viene, sin el logo ni el nombre de tu equipo encima.",
+    incluye: ["Diseño del catálogo sin modificar"],
+    opciones: [marcado],
+  },
+  {
+    slug: "casaca-logo-dtf",
+    soloEnArmador: true,
+    nombre: "Casaca personalizada, logo en DTF",
+    categoria: "casacas",
+    precio: 370,
+    color: "#1a1a1a",
+    colorSecundario: "#c9a227",
+    descripcion:
+      "Sobre el diseño del catálogo te ponemos el logo y el nombre de tu equipo en DTF textil.",
+    incluye: ["Logo y nombre del equipo en DTF textil"],
+    opciones: [marcado],
+  },
+  {
+    slug: "casaca-logo-bordado",
+    soloEnArmador: true,
+    nombre: "Casaca personalizada, logo bordado",
+    categoria: "casacas",
+    precio: 450,
+    color: "#1a1a1a",
+    colorSecundario: "#c9a227",
+    descripcion:
+      "El logo y el nombre de tu equipo bordados sobre el diseño del catálogo. Es lo que mejor se ve de cerca y lo que más dura.",
+    incluye: ["Logo y nombre del equipo bordados"],
+    opciones: [marcado],
   },
   {
     slug: "pantalon-clasico",
@@ -1061,6 +1082,12 @@ export function getModelo(slug: string): ModeloUniforme | undefined {
  * que aparece en las líneas de la cotización, donde tiene que leerse como
  * prenda y no como acabado suelto.
  */
+/**
+ * Las tres casacas entre las que se elige en el armador, de la más económica a
+ * la que más trabajo lleva. La diferencia es qué tanto se personaliza: el
+ * diseño del catálogo tal cual, con el logo del equipo en DTF, o con el logo
+ * bordado. El nombre y el número del jugador van en las tres (ver `marcado`).
+ */
 export const tecnicas: {
   slug: string;
   titulo: string;
@@ -1069,22 +1096,22 @@ export const tecnicas: {
   badge?: string;
 }[] = [
   {
-    slug: "casaca-bordado-completo",
-    titulo: "Bordado completo",
-    icono: "corona",
+    slug: "casaca-catalogo",
+    titulo: "De catálogo",
+    icono: "pluma",
     color: "tinta",
   },
   {
-    slug: "casaca-mixta",
-    titulo: "Mixto",
+    slug: "casaca-logo-dtf",
+    titulo: "Logo en DTF",
     icono: "mitades",
     color: "dorado",
     badge: "El más pedido",
   },
   {
-    slug: "casaca-dtf",
-    titulo: "DTF textil completo",
-    icono: "pluma",
+    slug: "casaca-logo-bordado",
+    titulo: "Logo bordado",
+    icono: "corona",
     color: "tinta",
   },
 ];
@@ -1438,7 +1465,7 @@ export const paquetes: Paquete[] = [
     color: "tinta",
     descripcion:
       "Nada más la casaca del equipo, con el diseño y los nombres de cada jugador.",
-    items: [{ productoSlug: "casaca-mixta", porJugador: 1, segun: "tecnica" }],
+    items: [{ productoSlug: "casaca-catalogo", porJugador: 1, segun: "tecnica" }],
   },
   {
     slug: "basico",
@@ -1448,7 +1475,7 @@ export const paquetes: Paquete[] = [
     descripcion:
       "Lo mínimo para salir al diamante con imagen de equipo: casaca y gorra a juego.",
     items: [
-      { productoSlug: "casaca-mixta", porJugador: 1, segun: "tecnica" },
+      { productoSlug: "casaca-catalogo", porJugador: 1, segun: "tecnica" },
       {
         productoSlug: "gorra-bordada-6-paneles",
         porJugador: 1,
@@ -1466,7 +1493,7 @@ export const paquetes: Paquete[] = [
     badge: "El más pedido",
     destacado: true,
     items: [
-      { productoSlug: "casaca-mixta", porJugador: 1, segun: "tecnica" },
+      { productoSlug: "casaca-catalogo", porJugador: 1, segun: "tecnica" },
       { productoSlug: "pantalon-clasico", porJugador: 1, segun: "pantalon" },
       {
         productoSlug: "gorra-bordada-6-paneles",

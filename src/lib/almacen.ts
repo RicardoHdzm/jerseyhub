@@ -18,12 +18,10 @@ export type EstadoCotizacion = {
   /** Slug del paquete elegido en el paso 2, o "" si todavía no elige. */
   paquete: string;
   /**
-   * De dónde sale el diseño de la casaca: del catálogo impreso o hecho desde
-   * cero. Va aparte de `modelo` porque "personalizado" es una decisión, no la
-   * ausencia de una: con el campo vacío no se sabe si eligió hacerlo a medida o
-   * si todavía no ha llegado a ese paso.
+   * Si el nombre y el número del jugador van en DTF (incluido) o bordados, que
+   * cuestan 100 pesos más por casaca.
    */
-  origenDiseno: "" | "personalizado" | "catalogo";
+  marcado: "dtf" | "bordado";
   /** Slug del modelo de uniforme elegido, o "" si todavía no elige. */
   modelo: string;
   /**
@@ -48,7 +46,7 @@ export type EstadoCotizacion = {
 export const COTIZACION_VACIA: EstadoCotizacion = {
   jugadores: jugadoresPorDefecto,
   paquete: "",
-  origenDiseno: "",
+  marcado: "dtf",
   modelo: "",
   corte: "caballero",
   tecnica: "",
@@ -82,11 +80,7 @@ function interpretar(texto: string | null): EstadoCotizacion {
     return {
       jugadores: guardado.jugadores ?? COTIZACION_VACIA.jugadores,
       paquete: guardado.paquete ?? "",
-      origenDiseno:
-        guardado.origenDiseno === "personalizado" ||
-        guardado.origenDiseno === "catalogo"
-          ? guardado.origenDiseno
-          : "",
+      marcado: guardado.marcado === "bordado" ? "bordado" : "dtf",
       modelo: guardado.modelo ?? "",
       corte: guardado.corte === "dama" ? "dama" : "caballero",
       tecnica: guardado.tecnica ?? "",

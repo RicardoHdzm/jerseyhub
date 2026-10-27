@@ -40,8 +40,8 @@ type Contexto = EstadoCotizacion & {
   setJugadores: (n: number) => void;
   /** El paquete del paso 2. Vuelve a pasar el mismo slug para deseleccionar. */
   setPaquete: (slug: string) => void;
-  /** Si la casaca se diseña desde cero o se toma del catálogo impreso. */
-  setOrigenDiseno: (origen: "" | "personalizado" | "catalogo") => void;
+  /** Nombre y número del jugador: en DTF o bordados (+$100 por casaca). */
+  setMarcado: (marcado: "dtf" | "bordado") => void;
   /** Vuelve a pasar el mismo slug para deseleccionar. */
   setModelo: (slug: string) => void;
   /** Corte de la casaca: hoy los dos se hacen con los mismos diseños. */
@@ -180,18 +180,8 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
     [actualizar],
   );
 
-  /*
-    El modelo se conserva al cambiar de opción: las dos parten de un diseño del
-    catálogo, lo que cambia es si se le borda el nombre del equipo encima. Antes
-    esto borraba el modelo al pasar a "personalizada", cuando personalizada era
-    diseñar desde cero.
-  */
-  const setOrigenDiseno = useCallback(
-    (origen: "" | "personalizado" | "catalogo") =>
-      actualizar((a) => ({
-        ...a,
-        origenDiseno: a.origenDiseno === origen ? "" : origen,
-      })),
+  const setMarcado = useCallback(
+    (marcado: "dtf" | "bordado") => actualizar((a) => ({ ...a, marcado })),
     [actualizar],
   );
 
@@ -241,7 +231,7 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
       cerrarPanel,
       setJugadores,
       setPaquete,
-      setOrigenDiseno,
+      setMarcado,
       setModelo,
       setCorte,
       setTecnica,
@@ -263,7 +253,7 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
       cerrarPanel,
       setJugadores,
       setPaquete,
-      setOrigenDiseno,
+      setMarcado,
       setModelo,
       setCorte,
       setTecnica,

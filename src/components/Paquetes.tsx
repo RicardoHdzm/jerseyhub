@@ -7,7 +7,7 @@ import type { Paquete, PaqueteItem } from "@/lib/types";
 import { useCotizacion } from "@/components/CotizacionProvider";
 import { SelectorColor } from "@/components/SelectorColor";
 import { SelectorGorra } from "@/components/SelectorGorra";
-import { SelectorDiseno } from "@/components/SelectorDiseno";
+import { TableroLaminas } from "@/components/TableroLaminas";
 import { SelectorTecnica } from "@/components/SelectorTecnica";
 import {
   IconoCasaca,
@@ -171,23 +171,15 @@ function clavesDe(paquete: Paquete): Set<string> {
 }
 
 export function Paquetes() {
-  const {
-    jugadores,
-    paquete,
-    origenDiseno,
-    modelo,
-    corte,
-    tecnica,
-    gorra,
-    colores,
-  } = useCotizacion();
+  const { jugadores, paquete, modelo, corte, tecnica, marcado, gorra, colores } =
+    useCotizacion();
 
   const elegido = paquetes.find((p) => p.slug === paquete);
   const trae = elegido ? clavesDe(elegido) : new Set<string>();
 
   const tecnicaElegida = tecnica ? tituloTecnica(tecnica) : undefined;
   const gorraElegida = gorra ? getProducto(gorra)?.nombre : undefined;
-  const seleccion = { modelo, corte, tecnica, gorra, colores };
+  const seleccion = { modelo, corte, tecnica, marcado, gorra, colores };
 
   /*
     De qué producto salen los colores de cada paso. La gorra y el pantalón
@@ -199,12 +191,6 @@ export function Paquetes() {
   const pantalonSlug = corte === "dama" ? "pantalon-dama" : "pantalon-clasico";
   const pantalonNombre = getProducto(pantalonSlug)?.nombre ?? "";
 
-  const disenoElegido =
-    origenDiseno === "personalizado"
-      ? "Diseño personalizado"
-      : origenDiseno === "catalogo"
-        ? (nombreModelo(modelo, corte) ?? "Falta señalar cuál del catálogo")
-        : undefined;
 
   /*
     Los pasos se arman en una lista y se numeran al pintarlos. Del 5 en
@@ -232,18 +218,20 @@ export function Paquetes() {
       contenido: <TarjetasPaquete seleccion={seleccion} />,
     },
     {
-      clave: "diseno",
-      titulo: "Elige la casaca",
-      detalle: disenoElegido ?? "Personalizada o del catálogo",
-      contenido: <SelectorDiseno />,
-    },
-    {
-      clave: "acabado",
-      titulo: "Elige el acabado de la casaca",
+      clave: "casaca",
+      titulo: "Elige tu casaca",
       detalle: tecnicaElegida
         ? `Elegiste: ${tecnicaElegida}`
-        : "Bordado, mixto o DTF textil",
+        : "Tal cual del catálogo, o con el logo de tu equipo",
       contenido: <SelectorTecnica />,
+    },
+    {
+      clave: "diseno",
+      titulo: "Elige el diseño base",
+      detalle:
+        nombreModelo(modelo, corte) ??
+        "Las tres opciones parten de un diseño del catálogo",
+      contenido: <TableroLaminas />,
     },
   ];
 
@@ -467,13 +455,13 @@ function Cierre({
   const total = porJugador * jugadores * (1 - descuentoPara(piezas));
 
   /*
-    Sin acabado elegido el precio de arriba no es un hueco: el paquete cotiza
-    con el mixto por omisión. Decirlo aquí evita que el cliente lo descubra
-    cuando el total le cambie al elegir bordado.
+    Sin casaca elegida el precio de arriba no es un hueco: el paquete cotiza
+    con la de catálogo, que es la de entrada. Decirlo aquí evita que el cliente
+    lo descubra cuando el total le cambie al personalizarla.
   */
   const acabado = tecnica
     ? tituloTecnica(tecnica)
-    : `Sin elegir · cotizado como ${tituloTecnica("casaca-mixta")?.toLowerCase()}`;
+    : `Sin elegir · cotizado como ${tituloTecnica("casaca-catalogo")?.toLowerCase()}`;
 
   return (
     <div className="mt-10 flex flex-col gap-5 rounded-2xl border border-dorado/40 bg-white/5 p-6 lg:flex-row lg:items-center lg:justify-between">

@@ -158,6 +158,8 @@ export type SeleccionArmador = {
   tecnica?: string;
   /** Corte de la casaca del paso 2. De él sale también el corte del pantalón. */
   corte?: GeneroModelo;
+  /** Si el nombre y el número del jugador van en DTF o bordados (+$100). */
+  marcado?: string;
   /** Slug del producto de gorra del paso 4. */
   gorra?: string;
   /** Color elegido para cada pieza, por id de valor del producto. */
@@ -188,6 +190,16 @@ function opcionesDeItem(
     (o) => o.id === "color" && o.valores.some((v) => v.id === elegido),
   );
   if (elegido && existe) opciones.color = elegido;
+
+  /*
+    El nombre y el número bordados son los 100 pesos extra de la casaca. Se
+    aplican aquí, igual que el color, para que el recargo entre solo en el
+    precio del paquete y en la línea de la cotización.
+  */
+  const admiteMarcado = producto.opciones.some(
+    (o) => o.id === "marcado" && o.valores.some((v) => v.id === seleccion.marcado),
+  );
+  if (seleccion.marcado && admiteMarcado) opciones.marcado = seleccion.marcado;
   return opciones;
 }
 
