@@ -31,7 +31,13 @@ export function SelectorTecnica() {
 
   return (
     <>
-      <div className="grid gap-4 pt-3 sm:grid-cols-3">
+      {/*
+        Dos filas compartidas por las tres tarjetas —encabezado y ficha— con
+        `subgrid`: así la franja de color termina a la misma altura aunque una
+        descripción ocupe dos líneas y otra tres. Sin esto cada tarjeta corta
+        donde le toca y los renglones de abajo quedan escalonados.
+      */}
+      <div className="grid gap-4 pt-3 sm:grid-cols-3 sm:grid-rows-[auto_1fr]">
         {tecnicas.map(({ slug, titulo, icono, color, badge }) => {
           const producto = getProducto(slug);
           if (!producto) return null;
@@ -45,7 +51,7 @@ export function SelectorTecnica() {
               type="button"
               onClick={() => setTecnica(slug)}
               aria-pressed={activo}
-              className={`tarjeta sube relative flex flex-col text-left transition-colors ${
+              className={`tarjeta sube relative flex flex-col text-left transition-colors sm:row-span-2 sm:grid sm:grid-rows-subgrid ${
                 activo ? "border-dorado" : "hover:border-dorado"
               }`}
             >
