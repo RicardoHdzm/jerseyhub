@@ -75,8 +75,6 @@ export type Producto = {
 };
 
 /** Cómo se dibuja la vista previa del modelo. */
-export type PatronModelo = "solido" | "rayas" | "degradado" | "bloques";
-
 /**
  * Modelo (o "corrida") de uniforme: el estilo de diseño que el equipo quiere,
  * antes de entrar al detalle de prendas.
@@ -106,10 +104,6 @@ export type ModeloUniforme = {
   destacado?: boolean;
   /** Foto del modelo. Si existe, se usa en vez de la ilustración. */
   foto?: string;
-  /** Ilustración de respaldo cuando no hay foto. */
-  patron?: PatronModelo;
-  /** [principal, secundario, detalle] para esa ilustración. */
-  colores?: [string, string, string];
 };
 
 /**
