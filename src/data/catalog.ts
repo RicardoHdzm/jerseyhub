@@ -188,8 +188,8 @@ export const productos: Producto[] = [
     color: "#1a1a1a",
     colorSecundario: "#c9a227",
     descripcion:
-      "Sobre el diseño del catálogo te ponemos el logo y el nombre de tu equipo en DTF textil.",
-    incluye: ["Logo y nombre del equipo en DTF textil"],
+      "Sobre el diseño del catálogo te ponemos el logo o el nombre de tu equipo en DTF textil.",
+    incluye: ["Logo o nombre del equipo en DTF textil"],
     opciones: [marcado],
   },
   {
@@ -201,8 +201,8 @@ export const productos: Producto[] = [
     color: "#1a1a1a",
     colorSecundario: "#c9a227",
     descripcion:
-      "El logo y el nombre de tu equipo bordados sobre el diseño del catálogo. Es lo que mejor se ve de cerca y lo que más dura.",
-    incluye: ["Logo y nombre del equipo bordados"],
+      "El logo o el nombre de tu equipo bordado sobre el diseño del catálogo. Es lo que mejor se ve de cerca y lo que más dura.",
+    incluye: ["Logo o nombre del equipo bordado"],
     opciones: [marcado],
   },
   /*
