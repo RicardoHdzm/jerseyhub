@@ -65,6 +65,7 @@ export function PanelCotizacion() {
     setNota,
     modelo,
     corte,
+    origenDiseno,
     tecnica,
     roster,
     cambiarCantidad,
@@ -91,13 +92,21 @@ export function PanelCotizacion() {
   }, [panelAbierto]);
 
   const vacio = resumen.lineas.length === 0;
-  const modeloElegido = nombreModelo(modelo, corte);
   const disenoElegido = modelo ? getModelo(modelo) : undefined;
+  /*
+    El diseño se describe de dos maneras: con el código del catálogo o diciendo
+    que va personalizado. Lo segundo no puede salir de que `modelo` esté vacío
+    —eso también pasa cuando todavía no ha elegido— sino de haberlo dicho.
+  */
+  const textoDiseno =
+    origenDiseno === "personalizado"
+      ? "Personalizado, a partir del logo y los colores del equipo"
+      : nombreModelo(modelo, corte);
   const tecnicaElegida = tecnica ? tituloTecnica(tecnica) : null;
   const mensaje = mensajeWhatsApp(resumen, {
     equipo,
     jugadores,
-    modelo: modeloElegido,
+    diseno: textoDiseno,
     tecnica: tecnicaElegida,
     roster,
     nota,
@@ -188,11 +197,11 @@ export function PanelCotizacion() {
                 </label>
               </div>
 
-              {modeloElegido && (
+              {textoDiseno && (
                 <p className="mt-3 rounded-lg border border-linea bg-arena px-3 py-2 text-xs text-tenue">
-                  Modelo de uniforme:{" "}
+                  Diseño de la casaca:{" "}
                   <span className="font-semibold text-tinta">
-                    {modeloElegido}
+                    {textoDiseno}
                   </span>
                 </p>
               )}

@@ -263,8 +263,11 @@ export function getPaquete(slug: string): Paquete | undefined {
 export type DatosContacto = {
   equipo?: string;
   jugadores?: number;
-  /** Nombre legible del modelo de referencia, no el slug. */
-  modelo?: string | null;
+  /**
+   * Cómo se describe el diseño de la casaca: el código del catálogo con sus
+   * colores, o que va personalizado. Texto ya legible, no el slug.
+   */
+  diseno?: string | null;
   /** Nombre legible de la técnica de la casaca, no el slug. */
   tecnica?: string | null;
   /** Lista de jugadores; las filas sin nombre ni número se ignoran. */
@@ -284,9 +287,9 @@ export function mensajeWhatsApp(
 
   if (datos.equipo?.trim()) lineas.push(`*Equipo:* ${datos.equipo.trim()}`);
   if (datos.jugadores) lineas.push(`*Jugadores:* ${datos.jugadores}`);
-  if (datos.modelo) lineas.push(`*Modelo de referencia:* ${datos.modelo}`);
+  if (datos.diseno) lineas.push(`*Diseño de la casaca:* ${datos.diseno}`);
   if (datos.tecnica) lineas.push(`*Acabado de la casaca:* ${datos.tecnica}`);
-  if (datos.equipo?.trim() || datos.jugadores || datos.modelo || datos.tecnica)
+  if (datos.equipo?.trim() || datos.jugadores || datos.diseno || datos.tecnica)
     lineas.push("");
 
   for (const l of resumen.lineas) {
