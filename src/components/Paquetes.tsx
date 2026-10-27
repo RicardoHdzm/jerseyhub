@@ -223,14 +223,6 @@ export function Paquetes() {
       contenido: <ContadorJugadores />,
     },
     {
-      clave: "paquete",
-      titulo: "Escoge tu paquete",
-      detalle: elegido
-        ? `Elegiste: ${elegido.nombre}`
-        : `Precios para ${jugadores} ${jugadores === 1 ? "jugador" : "jugadores"}`,
-      contenido: <TarjetasPaquete seleccion={seleccion} />,
-    },
-    {
       clave: "casaca",
       titulo: "Elige tu casaca",
       detalle: tecnicaElegida
@@ -263,6 +255,14 @@ export function Paquetes() {
           Elige arriba el tipo de casaca y aquí aparecen las opciones de diseño.
         </p>
       ),
+    },
+    {
+      clave: "paquete",
+      titulo: "Escoge tu paquete",
+      detalle: elegido
+        ? `Elegiste: ${elegido.nombre}`
+        : `Precios para ${jugadores} ${jugadores === 1 ? "jugador" : "jugadores"}`,
+      contenido: <TarjetasPaquete seleccion={seleccion} />,
     },
   ];
 
