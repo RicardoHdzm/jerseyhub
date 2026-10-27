@@ -181,16 +181,16 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
   );
 
   /*
-    Elegir "personalizado" borra el modelo: si el cliente ya había señalado una
-    casaca del catálogo y luego decide diseñar la suya, dejar el código ahí
-    haría que la cotización pidiera las dos cosas.
+    El modelo se conserva al cambiar de opción: las dos parten de un diseño del
+    catálogo, lo que cambia es si se le borda el nombre del equipo encima. Antes
+    esto borraba el modelo al pasar a "personalizada", cuando personalizada era
+    diseñar desde cero.
   */
   const setOrigenDiseno = useCallback(
     (origen: "" | "personalizado" | "catalogo") =>
       actualizar((a) => ({
         ...a,
         origenDiseno: a.origenDiseno === origen ? "" : origen,
-        modelo: origen === "catalogo" ? a.modelo : "",
       })),
     [actualizar],
   );

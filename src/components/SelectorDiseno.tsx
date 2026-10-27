@@ -10,24 +10,26 @@ const opciones = [
     icono: IconoPluma,
     titulo: "Personalizada",
     descripcion:
-      "La diseñamos desde cero con el logo y los colores de tu equipo. Te mandamos el boceto sin costo y lo ajustamos hasta que quede.",
+      "Partimos de un diseño del catálogo y le bordamos el nombre de tu equipo, más el número de cada jugador.",
   },
   {
     id: "catalogo" as const,
     icono: IconoCuadricula,
-    titulo: "Del catálogo",
+    titulo: "Tal cual",
     descripcion:
-      "Escoge uno de los 87 diseños que ya manejamos. Igual le ponemos el nombre de tu equipo y el número de cada jugador.",
+      "El diseño del catálogo como viene, sin modificaciones. Es la opción más económica.",
   },
 ];
 
 /**
- * El paso de la casaca: primero de dónde sale el diseño y, solo si es del
- * catálogo, las láminas para señalar cuál.
+ * El paso de la casaca: si lleva el nombre del equipo bordado o va tal cual, y
+ * de cuál diseño del catálogo se parte.
  *
- * El tablero se despliega aquí dentro en vez de ser su propio paso porque sin
- * haber elegido "del catálogo" no hay nada que señalar, y nueve láminas
- * desplegadas sin venir a cuento son mucha página de por medio.
+ * Las dos opciones necesitan modelo: la personalizada también sale de un diseño
+ * de las láminas, lo que cambia es que se le borda el nombre del equipo encima.
+ * Por eso el tablero aparece en cuanto se elige cualquiera de las dos, y no
+ * antes: desplegar nueve láminas sin venir a cuento es mucha página de por
+ * medio.
  */
 export function SelectorDiseno() {
   const { origenDiseno, setOrigenDiseno } = useCotizacion();
@@ -72,7 +74,7 @@ export function SelectorDiseno() {
         })}
       </div>
 
-      {origenDiseno === "catalogo" && (
+      {origenDiseno !== "" && (
         <div className="mt-6">
           <TableroLaminas />
         </div>
