@@ -329,12 +329,11 @@ function TarjetasPaquete({ seleccion }: { seleccion: SeleccionArmador }) {
 
   return (
     /*
-      Dos filas compartidas por las tarjetas —encabezado de color y cuerpo— con
-      `subgrid`: la franja termina a la misma altura aunque una descripción
-      ocupe dos líneas y otra tres, y como el cuerpo se estira parejo, el
-      `mt-auto` del precio deja los cuatro precios alineados abajo.
+      Tres filas compartidas por las tarjetas —encabezado, lista y precio— con
+      `subgrid`: cada una termina a la misma altura aunque los textos ocupen
+      distinto número de renglones.
     */
-    <div className="grid gap-4 pt-3 sm:grid-cols-2 sm:grid-rows-[auto_1fr] lg:grid-cols-4">
+    <div className="grid gap-4 pt-3 sm:grid-cols-2 sm:grid-rows-[auto_1fr_auto] lg:grid-cols-4">
       {paquetes.map((item) => {
         const activo = paquete === item.slug;
         const porJugador = precioPaquete(item, seleccion);
@@ -357,7 +356,7 @@ function TarjetasPaquete({ seleccion }: { seleccion: SeleccionArmador }) {
             type="button"
             onClick={() => setPaquete(item.slug)}
             aria-pressed={activo}
-            className={`tarjeta sube relative flex flex-col text-left transition-[border-color,translate] duration-200 hover:-translate-y-1 sm:row-span-2 sm:grid sm:grid-rows-subgrid ${
+            className={`tarjeta sube relative flex flex-col text-left transition-[border-color,translate] duration-200 hover:-translate-y-1 sm:row-span-3 sm:grid sm:grid-rows-subgrid ${
               activo ? "border-dorado" : "hover:border-dorado"
             }`}
           >
@@ -385,7 +384,7 @@ function TarjetasPaquete({ seleccion }: { seleccion: SeleccionArmador }) {
               </p>
             </div>
 
-            <div className="flex flex-1 flex-col p-5">
+            <div className="flex-1 px-5 pt-5">
               <p className="etiqueta text-[11px] text-tenue">
                 {piezasPorJugador} {piezasPorJugador === 1 ? "pieza" : "piezas"}{" "}
                 por jugador
@@ -432,22 +431,25 @@ function TarjetasPaquete({ seleccion }: { seleccion: SeleccionArmador }) {
                   );
                 })}
               </ul>
+            </div>
 
-              <div className="mt-auto border-t border-linea pt-5">
-                <div className="flex items-baseline gap-2">
-                  <p className="titulo text-3xl leading-none">
-                    {precioMXN(porJugador)}
-                  </p>
-                  <p className="text-xs text-tenue">por jugador</p>
-                </div>
-                <p className="mt-2 text-sm">
-                  <span className="font-semibold">{precioMXN(total)}</span>
-                  <span className="text-tenue">
-                    {" "}
-                    el equipo · {piezas} piezas
-                  </span>
+            {/*
+              El precio es su propia fila del subgrid y no el fondo del cuerpo:
+              en las tarjetas angostas "el equipo · 36 piezas" se va a dos
+              renglones y en otras no, así que anclándolo abajo la línea
+              divisoria quedaba a distinta altura en cada una.
+            */}
+            <div className="border-t border-linea p-5">
+              <div className="flex items-baseline gap-2">
+                <p className="titulo text-3xl leading-none">
+                  {precioMXN(porJugador)}
                 </p>
+                <p className="text-xs text-tenue">por jugador</p>
               </div>
+              <p className="mt-2 text-sm">
+                <span className="font-semibold">{precioMXN(total)}</span>
+                <span className="text-tenue"> el equipo · {piezas} piezas</span>
+              </p>
             </div>
           </button>
         );
