@@ -9,6 +9,7 @@ import {
   IconoImpresora,
 } from "@/components/iconos";
 import { getProducto, tecnicas } from "@/data/catalog";
+import { precioMXN } from "@/lib/quote";
 
 /*
   Las tarjetas repiten el formato de los paquetes —encabezado de color con
@@ -32,12 +33,12 @@ export function SelectorTecnica() {
   return (
     <>
       {/*
-        Dos filas compartidas por las tres tarjetas —encabezado y ficha— con
-        `subgrid`: así la franja de color termina a la misma altura aunque una
+        Tres filas compartidas por las tres tarjetas —encabezado, ficha y
+        precio— con `subgrid`: así cada una termina a la misma altura aunque una
         descripción ocupe dos líneas y otra tres. Sin esto cada tarjeta corta
         donde le toca y los renglones de abajo quedan escalonados.
       */}
-      <div className="grid gap-4 pt-3 sm:grid-cols-3 sm:grid-rows-[auto_1fr]">
+      <div className="grid gap-4 pt-3 sm:grid-cols-3 sm:grid-rows-[auto_1fr_auto]">
         {tecnicas.map(({ slug, titulo, icono, color, badge }) => {
           const producto = getProducto(slug);
           if (!producto) return null;
@@ -51,7 +52,7 @@ export function SelectorTecnica() {
               type="button"
               onClick={() => setTecnica(slug)}
               aria-pressed={activo}
-              className={`tarjeta sube relative flex flex-col text-left transition-colors sm:row-span-2 sm:grid sm:grid-rows-subgrid ${
+              className={`tarjeta sube relative flex flex-col text-left transition-colors sm:row-span-3 sm:grid sm:grid-rows-subgrid ${
                 activo ? "border-dorado" : "hover:border-dorado"
               }`}
             >
@@ -79,7 +80,7 @@ export function SelectorTecnica() {
               {/*
                 La ficha es paralela en las tres: los mismos renglones, en el
                 mismo orden, para que se lea en horizontal y se vea de un golpe
-                qué cambia de una a la siguiente. Sin precio a propósito.
+                qué cambia de una a la siguiente.
               */}
               <ul className="flex-1 space-y-2 p-4 text-sm">
                 {producto.incluye.map((detalle) => (
@@ -89,6 +90,18 @@ export function SelectorTecnica() {
                   </li>
                 ))}
               </ul>
+
+              {/*
+                "Desde" y no el precio a secas: bordar el nombre y el número
+                suma $100 por casaca, así que este es el piso y no el final.
+              */}
+              <div className="flex items-baseline gap-2 border-t border-linea px-4 py-3">
+                <span className="text-xs text-tenue">Desde</span>
+                <span className="titulo text-2xl leading-none">
+                  {precioMXN(producto.precio)}
+                </span>
+                <span className="text-xs text-tenue">por casaca</span>
+              </div>
 
               {activo && (
                 <span className="absolute right-3 top-3 grid h-6 w-6 place-items-center rounded-full bg-dorado text-tinta ring-2 ring-white/70">
