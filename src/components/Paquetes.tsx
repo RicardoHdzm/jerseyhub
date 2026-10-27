@@ -164,10 +164,28 @@ function ContadorJugadores() {
   );
 }
 
+/** Las piezas que trae un paquete, por la misma clave que usa `piezasDeTodos`. */
+function clavesDe(paquete: Paquete): Set<string> {
+  return new Set(paquete.items.map((i) => i.segun ?? i.productoSlug));
+}
+
 export function Paquetes() {
-  const { jugadores, agregarPaquete, modelo, corte, tecnica, gorra, colores } =
-    useCotizacion();
-  const modeloElegido = nombreModelo(modelo, corte);
+  const {
+    jugadores,
+    agregarPaquete,
+    paquete,
+    setPaquete,
+    origenDiseno,
+    modelo,
+    corte,
+    tecnica,
+    gorra,
+    colores,
+  } = useCotizacion();
+
+  const elegido = paquetes.find((p) => p.slug === paquete);
+  const trae = elegido ? clavesDe(elegido) : new Set<string>();
+
   const tecnicaElegida = tecnica ? tituloTecnica(tecnica) : undefined;
   const gorraElegida = gorra ? getProducto(gorra)?.nombre : undefined;
   const seleccion = { modelo, corte, tecnica, gorra, colores };
@@ -182,239 +200,116 @@ export function Paquetes() {
   const pantalonSlug = corte === "dama" ? "pantalon-dama" : "pantalon-clasico";
   const pantalonNombre = getProducto(pantalonSlug)?.nombre ?? "";
 
+  const disenoElegido =
+    origenDiseno === "personalizado"
+      ? "Diseño personalizado"
+      : origenDiseno === "catalogo"
+        ? (nombreModelo(modelo, corte) ?? "Falta señalar cuál del catálogo")
+        : undefined;
+
+  /*
+    Los pasos se arman en una lista y se numeran al pintarlos. Del 5 en
+    adelante dependen del paquete: el Estrella pregunta por el pantalón pero no
+    por calcetas ni cinturón, porque no los trae. Numerarlos a mano se rompería
+    en cuanto el paquete cambie.
+  */
+  const pasos: { clave: string; titulo: string; detalle?: string; contenido: ReactNode }[] =
+    [
+      {
+        clave: "jugadores",
+        titulo: "¿Cuántos jugadores son?",
+        contenido: <ContadorJugadores />,
+      },
+      {
+        clave: "paquete",
+        titulo: "Escoge tu paquete",
+        detalle: elegido
+          ? `Elegiste: ${elegido.nombre}`
+          : `Precios para ${jugadores} ${jugadores === 1 ? "jugador" : "jugadores"}`,
+        contenido: <TarjetasPaquete seleccion={seleccion} />,
+      },
+      {
+        clave: "diseno",
+        titulo: "Elige la casaca",
+        detalle: disenoElegido ?? "Personalizada o del catálogo",
+        contenido: <SelectorDiseno />,
+      },
+      {
+        clave: "acabado",
+        titulo: "Elige el acabado de la casaca",
+        detalle: tecnicaElegida
+          ? `Elegiste: ${tecnicaElegida}`
+          : "Bordado, mixto o DTF textil",
+        contenido: <SelectorTecnica />,
+      },
+    ];
+
+  if (trae.has("gorra")) {
+    pasos.push({
+      clave: "gorra",
+      titulo: "Elige la gorra",
+      detalle: gorraElegida ? `Elegiste: ${gorraElegida}` : "Algodón o dry-fit",
+      contenido: (
+        <>
+          <SelectorGorra />
+          <div className="mt-5">
+            <p className="etiqueta text-[11px] text-white/60">
+              Color de la gorra
+            </p>
+            <div className="mt-3">
+              <SelectorColor pieza="gorra" productoSlug={gorraSlug} />
+            </div>
+          </div>
+        </>
+      ),
+    });
+  }
+
+  if (trae.has("pantalon")) {
+    pasos.push({
+      clave: "pantalon",
+      titulo: "Elige el color del pantalón",
+      detalle: pantalonNombre,
+      contenido: (
+        <SelectorColor pieza="pantalon" productoSlug={pantalonSlug} />
+      ),
+    });
+  }
+
+  if (trae.has("calcetas-sublimadas")) {
+    pasos.push({
+      clave: "calcetas",
+      titulo: "Elige el color de las calcetas",
+      contenido: (
+        <SelectorColor pieza="calcetas" productoSlug="calcetas-sublimadas" />
+      ),
+    });
+  }
+
+  if (trae.has("cinturon-beisbol")) {
+    pasos.push({
+      clave: "cinturon",
+      titulo: "Elige el color del cinturón",
+      contenido: (
+        <SelectorColor pieza="cinturon" productoSlug="cinturon-beisbol" />
+      ),
+    });
+  }
+
   return (
     <>
-      <Paso numero={1} titulo="¿Cuántos jugadores son?">
-        <ContadorJugadores />
-      </Paso>
+      {pasos.map((paso, i) => (
+        <Paso
+          key={paso.clave}
+          numero={i + 1}
+          titulo={paso.titulo}
+          detalle={paso.detalle}
+        >
+          {paso.contenido}
+        </Paso>
+      ))}
 
-      <Paso
-        numero={2}
-        titulo="Elige el modelo de referencia"
-        detalle={
-          modeloElegido
-            ? `Elegiste: ${modeloElegido}`
-            : "Cualquiera se puede producir con cualquier acabado"
-        }
-      >
-        <TableroLaminas />
-      </Paso>
-
-      <Paso
-        numero={3}
-        titulo="Elige el acabado de la casaca"
-        detalle={
-          tecnicaElegida
-            ? `Elegiste: ${tecnicaElegida}`
-            : "Bordado, mixto o DTF textil"
-        }
-      >
-        <SelectorTecnica />
-      </Paso>
-
-      <Paso
-        numero={4}
-        titulo="Elige la gorra"
-        detalle={
-          gorraElegida ? `Elegiste: ${gorraElegida}` : "Algodón o dry-fit"
-        }
-      >
-        <SelectorGorra />
-        <div className="mt-5">
-          <p className="etiqueta text-[11px] text-white/60">
-            Color de la gorra
-          </p>
-          <div className="mt-3">
-            <SelectorColor pieza="gorra" productoSlug={gorraSlug} />
-          </div>
-        </div>
-      </Paso>
-
-      {/*
-        Del 5 al 7 son piezas que no traen todos los paquetes. Se muestran
-        siempre porque el paquete se escoge hasta el final: aquí todavía no se
-        sabe cuáles van a aplicar, y esconderlas obligaría a devolverse.
-      */}
-      <Paso
-        numero={5}
-        titulo="Elige el color del pantalón"
-        detalle={`${pantalonNombre} · solo aplica si tu paquete lo incluye`}
-      >
-        <SelectorColor pieza="pantalon" productoSlug={pantalonSlug} />
-      </Paso>
-
-      <Paso
-        numero={6}
-        titulo="Elige el color de las calcetas"
-        detalle="Solo aplica si tu paquete las incluye"
-      >
-        <SelectorColor pieza="calcetas" productoSlug="calcetas-sublimadas" />
-      </Paso>
-
-      <Paso
-        numero={7}
-        titulo="Elige el color del cinturón"
-        detalle="Solo aplica si tu paquete lo incluye"
-      >
-        <SelectorColor pieza="cinturon" productoSlug="cinturon-beisbol" />
-      </Paso>
-
-      <Paso
-        numero={8}
-        titulo="Escoge tu paquete"
-        detalle={`Precios calculados para ${jugadores} ${jugadores === 1 ? "jugador" : "jugadores"}`}
-      >
-        <div className="grid gap-4 pt-3 md:grid-cols-2 lg:grid-cols-3">
-          {paquetes.map((paquete) => {
-            const porJugador = precioPaquete(paquete, seleccion);
-            const piezasPorJugador = paquete.items.reduce(
-              (s, i) => s + i.porJugador,
-              0,
-            );
-            const piezas = piezasPorJugador * jugadores;
-            const total = porJugador * jugadores * (1 - descuentoPara(piezas));
-            const Icono = iconosPaquete[paquete.icono];
-            const cabecera = encabezados[paquete.color];
-            const incluidas = new Map(
-              paquete.items.map((item) => [
-                item.segun ?? item.productoSlug,
-                item,
-              ]),
-            );
-
-            return (
-              <article
-                key={paquete.slug}
-                className={`tarjeta sube relative flex flex-col transition-[border-color,translate] duration-200 hover:-translate-y-1 ${
-                  paquete.destacado ? "border-dorado" : "hover:border-dorado"
-                }`}
-              >
-                {/*
-                  El badge va dentro de la tarjeta, en la esquina superior
-                  izquierda del encabezado de color.
-                */}
-                {paquete.badge && (
-                  <span className="absolute left-3 top-3 z-10 flex items-center gap-1.5 whitespace-nowrap rounded-full bg-tinta px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-white">
-                    <IconoEstrella className="h-2.5 w-2.5 text-dorado-claro" />
-                    {paquete.badge}
-                  </span>
-                )}
-
-                {/*
-                  Sin foto: la tarjeta se sostiene con el encabezado de color, el
-                  precio grande y la lista de piezas. Antes se repetía la misma
-                  imagen de casaca en los tres paquetes y no aportaba nada.
-                */}
-                <div
-                  className={`rounded-t-[15px] px-5 pb-5 pt-8 text-center ${cabecera.fondo} ${cabecera.texto}`}
-                >
-                  <Icono className={`mx-auto h-14 w-14 ${cabecera.icono}`} />
-                  <h3 className="titulo mt-4 text-3xl leading-none">
-                    {paquete.nombre}
-                  </h3>
-                  <p
-                    className={`mt-2 text-sm leading-snug ${cabecera.detalle}`}
-                  >
-                    {paquete.descripcion}
-                  </p>
-                </div>
-
-                <div className="flex flex-1 flex-col p-5">
-                  <p className="etiqueta text-[11px] text-tenue">
-                    {piezasPorJugador} piezas por jugador
-                  </p>
-                  <ul className="mt-3 space-y-1.5 pb-5 text-sm">
-                    {piezasDeTodos.map(({ clave, item: referencia }) => {
-                      const item = incluidas.get(clave);
-                      const producto = productoDeItem(
-                        item ?? referencia,
-                        seleccion,
-                      );
-                      if (!producto) return null;
-                      /*
-                        La casaca se nombra por el acabado elegido en el paso 3.
-                        Mientras no se elige uno, va en genérico: el paquete
-                        cotiza con el mixto por omisión, pero decir "Casaca
-                        mixta" haría parecer que ya se decidió.
-                      */
-                      const etiqueta =
-                        clave === "tecnica"
-                          ? tecnica
-                            ? producto.nombre
-                            : "Casaca"
-                          : clave === "gorra"
-                            ? "Gorra"
-                            : producto.nombre;
-                      return (
-                        <li
-                          key={clave}
-                          className={`flex items-start gap-2 ${item ? "" : "text-tenue/60"}`}
-                        >
-                          {item ? (
-                            <IconoCheck className="mt-0.5 h-4 w-4 shrink-0 text-tinta" />
-                          ) : (
-                            <IconoCerrar className="mt-0.5 h-4 w-4 shrink-0 text-linea" />
-                          )}
-                          <span>
-                            {item &&
-                              item.porJugador > 1 &&
-                              `${item.porJugador}× `}
-                            {etiqueta}
-                          </span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-
-                  <div className="mt-auto border-t border-linea pt-5">
-                    <div className="flex items-baseline gap-2">
-                      <p className="titulo text-4xl leading-none">
-                        {precioMXN(porJugador)}
-                      </p>
-                      <p className="text-xs text-tenue">por jugador</p>
-                    </div>
-                    <p className="mt-2 text-sm">
-                      <span className="font-semibold">{precioMXN(total)}</span>
-                      <span className="text-tenue">
-                        {" "}
-                        el equipo · {piezas} piezas
-                      </span>
-                    </p>
-
-                    <button
-                      type="button"
-                      onClick={() =>
-                        agregarPaquete(paquete, jugadores, seleccion)
-                      }
-                      className={`mt-4 w-full rounded-xl px-5 py-3.5 text-sm font-semibold transition-colors ${
-                        paquete.destacado
-                          ? "bg-tinta text-white hover:bg-black"
-                          : "border border-tinta text-tinta hover:bg-tinta hover:text-white"
-                      }`}
-                    >
-                      Armar para {jugadores}{" "}
-                      {jugadores === 1 ? "jugador" : "jugadores"}
-                    </button>
-                  </div>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-
-        {/*
-          Una sola vez debajo de las tarjetas: aplica igual a los tres paquetes.
-        */}
-        <p className="mt-5 flex items-center justify-center gap-2 text-center text-sm text-white">
-          <IconoCheck className="h-4 w-4 shrink-0" />
-          <span>
-            <strong className="font-semibold">
-              Diseño 100% personalizable
-            </strong>{" "}
-            en la casaca y la gorra: colores, logo, nombre y número.
-          </span>
-        </p>
-      </Paso>
+      {elegido && <Cierre paquete={elegido} seleccion={seleccion} />}
     </>
   );
 }
