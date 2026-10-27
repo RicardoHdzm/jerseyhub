@@ -23,7 +23,8 @@ export function TarjetaCatalogo({
   /** La del catálogo completo, con menos aire y tipografía más chica. */
   compacta?: boolean;
 }) {
-  const { producto, modelo, nombre, foto, variante, destacado } = entrada;
+  const { producto, modelo, nombre, foto, variante, detalle, destacado } =
+    entrada;
 
   return (
     <button
@@ -71,8 +72,10 @@ export function TarjetaCatalogo({
         >
           {nombre}
         </h3>
-        {variante && (
-          <p className="mt-1 text-xs text-tenue">{variante.label}</p>
+        {(detalle ?? variante?.label) && (
+          <p className="mt-1 text-xs text-tenue">
+            {detalle ?? variante?.label}
+          </p>
         )}
         <div className={compacta ? "mt-2" : "mt-4 pt-2"}>
           <p className="text-[11px] uppercase tracking-wide text-tenue">

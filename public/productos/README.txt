@@ -13,6 +13,21 @@ Cómo está organizado:
                       del armador (arreglo `modelos`). Un mismo archivo puede
                       usarse en los dos lados.
 
+  catalogo/           Las nueve láminas del catálogo impreso, tal como las
+                      mandaron. No se usan en el sitio: son el original del que
+                      se recortaron las fotos de modelos/.
+
+  modelos/            Los 87 diseños de corte caballero, uno por archivo, con
+                      el nombre de su código: JH-001.webp ... JH-098.webp.
+                      Cuadradas de 1000x1000 sobre blanco.
+
+                      Se generaron recortando catalogo/*.PNG. Si llegan láminas
+                      nuevas, el recorte se rehace; no hace falta recortar a
+                      mano. OJO: la numeración tiene huecos reales (no existen
+                      el JH-019 ni del JH-060 al JH-069) y en las láminas 4 y 5
+                      la pastilla del código viene impresa sobre el jersey, así
+                      que del JH-030 al JH-049 se ve el código en la foto.
+
   gorras/             Foto principal de cada producto de gorra.
 
   pantalones/         Variantes de color del pantalón clásico: blanco, gris, negro.

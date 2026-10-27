@@ -120,6 +120,14 @@ export function ModalProducto({
                   {variante.label}
                 </p>
               )}
+              {/*
+                En los modelos el título es el código —"JH-024"—, que solo no
+                dice nada. Los colores van debajo, sin muestra de color: son dos
+                o tres y un círculo tendría que elegir uno.
+              */}
+              {modelo?.color && (
+                <p className="mt-2 text-sm font-semibold">{modelo.color}</p>
+              )}
               <p className="mt-3 text-sm leading-relaxed text-tenue">
                 {modelo?.descripcion ?? producto.descripcion}
               </p>

@@ -64,6 +64,7 @@ export function PanelCotizacion() {
     nota,
     setNota,
     modelo,
+    corte,
     tecnica,
     roster,
     cambiarCantidad,
@@ -90,7 +91,7 @@ export function PanelCotizacion() {
   }, [panelAbierto]);
 
   const vacio = resumen.lineas.length === 0;
-  const modeloElegido = nombreModelo(modelo);
+  const modeloElegido = nombreModelo(modelo, corte);
   const disenoElegido = modelo ? getModelo(modelo) : undefined;
   const tecnicaElegida = tecnica ? tituloTecnica(tecnica) : null;
   const mensaje = mensajeWhatsApp(resumen, {

@@ -1,5 +1,6 @@
 import { jugadoresPorDefecto } from "@/lib/config";
 import type {
+  GeneroModelo,
   JugadorRoster,
   LineaCotizacion,
   PiezaConColor,
@@ -16,6 +17,12 @@ export type EstadoCotizacion = {
   jugadores: number;
   /** Slug del modelo de uniforme elegido, o "" si todavía no elige. */
   modelo: string;
+  /**
+   * Corte de la casaca. Va aparte del modelo porque hoy los dos cortes se
+   * hacen con los mismos diseños: el cliente elige el dibujo por un lado y si
+   * lo quiere entallado por otro. De aquí sale también el corte del pantalón.
+   */
+  corte: GeneroModelo;
   /** Slug de la técnica de la casaca elegida, o "" si todavía no elige. */
   tecnica: string;
   /** Slug del producto de gorra elegido, o "" si todavía no elige. */
@@ -32,6 +39,7 @@ export type EstadoCotizacion = {
 export const COTIZACION_VACIA: EstadoCotizacion = {
   jugadores: jugadoresPorDefecto,
   modelo: "",
+  corte: "caballero",
   tecnica: "",
   gorra: "",
   colores: {},
@@ -63,6 +71,7 @@ function interpretar(texto: string | null): EstadoCotizacion {
     return {
       jugadores: guardado.jugadores ?? COTIZACION_VACIA.jugadores,
       modelo: guardado.modelo ?? "",
+      corte: guardado.corte === "dama" ? "dama" : "caballero",
       tecnica: guardado.tecnica ?? "",
       gorra: guardado.gorra ?? "",
       colores: guardado.colores ?? {},

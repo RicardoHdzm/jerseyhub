@@ -19,7 +19,6 @@ import {
   IconoPelota,
 } from "@/components/iconos";
 import {
-  getModelo,
   getProducto,
   nombreModelo,
   paquetes,
@@ -164,22 +163,21 @@ function ContadorJugadores() {
 }
 
 export function Paquetes() {
-  const { jugadores, agregarPaquete, modelo, tecnica, gorra, colores } =
+  const { jugadores, agregarPaquete, modelo, corte, tecnica, gorra, colores } =
     useCotizacion();
-  const modeloElegido = nombreModelo(modelo);
+  const modeloElegido = nombreModelo(modelo, corte);
   const tecnicaElegida = tecnica ? tituloTecnica(tecnica) : undefined;
   const gorraElegida = gorra ? getProducto(gorra)?.nombre : undefined;
-  const seleccion = { modelo, tecnica, gorra, colores };
+  const seleccion = { modelo, corte, tecnica, gorra, colores };
 
   /*
     De qué producto salen los colores de cada paso. La gorra y el pantalón
-    cambian con lo que se eligió antes —el tipo de gorra y el corte del modelo
-    de referencia—, así que los círculos tienen que preguntarle al producto que
-    quedó seleccionado, no a uno fijo.
+    cambian con lo que se eligió antes —el tipo de gorra y el corte de la
+    casaca—, así que los círculos tienen que preguntarle al producto que quedó
+    seleccionado, no a uno fijo.
   */
   const gorraSlug = gorra || "gorra-bordada-6-paneles";
-  const damaElegida = modelo ? getModelo(modelo)?.genero === "dama" : false;
-  const pantalonSlug = damaElegida ? "pantalon-dama" : "pantalon-clasico";
+  const pantalonSlug = corte === "dama" ? "pantalon-dama" : "pantalon-clasico";
   const pantalonNombre = getProducto(pantalonSlug)?.nombre ?? "";
 
   return (

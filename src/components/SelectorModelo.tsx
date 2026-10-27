@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useRef, useState } from "react";
+import { useRef } from "react";
 
 import { useCotizacion } from "@/components/CotizacionProvider";
 import { ModeloArte } from "@/components/ModeloArte";
@@ -10,27 +10,26 @@ import {
   IconoFlecha,
   IconoFlechaIzquierda,
 } from "@/components/iconos";
-import { getModelo, modelos } from "@/data/catalog";
+import { modelos } from "@/data/catalog";
 import type { GeneroModelo } from "@/lib/types";
 
-const generos: { id: GeneroModelo; label: string }[] = [
+const cortes: { id: GeneroModelo; label: string }[] = [
   { id: "caballero", label: "Caballero" },
   { id: "dama", label: "Dama" },
 ];
 
 export function SelectorModelo() {
-  const { modelo, setModelo } = useCotizacion();
-
-  // Si el cliente vuelve con un modelo ya elegido, abrimos en su mismo corte.
-  const [genero, setGenero] = useState<GeneroModelo>(
-    () => getModelo(modelo)?.genero ?? "caballero",
-  );
+  const { modelo, setModelo, corte, setCorte } = useCotizacion();
   const pista = useRef<HTMLDivElement>(null);
 
-  const visibles = useMemo(
-    () => modelos.filter((m) => m.genero === genero),
-    [genero],
-  );
+  /*
+    El corte ya no filtra la lista: hoy los dos se hacen con los mismos 87
+    diseños, así que el cliente elige el dibujo por un lado y si lo quiere
+    entallado por otro. El botón se queda porque de él sale el corte del
+    pantalón del paquete. Si algún día hay diseños solo de dama, aquí vuelve
+    el filtro.
+  */
+  const visibles = modelos;
 
   const desplazar = (direccion: 1 | -1) => {
     const el = pista.current;
@@ -38,8 +37,8 @@ export function SelectorModelo() {
     el.scrollBy({ left: direccion * el.clientWidth * 0.8, behavior: "smooth" });
   };
 
-  const cambiarGenero = (nuevo: GeneroModelo) => {
-    setGenero(nuevo);
+  const cambiarCorte = (nuevo: GeneroModelo) => {
+    setCorte(nuevo);
     pista.current?.scrollTo({ left: 0 });
   };
 
@@ -47,14 +46,14 @@ export function SelectorModelo() {
     <>
       <div className="mb-4 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
         <div className="inline-flex rounded-full border border-white/20 bg-white/5 p-1">
-          {generos.map((opcion) => (
+          {cortes.map((opcion) => (
             <button
               key={opcion.id}
               type="button"
-              onClick={() => cambiarGenero(opcion.id)}
-              aria-pressed={genero === opcion.id}
+              onClick={() => cambiarCorte(opcion.id)}
+              aria-pressed={corte === opcion.id}
               className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
-                genero === opcion.id
+                corte === opcion.id
                   ? "bg-dorado text-tinta"
                   : "text-white/70 hover:text-white"
               }`}
@@ -129,9 +128,17 @@ export function SelectorModelo() {
                   <IconoCheck className="h-3 w-3" />
                 </span>
               )}
-              <p className="titulo px-3 py-2 text-lg leading-none">
-                {item.nombre}
-              </p>
+              <div className="px-3 py-2">
+                <p className="titulo text-lg leading-none">{item.nombre}</p>
+                {/*
+                  El nombre es el código; sin los colores no se distingue uno
+                  de otro. Va en gris y no en blanco: la tarjeta es blanca
+                  aunque el paso entero esté sobre negro.
+                */}
+                {item.color && (
+                  <p className="mt-1 text-xs text-tenue">{item.color}</p>
+                )}
+              </div>
             </button>
           );
         })}

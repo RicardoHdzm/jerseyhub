@@ -9,12 +9,12 @@ export type CategoriaId = "casacas" | "gorras" | "pantalones" | "accesorios";
 
 /**
  * Los filtros de "Prenda por prenda". No son las categorías de producto: las
- * casacas no se listan por técnica (sublimada, bordada, dry-fit) sino por
- * corte, porque cualquier modelo se puede producir con cualquier acabado. Lo
- * que se muestra en esas dos pestañas son los modelos, no los productos.
+ * Las casacas no se listan por técnica (sublimada, bordada, dry-fit) ni por
+ * corte: cualquier diseño se produce con cualquier acabado y en los dos cortes,
+ * así que separarlas daría listas idénticas. Lo que se muestra en esa pestaña
+ * son los modelos, no los productos.
  */
-export type FiltroCatalogo =
-  "caballero" | "dama" | "pantalones" | "gorras" | "accesorios";
+export type FiltroCatalogo = "casacas" | "pantalones" | "gorras" | "accesorios";
 
 export type Categoria = {
   id: FiltroCatalogo;
@@ -76,14 +76,21 @@ export type PatronModelo = "solido" | "rayas" | "degradado" | "bloques";
  * Modelo (o "corrida") de uniforme: el estilo de diseño que el equipo quiere,
  * antes de entrar al detalle de prendas.
  */
-/** Con qué corte se ofrece el modelo. Es el filtro del paso 1. */
+/** Corte de la casaca. Se elige en el paso 2, aparte del diseño. */
 export type GeneroModelo = "caballero" | "dama";
 
 export type ModeloUniforme = {
   slug: string;
+  /** El código del catálogo impreso, que es como se pide: "JH-024". */
   nombre: string;
-  descripcion: string;
-  genero: GeneroModelo;
+  /** Los colores del diseño, tal como vienen en la hoja: "Negro / Rojo". */
+  color?: string;
+  /**
+   * Opcional: sin ella, la ficha cae en la descripción de la casaca. Los 87
+   * diseños del catálogo no la traen —describir uno por uno desde la lámina
+   * sería inventar— y la de la casaca dice lo que hace falta.
+   */
+  descripcion?: string;
   /**
    * Con qué casaca del catálogo se agrupa este modelo en "Prenda por prenda".
    * Ya NO decide el precio del paquete: eso lo define la técnica del paso 3,

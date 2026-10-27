@@ -1,5 +1,6 @@
 import type {
   Categoria,
+  GeneroModelo,
   ModeloUniforme,
   FiltroCatalogo,
   Opcion,
@@ -18,12 +19,10 @@ import type {
 
 export const categorias: Categoria[] = [
   {
-    id: "caballero",
-    nombre: "Caballero",
-  },
-  {
-    id: "dama",
-    nombre: "Dama",
+    id: "casacas",
+    nombre: "Casacas",
+    descripcion:
+      "Los 87 diseños del catálogo. Cualquiera se hace en corte caballero o dama, y con el acabado que elijas.",
   },
   {
     id: "pantalones",
@@ -415,161 +414,633 @@ export const productos: Producto[] = [
 // --- Modelos de uniforme ---------------------------------------------------
 
 /**
- * MODELOS DE EJEMPLO. Son los estilos de diseño que el cliente elige antes de
- * armar el paquete; cámbialos por los que ustedes manejan.
+ * Los 87 diseños salen de las nueve láminas del catálogo impreso
+ * impreso (public/productos/catalogo/). Cada uno se identifica por su código
+ * —JH-001 a JH-098— y no por el equipo en el que se inspira: el código es lo
+ * que el cliente cita al pedir y lo que el taller busca, y de paso el sitio no
+ * anda vendiendo marcas ajenas.
  *
- * `genero` es el filtro del paso 1 ("Caballero" / "Dama"). Si un modelo existe
- * en los dos cortes, va dos veces con slug distinto y su propia foto.
- */
-/**
- * Los modelos van con nombre clave, no con el del equipo de MLB en el que se
- * inspiran: la casaca se produce con el diseño que el cliente pida, pero el
- * catálogo no puede andar vendiendo marcas ajenas. El nombre describe lo que se
- * ve en la foto para que cliente y taller se entiendan por WhatsApp.
+ * No llevan corte: por ahora los mismos diseños se hacen en caballero y en
+ * dama, así que el corte se elige aparte (vive en el almacén, no en el modelo)
+ * y de él sale el corte del pantalón del paquete. Si algún día hay diseños
+ * exclusivos de un corte, aquí vuelve el campo y el paso 2 vuelve a filtrar.
  *
- * Un nombre puede repetirse entre caballero y dama cuando el diseño es el mismo
- * (el slider filtra por corte, así que nunca se ven juntos); dentro de un mismo
- * corte tienen que ser únicos.
+ * La numeración tiene huecos reales: no existen el JH-019 ni del JH-060 al
+ * JH-069. No los inventes para "rellenar".
+ *
+ * Las fotos se recortaron de esas láminas. En las hojas 4 y 5 —JH-030 a
+ * JH-049— la pastilla del código viene impresa sobre el jersey, así que esas
+ * veinte se ven con el código encima; no es un error del recorte.
  */
 export const modelos: ModeloUniforme[] = [
   {
-    slug: "clasico",
-    nombre: "Clásico",
-    destacado: true,
-    descripcion: "Blanco con letra script azul y número a contraste.",
-    genero: "caballero",
-    casacaSlug: "casaca-bordada",
-    foto: "/productos/jerseys/bordado/dodgers-01.avif",
-  },
-  {
-    slug: "clasico-alterno",
-    nombre: "Clásico alterno",
-    descripcion: "El mismo modelo en azul marino con script blanco.",
-    genero: "caballero",
-    casacaSlug: "casaca-bordada",
-    foto: "/productos/jerseys/bordado/dodgers-02.avif",
-  },
-  {
-    slug: "franja-roja",
-    nombre: "Franja roja",
-    descripcion: "Blanco con script rojo y vivos del mismo tono al frente.",
-    genero: "caballero",
-    casacaSlug: "casaca-bordada",
-    foto: "/productos/jerseys/bordado/redsox-01.avif",
-  },
-  {
-    slug: "royal",
-    nombre: "Royal",
-    descripcion: "Azul rey liso con logo redondo al pecho.",
-    genero: "caballero",
+    slug: "jh-001",
+    nombre: "JH-001",
+    color: "Blanco",
     casacaSlug: "casaca-sublimada",
-    foto: "/productos/jerseys/sublimado/cubs-01.avif",
+    foto: "/productos/modelos/JH-001.webp",
   },
   {
-    slug: "azabache",
-    nombre: "Azabache",
-    descripcion: "Negro con letra blanca, la opción más sobria.",
-    genero: "caballero",
+    slug: "jh-002",
+    nombre: "JH-002",
+    color: "Blanco / Azul",
     casacaSlug: "casaca-sublimada",
-    foto: "/productos/jerseys/sublimado/whitesox-01.avif",
+    foto: "/productos/modelos/JH-002.webp",
   },
   {
-    slug: "retro",
-    nombre: "Retro",
-    descripcion: "Crema con hombros verdes y detalles naranjas, aire de época.",
-    genero: "caballero",
+    slug: "jh-003",
+    nombre: "JH-003",
+    color: "Blanco rayado / Azul",
     casacaSlug: "casaca-sublimada",
-    foto: "/productos/jerseys/sublimado/orioles-01.avif",
+    foto: "/productos/modelos/JH-003.webp",
   },
   {
-    slug: "purpura",
-    nombre: "Púrpura",
-    descripcion: "Morado con plata, distinto sin dejar de ser clásico.",
-    genero: "caballero",
+    slug: "jh-004",
+    nombre: "JH-004",
+    color: "Blanco rayado / Azul marino",
     casacaSlug: "casaca-sublimada",
-    foto: "/productos/jerseys/sublimado/rookies-01.avif",
+    foto: "/productos/modelos/JH-004.webp",
   },
   {
-    slug: "tricolor",
-    nombre: "Tricolor",
-    descripcion: "Blanco con marino y rojo, corte tradicional.",
-    genero: "caballero",
-    casacaSlug: "casaca-drifit",
-    foto: "/productos/jerseys/drifit/braves-01.avif",
+    slug: "jh-005",
+    nombre: "JH-005",
+    color: "Blanco / Azul marino",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-005.webp",
   },
   {
-    slug: "rayado",
-    nombre: "Rayado",
-    descripcion: "Blanco con raya fina y vivos naranjas.",
-    genero: "caballero",
-    casacaSlug: "casaca-drifit",
-    foto: "/productos/jerseys/drifit/mets-01.avif",
+    slug: "jh-006",
+    nombre: "JH-006",
+    color: "Blanco / Azul",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-006.webp",
   },
   {
-    slug: "clasico-dama",
-    nombre: "Clásico",
-    destacado: true,
-    descripcion: "El script azul sobre blanco, en corte entallado.",
-    genero: "dama",
-    casacaSlug: "casaca-dama",
-    foto: "/productos/jerseys/dama/dodgers-01.avif",
+    slug: "jh-007",
+    nombre: "JH-007",
+    color: "Blanco rayado / Dorado",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-007.webp",
   },
   {
-    slug: "clasico-alterno-dama",
-    nombre: "Clásico alterno",
-    descripcion: "El mismo modelo en azul, en corte entallado.",
-    genero: "dama",
-    casacaSlug: "casaca-dama",
-    foto: "/productos/jerseys/dama/dodgers-02.avif",
+    slug: "jh-008",
+    nombre: "JH-008",
+    color: "Blanco / Rojo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-008.webp",
   },
   {
-    slug: "franja-roja-dama",
-    nombre: "Franja roja",
-    descripcion:
-      "Blanco con script y vivos rojos, muy usado en softbol femenil.",
-    genero: "dama",
-    casacaSlug: "casaca-dama",
-    foto: "/productos/jerseys/dama/angels-01.avif",
+    slug: "jh-009",
+    nombre: "JH-009",
+    color: "Blanco / Tricolor",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-009.webp",
   },
   {
-    slug: "retro-dama",
-    nombre: "Retro",
-    descripcion: "Crema con script naranja y vivos negros.",
-    genero: "dama",
-    casacaSlug: "casaca-dama",
-    foto: "/productos/jerseys/dama/giants-02.avif",
+    slug: "jh-010",
+    nombre: "JH-010",
+    color: "Blanco / Negro",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-010.webp",
   },
   {
-    slug: "carmesi-dama",
-    nombre: "Carmesí",
-    descripcion: "Rojo completo con vivos marinos.",
-    genero: "dama",
-    casacaSlug: "casaca-dama",
-    foto: "/productos/jerseys/sublimado/braves-01.avif",
+    slug: "jh-011",
+    nombre: "JH-011",
+    color: "Blanco / Azul marino",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-011.webp",
   },
   {
-    slug: "electrico-dama",
-    nombre: "Eléctrico",
-    descripcion: "Azul rey con naranja, muy visible en el diamante.",
-    genero: "dama",
-    casacaSlug: "casaca-dama",
-    foto: "/productos/jerseys/sublimado/mets-01.avif",
+    slug: "jh-012",
+    nombre: "JH-012",
+    color: "Blanco / Azul",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-012.webp",
   },
   {
-    slug: "electrico-alterno-dama",
-    nombre: "Eléctrico alterno",
-    descripcion: "La versión negra del mismo modelo.",
-    genero: "dama",
-    casacaSlug: "casaca-dama",
-    foto: "/productos/jerseys/sublimado/mets-02.avif",
+    slug: "jh-013",
+    nombre: "JH-013",
+    color: "Blanco rayado / Rojo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-013.webp",
   },
   {
-    slug: "solar-dama",
-    nombre: "Solar",
-    descripcion: "Naranja completo con vivos negros.",
-    genero: "dama",
-    casacaSlug: "casaca-dama",
-    foto: "/productos/jerseys/sublimado/orioles-02.avif",
+    slug: "jh-014",
+    nombre: "JH-014",
+    color: "Blanco / Verde",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-014.webp",
+  },
+  {
+    slug: "jh-015",
+    nombre: "JH-015",
+    color: "Blanco / Azul marino",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-015.webp",
+  },
+  {
+    slug: "jh-016",
+    nombre: "JH-016",
+    color: "Blanco / Azul",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-016.webp",
+  },
+  {
+    slug: "jh-017",
+    nombre: "JH-017",
+    color: "Blanco rayado / Negro",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-017.webp",
+  },
+  {
+    slug: "jh-018",
+    nombre: "JH-018",
+    color: "Blanco / Rojo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-018.webp",
+  },
+  {
+    slug: "jh-020",
+    nombre: "JH-020",
+    color: "Negro / Verde",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-020.webp",
+  },
+  {
+    slug: "jh-021",
+    nombre: "JH-021",
+    color: "Negro / Tricolor",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-021.webp",
+  },
+  {
+    slug: "jh-022",
+    nombre: "JH-022",
+    color: "Negro / Blanco",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-022.webp",
+  },
+  {
+    slug: "jh-023",
+    nombre: "JH-023",
+    color: "Negro / Rojo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-023.webp",
+  },
+  {
+    slug: "jh-024",
+    nombre: "JH-024",
+    color: "Negro / Rojo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-024.webp",
+  },
+  {
+    slug: "jh-025",
+    nombre: "JH-025",
+    color: "Negro / Blanco",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-025.webp",
+  },
+  {
+    slug: "jh-026",
+    nombre: "JH-026",
+    color: "Negro / Blanco",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-026.webp",
+  },
+  {
+    slug: "jh-027",
+    nombre: "JH-027",
+    color: "Negro / Dorado",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-027.webp",
+  },
+  {
+    slug: "jh-028",
+    nombre: "JH-028",
+    color: "Negro / Blanco",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-028.webp",
+  },
+  {
+    slug: "jh-029",
+    nombre: "JH-029",
+    color: "Negro / Amarillo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-029.webp",
+  },
+  {
+    slug: "jh-030",
+    nombre: "JH-030",
+    color: "Negro / Rojo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-030.webp",
+  },
+  {
+    slug: "jh-031",
+    nombre: "JH-031",
+    color: "Negro / Rojo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-031.webp",
+  },
+  {
+    slug: "jh-032",
+    nombre: "JH-032",
+    color: "Negro / Naranja",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-032.webp",
+  },
+  {
+    slug: "jh-033",
+    nombre: "JH-033",
+    color: "Negro / Blanco",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-033.webp",
+  },
+  {
+    slug: "jh-034",
+    nombre: "JH-034",
+    color: "Negro / Blanco",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-034.webp",
+  },
+  {
+    slug: "jh-035",
+    nombre: "JH-035",
+    color: "Negro / Rojo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-035.webp",
+  },
+  {
+    slug: "jh-036",
+    nombre: "JH-036",
+    color: "Negro / Rojo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-036.webp",
+  },
+  {
+    slug: "jh-037",
+    nombre: "JH-037",
+    color: "Negro / Blanco",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-037.webp",
+  },
+  {
+    slug: "jh-038",
+    nombre: "JH-038",
+    color: "Negro / Azul",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-038.webp",
+  },
+  {
+    slug: "jh-039",
+    nombre: "JH-039",
+    color: "Negro / Amarillo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-039.webp",
+  },
+  {
+    slug: "jh-040",
+    nombre: "JH-040",
+    color: "Negro / Beis",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-040.webp",
+  },
+  {
+    slug: "jh-041",
+    nombre: "JH-041",
+    color: "Rojo / Verde",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-041.webp",
+  },
+  {
+    slug: "jh-042",
+    nombre: "JH-042",
+    color: "Rojo / Negro",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-042.webp",
+  },
+  {
+    slug: "jh-043",
+    nombre: "JH-043",
+    color: "Rojo / Blanco",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-043.webp",
+  },
+  {
+    slug: "jh-044",
+    nombre: "JH-044",
+    color: "Rojo / Azul marino",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-044.webp",
+  },
+  {
+    slug: "jh-045",
+    nombre: "JH-045",
+    color: "Rojo / Negro",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-045.webp",
+  },
+  {
+    slug: "jh-046",
+    nombre: "JH-046",
+    color: "Rojo / Negro",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-046.webp",
+  },
+  {
+    slug: "jh-047",
+    nombre: "JH-047",
+    color: "Rojo / Blanco",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-047.webp",
+  },
+  {
+    slug: "jh-048",
+    nombre: "JH-048",
+    color: "Rojo / Verde",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-048.webp",
+  },
+  {
+    slug: "jh-049",
+    nombre: "JH-049",
+    color: "Rojo / Blanco",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-049.webp",
+  },
+  {
+    slug: "jh-050",
+    nombre: "JH-050",
+    color: "Rojo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-050.webp",
+  },
+  {
+    slug: "jh-051",
+    nombre: "JH-051",
+    color: "Rojo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-051.webp",
+  },
+  {
+    slug: "jh-052",
+    nombre: "JH-052",
+    color: "Azul marino",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-052.webp",
+  },
+  {
+    slug: "jh-053",
+    nombre: "JH-053",
+    color: "Azul marino",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-053.webp",
+  },
+  {
+    slug: "jh-054",
+    nombre: "JH-054",
+    color: "Azul marino",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-054.webp",
+  },
+  {
+    slug: "jh-055",
+    nombre: "JH-055",
+    color: "Azul marino / Naranja",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-055.webp",
+  },
+  {
+    slug: "jh-056",
+    nombre: "JH-056",
+    color: "Azul marino",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-056.webp",
+  },
+  {
+    slug: "jh-057",
+    nombre: "JH-057",
+    color: "Azul marino / Blanco",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-057.webp",
+  },
+  {
+    slug: "jh-058",
+    nombre: "JH-058",
+    color: "Azul marino",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-058.webp",
+  },
+  {
+    slug: "jh-059",
+    nombre: "JH-059",
+    color: "Azul marino",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-059.webp",
+  },
+  {
+    slug: "jh-070",
+    nombre: "JH-070",
+    color: "Verde / Rojo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-070.webp",
+  },
+  {
+    slug: "jh-071",
+    nombre: "JH-071",
+    color: "Verde",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-071.webp",
+  },
+  {
+    slug: "jh-072",
+    nombre: "JH-072",
+    color: "Crema / Verde",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-072.webp",
+  },
+  {
+    slug: "jh-073",
+    nombre: "JH-073",
+    color: "Dorado / Verde",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-073.webp",
+  },
+  {
+    slug: "jh-074",
+    nombre: "JH-074",
+    color: "Crema / Negro",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-074.webp",
+  },
+  {
+    slug: "jh-075",
+    nombre: "JH-075",
+    color: "Dorado / Negro",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-075.webp",
+  },
+  {
+    slug: "jh-076",
+    nombre: "JH-076",
+    color: "Crema / Negro",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-076.webp",
+  },
+  {
+    slug: "jh-077",
+    nombre: "JH-077",
+    color: "Crema / Rojo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-077.webp",
+  },
+  {
+    slug: "jh-078",
+    nombre: "JH-078",
+    color: "Rojo / Dorado",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-078.webp",
+  },
+  {
+    slug: "jh-079",
+    nombre: "JH-079",
+    color: "Verde / Amarillo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-079.webp",
+  },
+  {
+    slug: "jh-080",
+    nombre: "JH-080",
+    color: "Rojo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-080.webp",
+  },
+  {
+    slug: "jh-081",
+    nombre: "JH-081",
+    color: "Naranja",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-081.webp",
+  },
+  {
+    slug: "jh-082",
+    nombre: "JH-082",
+    color: "Naranja / Azul marino",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-082.webp",
+  },
+  {
+    slug: "jh-083",
+    nombre: "JH-083",
+    color: "Naranja",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-083.webp",
+  },
+  {
+    slug: "jh-084",
+    nombre: "JH-084",
+    color: "Vino",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-084.webp",
+  },
+  {
+    slug: "jh-085",
+    nombre: "JH-085",
+    color: "Vino / Amarillo",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-085.webp",
+  },
+  {
+    slug: "jh-086",
+    nombre: "JH-086",
+    color: "Rosa",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-086.webp",
+  },
+  {
+    slug: "jh-087",
+    nombre: "JH-087",
+    color: "Gris",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-087.webp",
+  },
+  {
+    slug: "jh-088",
+    nombre: "JH-088",
+    color: "Rosa",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-088.webp",
+  },
+  {
+    slug: "jh-089",
+    nombre: "JH-089",
+    color: "Azul claro",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-089.webp",
+  },
+  {
+    slug: "jh-090",
+    nombre: "JH-090",
+    color: "Azul claro",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-090.webp",
+  },
+  {
+    slug: "jh-091",
+    nombre: "JH-091",
+    color: "Azul claro",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-091.webp",
+  },
+  {
+    slug: "jh-092",
+    nombre: "JH-092",
+    color: "Gris oscuro",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-092.webp",
+  },
+  {
+    slug: "jh-093",
+    nombre: "JH-093",
+    color: "Gris oscuro",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-093.webp",
+  },
+  {
+    slug: "jh-094",
+    nombre: "JH-094",
+    color: "Gris rayado",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-094.webp",
+  },
+  {
+    slug: "jh-095",
+    nombre: "JH-095",
+    color: "Beige / Negro",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-095.webp",
+  },
+  {
+    slug: "jh-096",
+    nombre: "JH-096",
+    color: "Negro",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-096.webp",
+  },
+  {
+    slug: "jh-097",
+    nombre: "JH-097",
+    color: "Crema",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-097.webp",
+  },
+  {
+    slug: "jh-098",
+    nombre: "JH-098",
+    color: "Azul marino",
+    casacaSlug: "casaca-sublimada",
+    foto: "/productos/modelos/JH-098.webp",
   },
 ];
 
@@ -682,6 +1153,11 @@ export type EntradaCatalogo = {
   /** El color concreto, cuando la tarjeta es una variante de color. */
   variante?: OpcionValor;
   /**
+   * Lo que va bajo el nombre en la tarjeta. En los modelos son sus colores
+   * ("Negro / Rojo"): el nombre es el código y por sí solo no dice nada.
+   */
+  detalle?: string;
+  /**
    * Si lleva la insignia de Popular. Va en la entrada y no se lee del
    * producto porque una prenda con tres colores son tres tarjetas: la
    * insignia se pone en la primera y no tres veces seguidas.
@@ -703,8 +1179,9 @@ export function entradasDelCatalogo(): EntradaCatalogo[] {
     if (!producto) continue;
     deModelos.push({
       id: modelo.slug,
-      filtro: modelo.genero,
+      filtro: "casacas",
       nombre: modelo.nombre,
+      detalle: modelo.color,
       foto: modelo.foto,
       producto,
       modelo,
@@ -779,11 +1256,21 @@ export function muestraDelCatalogo(
   return entradas.filter((e) => elegidas.has(e));
 }
 
-/** Nombre legible del modelo, listo para el mensaje de WhatsApp. */
-export function nombreModelo(slug: string): string | null {
+/**
+ * Nombre legible del modelo, listo para el mensaje de WhatsApp: el código y
+ * sus colores. El corte no sale de aquí —el diseño es el mismo en los dos— y
+ * lo pone quien llama, que es el que sabe cuál eligió el cliente.
+ */
+export function nombreModelo(
+  slug: string,
+  corte?: GeneroModelo,
+): string | null {
   const modelo = getModelo(slug);
   if (!modelo) return null;
-  return `${modelo.nombre} (${modelo.genero === "dama" ? "dama" : "caballero"})`;
+  const partes = [modelo.nombre];
+  if (modelo.color) partes.push(modelo.color);
+  if (corte) partes.push(corte === "dama" ? "corte dama" : "corte caballero");
+  return partes.join(" · ");
 }
 
 // --- Paquetes armados ------------------------------------------------------

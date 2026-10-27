@@ -1,11 +1,7 @@
-import {
-  getModelo,
-  getProducto,
-  paquetes,
-  piezaConColor,
-} from "@/data/catalog";
+import { getProducto, paquetes, piezaConColor } from "@/data/catalog";
 import { descuentosPorVolumen, negocio } from "@/lib/config";
 import type {
+  GeneroModelo,
   JugadorRoster,
   LineaCotizacion,
   Paquete,
@@ -160,6 +156,8 @@ export type SeleccionArmador = {
   modelo?: string;
   /** Slug de la técnica de la casaca del paso 3. De aquí sale su precio. */
   tecnica?: string;
+  /** Corte de la casaca del paso 2. De él sale también el corte del pantalón. */
+  corte?: GeneroModelo;
   /** Slug del producto de gorra del paso 4. */
   gorra?: string;
   /** Color elegido para cada pieza, por id de valor del producto. */
@@ -207,9 +205,9 @@ export function productoDeItem(
     if (casaca) return casaca;
   }
   if (item.segun === "pantalon") {
-    const dama =
-      seleccion.modelo && getModelo(seleccion.modelo)?.genero === "dama";
-    const pantalon = getProducto(dama ? "pantalon-dama" : "pantalon-clasico");
+    const pantalon = getProducto(
+      seleccion.corte === "dama" ? "pantalon-dama" : "pantalon-clasico",
+    );
     if (pantalon) return pantalon;
   }
   if (item.segun === "gorra" && seleccion.gorra) {

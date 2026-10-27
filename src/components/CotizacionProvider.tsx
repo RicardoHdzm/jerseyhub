@@ -25,7 +25,12 @@ import {
   type Resumen,
   type SeleccionArmador,
 } from "@/lib/quote";
-import type { JugadorRoster, Paquete, PiezaConColor } from "@/lib/types";
+import type {
+  GeneroModelo,
+  JugadorRoster,
+  Paquete,
+  PiezaConColor,
+} from "@/lib/types";
 
 type Contexto = EstadoCotizacion & {
   resumen: Resumen;
@@ -35,6 +40,8 @@ type Contexto = EstadoCotizacion & {
   setJugadores: (n: number) => void;
   /** Vuelve a pasar el mismo slug para deseleccionar. */
   setModelo: (slug: string) => void;
+  /** Corte de la casaca: hoy los dos se hacen con los mismos diseños. */
+  setCorte: (corte: GeneroModelo) => void;
   /** Vuelve a pasar el mismo slug para deseleccionar. */
   setTecnica: (slug: string) => void;
   setGorra: (slug: string) => void;
@@ -163,6 +170,11 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
     [actualizar],
   );
 
+  const setCorte = useCallback(
+    (corte: GeneroModelo) => actualizar((a) => ({ ...a, corte })),
+    [actualizar],
+  );
+
   const setTecnica = useCallback(
     (slug: string) =>
       actualizar((a) => ({ ...a, tecnica: a.tecnica === slug ? "" : slug })),
@@ -204,6 +216,7 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
       cerrarPanel,
       setJugadores,
       setModelo,
+      setCorte,
       setTecnica,
       setGorra,
       setColor,
@@ -223,6 +236,7 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
       cerrarPanel,
       setJugadores,
       setModelo,
+      setCorte,
       setTecnica,
       setGorra,
       setColor,
