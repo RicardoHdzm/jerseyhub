@@ -20,6 +20,7 @@ import {
   IconoPelota,
 } from "@/components/iconos";
 import {
+  familiaCasaca,
   getProducto,
   minimoDe,
   nombreModelo,
@@ -243,8 +244,12 @@ export function Paquetes() {
         sorpresa a mitad del armado.
       */
       detalle: tecnica
-        ? `Mínimo ${minimoDe(tecnica)} uniformes con esta casaca`
-        : `Mínimo ${minimosUniformes.catalogo} del catálogo, ${minimosUniformes.personalizada} personalizadas`,
+        ? `Mínimo ${minimoDe(tecnica)} uniformes con casaca ${
+            familiaCasaca(tecnica) === "catalogo"
+              ? "de catálogo"
+              : "personalizada"
+          }`
+        : `Mínimo ${minimosUniformes.catalogo} uniformes con casaca de catálogo, ${minimosUniformes.personalizada} con personalizada`,
       contenido: <ContadorJugadores />,
     },
     {

@@ -1135,14 +1135,26 @@ export const tecnicas: {
 ];
 
 /**
- * Cuántos uniformes pide como mínimo la casaca elegida. Sin elegir todavía se
- * usa el del catálogo, que es el más bajo: no tiene caso pedirle 20 a quien
- * aún no sabe si va a personalizar.
+ * De qué familia es una casaca: la del catálogo tal cual, o una personalizada
+ * —da igual si el logo va en DTF o bordado—. Las dos se diferencian en el
+ * mínimo de piezas y en cómo se nombran en los textos, así que conviene que el
+ * slug se compare en un solo lugar.
+ *
+ * Sin casaca elegida cuenta como la de catálogo, que es la de condiciones más
+ * suaves: no tiene caso pedirle 20 uniformes a quien aún no sabe si va a
+ * personalizar.
  */
-export function minimoDe(tecnicaSlug: string): number {
+export function familiaCasaca(
+  tecnicaSlug: string,
+): "catalogo" | "personalizada" {
   return tecnicaSlug === "" || tecnicaSlug === "casaca-catalogo"
-    ? minimosUniformes.catalogo
-    : minimosUniformes.personalizada;
+    ? "catalogo"
+    : "personalizada";
+}
+
+/** Cuántos uniformes pide como mínimo la casaca elegida. */
+export function minimoDe(tecnicaSlug: string): number {
+  return minimosUniformes[familiaCasaca(tecnicaSlug)];
 }
 
 /** Etiqueta corta de una técnica, o null si el slug ya no existe. */
