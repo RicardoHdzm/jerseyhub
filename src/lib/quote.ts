@@ -149,7 +149,15 @@ export function calcularResumen(lineas: LineaCotizacion[]): Resumen {
     });
   }
 
-  const piezas = resueltas.reduce((suma, l) => suma + l.linea.cantidad, 0);
+  /*
+    El descuento del paquete completo viaja como una línea más para que el total
+    cuadre, pero no es una prenda: no se cuenta como pieza ni cuenta para el
+    descuento por volumen.
+  */
+  const piezas = resueltas.reduce(
+    (suma, l) => suma + (l.producto.esAjuste ? 0 : l.linea.cantidad),
+    0,
+  );
   const subtotal = resueltas.reduce((suma, l) => suma + l.subtotal, 0);
   const descuentoPorcentaje = descuentoPara(piezas);
   const descuentoMonto = Math.round(subtotal * descuentoPorcentaje);

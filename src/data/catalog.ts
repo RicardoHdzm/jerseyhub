@@ -205,11 +205,29 @@ export const productos: Producto[] = [
     incluye: ["Logo y nombre del equipo bordados"],
     opciones: [marcado],
   },
+  /*
+    No es una prenda: es el renglón con el que el descuento del paquete completo
+    llega a la cotización. Sin él, la tarjeta prometería $900 y el total diría
+    $1,000. `esAjuste` lo saca del conteo de piezas y del catálogo.
+  */
+  {
+    slug: "descuento-paquete-completo",
+    soloEnArmador: true,
+    esAjuste: true,
+    nombre: "Descuento por paquete completo",
+    categoria: "accesorios",
+    precio: -100,
+    color: "#1a1a1a",
+    colorSecundario: "#c9a227",
+    descripcion: "Se aplica al llevar casaca, pantalón y gorra juntos.",
+    incluye: [],
+    opciones: [],
+  },
   {
     slug: "pantalon-clasico",
     nombre: "Pantalón corte caballero",
     categoria: "pantalones",
-    precio: 340,
+    precio: 400,
     destacado: true,
     color: "#c9d0d8",
     colorSecundario: "#6b7684",
@@ -260,7 +278,7 @@ export const productos: Producto[] = [
     slug: "pantalon-dama",
     nombre: "Pantalón corte dama",
     categoria: "pantalones",
-    precio: 350,
+    precio: 400,
     color: "#c9d0d8",
     colorSecundario: "#6b7684",
     foto: "/productos/pantalones/mujer/blanco.jpg",
@@ -299,7 +317,7 @@ export const productos: Producto[] = [
     nombre: "Gorra dry-fit",
     foto: "/productos/gorras/drifit/gorra-negra.jpg",
     categoria: "gorras",
-    precio: 240,
+    precio: 250,
     color: "#1a1a1a",
     colorSecundario: "#f8fafc",
     descripcion:
@@ -339,7 +357,7 @@ export const productos: Producto[] = [
     foto: "/productos/gorras/tela/gorra-algodon.jpg",
     nombre: "Gorra de algodón",
     categoria: "gorras",
-    precio: 260,
+    precio: 250,
     color: "#0f172a",
     colorSecundario: "#facc15",
     descripcion:
@@ -454,6 +472,48 @@ export const productos: Producto[] = [
  * veinte se ven con el código encima; no es un error del recorte.
  */
 export const modelos: ModeloUniforme[] = [
+  /*
+    Las bases lisas de la casaca personalizada. Van sin foto a propósito: no son
+    prendas del catálogo sino el color de partida sobre el que se coloca el logo
+    del equipo, así que las dibuja `ModeloArte` con estos tres tonos. Si algún
+    día hay fotos reales de las bases, se les agrega `foto` y nada más.
+  */
+  {
+    slug: "base-negro",
+    nombre: "Negro",
+    base: true,
+    casacaSlug: "casaca-sublimada",
+    colores: ["#1a1a1a", "#111111", "#f8fafc"],
+  },
+  {
+    slug: "base-blanco",
+    nombre: "Blanco",
+    base: true,
+    casacaSlug: "casaca-sublimada",
+    colores: ["#ffffff", "#e8e8e8", "#1a1a1a"],
+  },
+  {
+    slug: "base-gris",
+    nombre: "Gris",
+    base: true,
+    casacaSlug: "casaca-sublimada",
+    colores: ["#9ca3af", "#7c838d", "#1a1a1a"],
+  },
+  {
+    slug: "base-azul-marino",
+    nombre: "Azul marino",
+    base: true,
+    casacaSlug: "casaca-sublimada",
+    colores: ["#1e3a8a", "#162c68", "#f8fafc"],
+  },
+  {
+    slug: "base-rojo",
+    nombre: "Rojo",
+    base: true,
+    casacaSlug: "casaca-sublimada",
+    colores: ["#c8102e", "#9c0c24", "#f8fafc"],
+  },
+
   {
     slug: "jh-001",
     nombre: "JH-001",
@@ -1283,6 +1343,12 @@ export function muestraDelCatalogo(
   return entradas.filter((e) => elegidas.has(e));
 }
 
+/** Las bases lisas de la casaca personalizada. */
+export const basesLisas = modelos.filter((m) => m.base);
+
+/** Los 87 diseños del catálogo impreso, sin las bases lisas. */
+export const disenosDeCatalogo = modelos.filter((m) => !m.base);
+
 /**
  * Nombre legible del modelo, listo para el mensaje de WhatsApp: el código y
  * sus colores. El corte no sale de aquí —el diseño es el mismo en los dos— y
@@ -1456,25 +1522,35 @@ export const laminas: Lamina[] = [
 
 // --- Paquetes armados ------------------------------------------------------
 
+/**
+ * Las cuatro combinaciones del diagrama de flujo que armó el cliente: la casaca
+ * sola, con gorra, con pantalón, o las tres juntas.
+ *
+ * El precio de la casaca lo pone el paso anterior —de catálogo, logo en DTF o
+ * logo bordado—, así que aquí los paquetes solo suman las piezas que llevan
+ * encima. Gorra $250 y pantalón $400, iguales en todas las combinaciones.
+ *
+ * El paquete completo descuenta $100 por jugador. Es precio de conjunto, no
+ * porcentaje: el cliente lo ve como "ahorra $100" y así lo manejan ellos.
+ */
 export const paquetes: Paquete[] = [
   {
-    slug: "casaca",
-    nombre: "Solo Casaca",
+    slug: "solo-casaca",
+    nombre: "Solo casaca",
     icono: "casaca",
     color: "tinta",
     descripcion:
-      "Nada más la casaca del equipo, con el diseño y los nombres de cada jugador.",
+      "Nada más la casaca, con el nombre y el número de cada jugador.",
     items: [
       { productoSlug: "casaca-catalogo", porJugador: 1, segun: "tecnica" },
     ],
   },
   {
-    slug: "basico",
-    nombre: "Paquete Básico",
+    slug: "casaca-gorra",
+    nombre: "Casaca + gorra",
     icono: "pelota",
     color: "tinta",
-    descripcion:
-      "Lo mínimo para salir al diamante con imagen de equipo: casaca y gorra a juego.",
+    descripcion: "La casaca con la gorra a juego, que es como se sale a jugar.",
     items: [
       { productoSlug: "casaca-catalogo", porJugador: 1, segun: "tecnica" },
       {
@@ -1485,13 +1561,24 @@ export const paquetes: Paquete[] = [
     ],
   },
   {
-    slug: "estrella",
-    nombre: "Paquete Estrella",
+    slug: "casaca-pantalon",
+    nombre: "Casaca + pantalón",
     icono: "estrella",
+    color: "tinta",
+    descripcion: "El uniforme de campo: casaca y pantalón del mismo juego.",
+    items: [
+      { productoSlug: "casaca-catalogo", porJugador: 1, segun: "tecnica" },
+      { productoSlug: "pantalon-clasico", porJugador: 1, segun: "pantalon" },
+    ],
+  },
+  {
+    slug: "completo",
+    nombre: "Paquete completo",
+    icono: "diamante",
     color: "dorado",
     descripcion:
-      "El uniforme de juego completo: casaca, pantalón a juego y gorra.",
-    badge: "El más pedido",
+      "Casaca, pantalón y gorra. Las tres juntas salen $100 más baratas.",
+    badge: "Ahorra $100",
     destacado: true,
     items: [
       { productoSlug: "casaca-catalogo", porJugador: 1, segun: "tecnica" },
@@ -1501,6 +1588,7 @@ export const paquetes: Paquete[] = [
         porJugador: 1,
         segun: "gorra",
       },
+      { productoSlug: "descuento-paquete-completo", porJugador: 1 },
     ],
   },
 ];

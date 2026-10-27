@@ -190,9 +190,22 @@ export function CotizacionProvider({ children }: { children: ReactNode }) {
     [actualizar],
   );
 
+  /*
+    Cambiar entre la casaca de catálogo y una personalizada borra el diseño
+    elegido: cada una se arma sobre cosas distintas —los 87 diseños impresos o
+    una base lisa— y el modelo que quedó guardado no existe en la otra lista.
+  */
   const setTecnica = useCallback(
     (slug: string) =>
-      actualizar((a) => ({ ...a, tecnica: a.tecnica === slug ? "" : slug })),
+      actualizar((a) => {
+        const tecnica = a.tecnica === slug ? "" : slug;
+        const deCatalogo = (t: string) => t === "casaca-catalogo";
+        const cambioDeFamilia =
+          a.tecnica !== "" &&
+          tecnica !== "" &&
+          deCatalogo(a.tecnica) !== deCatalogo(tecnica);
+        return { ...a, tecnica, modelo: cambioDeFamilia ? "" : a.modelo };
+      }),
     [actualizar],
   );
 

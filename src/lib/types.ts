@@ -64,6 +64,11 @@ export type Producto = {
   mercadoLibre?: string;
   /** Se puede ver y probar en el local. Saca el aviso de sucursal en la ficha. */
   disponibleEnSucursal?: boolean;
+  /**
+   * No es una prenda sino un renglón de ajuste —el descuento del paquete
+   * completo—. No cuenta como pieza ni sale en el catálogo.
+   */
+  esAjuste?: boolean;
   destacado?: boolean;
   incluye: string[];
   opciones: Opcion[];
@@ -97,6 +102,12 @@ export type ModeloUniforme = {
    * porque cualquier modelo se puede producir con cualquier acabado.
    */
   casacaSlug: string;
+  /**
+   * Base lisa para la casaca personalizada: un color plano sobre el que se
+   * coloca el logo del equipo. No son diseños del catálogo impreso, así que no
+   * tienen código JH ni salen en la vitrina.
+   */
+  base?: boolean;
   /** Lleva la insignia de Popular en el catálogo. */
   destacado?: boolean;
   /** Foto del modelo. Si existe, se usa en vez de la ilustración. */

@@ -7,6 +7,7 @@ import type { Paquete, PaqueteItem } from "@/lib/types";
 import { useCotizacion } from "@/components/CotizacionProvider";
 import { SelectorColor } from "@/components/SelectorColor";
 import { SelectorGorra } from "@/components/SelectorGorra";
+import { SelectorBase } from "@/components/SelectorBase";
 import { TableroLaminas } from "@/components/TableroLaminas";
 import { SelectorTecnica } from "@/components/SelectorTecnica";
 import {
@@ -62,6 +63,8 @@ const piezasDeTodos: { clave: string; item: PaqueteItem }[] = (() => {
     (a, b) => b.items.length - a.items.length,
   )) {
     for (const item of paquete.items) {
+      // El descuento del completo es un renglón de ajuste, no una prenda.
+      if (getProducto(item.productoSlug)?.esAjuste) continue;
       const clave = item.segun ?? item.productoSlug;
       if (!vistas.has(clave)) vistas.set(clave, item);
     }
@@ -195,6 +198,9 @@ export function Paquetes() {
     casaca—, así que los círculos tienen que preguntarle al producto que quedó
     seleccionado, no a uno fijo.
   */
+  const deCatalogo = tecnica === "casaca-catalogo";
+  const personalizada = tecnica !== "" && !deCatalogo;
+
   const gorraSlug = gorra || "gorra-bordada-6-paneles";
   const pantalonSlug = corte === "dama" ? "pantalon-dama" : "pantalon-clasico";
   const pantalonNombre = getProducto(pantalonSlug)?.nombre ?? "";
@@ -235,10 +241,28 @@ export function Paquetes() {
     {
       clave: "diseno",
       titulo: "Elige el diseño base",
+      /*
+        El paso cambia de contenido según la casaca: la personalizada parte de
+        una base lisa sobre la que va el logo, y la de catálogo de uno de los 87
+        diseños impresos. No son la misma lista, así que no puede ser el mismo
+        selector.
+      */
       detalle:
         nombreModelo(modelo, corte) ??
-        "Las tres opciones parten de un diseño del catálogo",
-      contenido: <TableroLaminas />,
+        (personalizada
+          ? "El color de la casaca sobre el que irá tu logo"
+          : deCatalogo
+            ? "Uno de los 87 diseños del catálogo"
+            : "Primero elige el tipo de casaca"),
+      contenido: personalizada ? (
+        <SelectorBase />
+      ) : deCatalogo ? (
+        <TableroLaminas />
+      ) : (
+        <p className="rounded-xl border border-white/15 bg-white/5 px-5 py-4 text-sm text-white/60">
+          Elige arriba el tipo de casaca y aquí aparecen las opciones de diseño.
+        </p>
+      ),
     },
   ];
 
@@ -327,7 +351,8 @@ function TarjetasPaquete({ seleccion }: { seleccion: SeleccionArmador }) {
         const activo = paquete === item.slug;
         const porJugador = precioPaquete(item, seleccion);
         const piezasPorJugador = item.items.reduce(
-          (s, i) => s + i.porJugador,
+          (s, i) =>
+            s + (getProducto(i.productoSlug)?.esAjuste ? 0 : i.porJugador),
           0,
         );
         const piezas = piezasPorJugador * jugadores;
@@ -457,7 +482,10 @@ function Cierre({
 }) {
   const { jugadores, agregarPaquete, tecnica, marcado } = useCotizacion();
   const porJugador = precioPaquete(paquete, seleccion);
-  const piezasPorJugador = paquete.items.reduce((s, i) => s + i.porJugador, 0);
+  const piezasPorJugador = paquete.items.reduce(
+    (s, i) => s + (getProducto(i.productoSlug)?.esAjuste ? 0 : i.porJugador),
+    0,
+  );
   const piezas = piezasPorJugador * jugadores;
   const total = porJugador * jugadores * (1 - descuentoPara(piezas));
 
