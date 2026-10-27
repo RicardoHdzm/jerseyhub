@@ -460,17 +460,34 @@ function Cierre({
   paquete: Paquete;
   seleccion: SeleccionArmador;
 }) {
-  const { jugadores, agregarPaquete } = useCotizacion();
+  const { jugadores, agregarPaquete, tecnica } = useCotizacion();
   const porJugador = precioPaquete(paquete, seleccion);
   const piezasPorJugador = paquete.items.reduce((s, i) => s + i.porJugador, 0);
   const piezas = piezasPorJugador * jugadores;
   const total = porJugador * jugadores * (1 - descuentoPara(piezas));
+
+  /*
+    Sin acabado elegido el precio de arriba no es un hueco: el paquete cotiza
+    con el mixto por omisión. Decirlo aquí evita que el cliente lo descubra
+    cuando el total le cambie al elegir bordado.
+  */
+  const acabado = tecnica
+    ? tituloTecnica(tecnica)
+    : `Sin elegir · cotizado como ${tituloTecnica("casaca-mixta")?.toLowerCase()}`;
 
   return (
     <div className="mt-10 flex flex-col gap-5 rounded-2xl border border-dorado/40 bg-white/5 p-6 lg:flex-row lg:items-center lg:justify-between">
       <div className="text-center lg:text-left">
         <p className="etiqueta text-[11px] text-dorado-claro">Tu paquete</p>
         <p className="titulo mt-1 text-3xl leading-none">{paquete.nombre}</p>
+        {acabado && (
+          <p className="mt-2 text-sm text-white/70">
+            Acabado:{" "}
+            <span className={tecnica ? "font-semibold text-white" : ""}>
+              {acabado}
+            </span>
+          </p>
+        )}
         <p className="mt-2 text-sm text-white/70">
           <span className="font-semibold text-white">
             {precioMXN(porJugador)}

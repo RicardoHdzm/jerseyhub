@@ -106,7 +106,7 @@ export default function Inicio() {
         separador={false}
         etiqueta="Paquetes de equipo"
         titulo="Arma tu uniforme completo"
-        intro="Combinaciones listas con precio por jugador. Agrega una y después ajústala pieza por pieza como quieras."
+        intro="Escoge el paquete que necesita tu equipo y ve decidiendo pieza por pieza. El precio se actualiza conforme eliges."
       >
         <Paquetes />
       </Seccion>
