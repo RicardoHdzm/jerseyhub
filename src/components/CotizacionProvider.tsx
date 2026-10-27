@@ -11,7 +11,6 @@ import {
   type ReactNode,
 } from "react";
 
-
 import { minimoDe } from "@/data/catalog";
 import {
   guardarCotizacion,

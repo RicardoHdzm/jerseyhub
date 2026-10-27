@@ -1,5 +1,5 @@
 import { IconoMas } from "@/components/iconos";
-import { descuentosPorVolumen, minimoUniformes, negocio } from "@/lib/config";
+import { descuentosPorVolumen, minimosUniformes, negocio } from "@/lib/config";
 
 const nivelMasAlto = [...descuentosPorVolumen].sort(
   (a, b) => b.porcentaje - a.porcentaje,
@@ -19,7 +19,7 @@ const preguntas = [
   },
   {
     q: "¿Hay pedido mínimo?",
-    a: `Para uniformes de equipo el mínimo es de ${minimoUniformes}. Las prendas sueltas del catálogo no tienen mínimo: puedes pedir una sola casaca o una gorra, escríbenos y te cotizamos.`,
+    a: `Depende de la casaca: con un diseño del catálogo tal como viene son ${minimosUniformes.catalogo} uniformes, y si le ponemos el logo o el nombre de tu equipo son ${minimosUniformes.personalizada}. Las prendas sueltas del catálogo no tienen mínimo: puedes pedir una sola casaca o una gorra, escríbenos y te cotizamos.`,
   },
   {
     q: "¿Hacen descuento por cantidad?",
