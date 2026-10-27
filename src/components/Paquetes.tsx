@@ -328,7 +328,13 @@ function TarjetasPaquete({ seleccion }: { seleccion: SeleccionArmador }) {
   const { jugadores, paquete, setPaquete, tecnica } = useCotizacion();
 
   return (
-    <div className="grid gap-4 pt-3 sm:grid-cols-2 lg:grid-cols-4">
+    /*
+      Dos filas compartidas por las tarjetas —encabezado de color y cuerpo— con
+      `subgrid`: la franja termina a la misma altura aunque una descripción
+      ocupe dos líneas y otra tres, y como el cuerpo se estira parejo, el
+      `mt-auto` del precio deja los cuatro precios alineados abajo.
+    */
+    <div className="grid gap-4 pt-3 sm:grid-cols-2 sm:grid-rows-[auto_1fr] lg:grid-cols-4">
       {paquetes.map((item) => {
         const activo = paquete === item.slug;
         const porJugador = precioPaquete(item, seleccion);
@@ -351,7 +357,7 @@ function TarjetasPaquete({ seleccion }: { seleccion: SeleccionArmador }) {
             type="button"
             onClick={() => setPaquete(item.slug)}
             aria-pressed={activo}
-            className={`tarjeta sube relative flex flex-col text-left transition-[border-color,translate] duration-200 hover:-translate-y-1 ${
+            className={`tarjeta sube relative flex flex-col text-left transition-[border-color,translate] duration-200 hover:-translate-y-1 sm:row-span-2 sm:grid sm:grid-rows-subgrid ${
               activo ? "border-dorado" : "hover:border-dorado"
             }`}
           >
